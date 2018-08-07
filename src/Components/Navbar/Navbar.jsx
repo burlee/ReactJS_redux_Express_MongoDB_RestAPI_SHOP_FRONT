@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import classes from './Navbar.css';
 import Account from '../Account/Account';
-import Basket from '../Basket/Basket';
 import MainLogo from '../../UI/MainLogo/MainLogo'
 import Search from '../Search/Search';
 
@@ -36,14 +35,14 @@ export default class Navbar extends Component {
     }
 
     render() {
-        console.log(this.state.searchTerm)
         return (
             <div className={classes.Navbar} 
-            style={{ position: this.state.navbarPosition, height: this.state.navbarHeight + 'px'}}
-            >
+                 style={{ 
+                    position: this.state.navbarPosition, 
+                    height: this.state.navbarHeight + 'px'
+                 }}>
                 <MainLogo/>
                 <Search/>
-                <Basket/>
                 <Account />
             </div>
         )

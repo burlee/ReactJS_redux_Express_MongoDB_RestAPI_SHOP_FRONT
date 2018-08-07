@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import Aux from './HOC/aux_x';
-import MainCore from './Components/MainCore/MainCore'
-// import { Provider } from 'react-redux';
+import MainCore from './Components/MainCore/MainCore';
+import classes from './App.css'
+import { Provider } from 'react-redux';
 //Redux
-// import store from './Store'
+import store from './Redux/Store'
 
 class App extends Component {
 
   render() {
     return (
-      <Aux>
-        {/* <Provider store={store}> */}
-        <MainCore/>
-        {/* </Provider> */}
-      </Aux>
+      <Provider store={store}> 
+        <div className={classes.App}>
+          <MainCore/>
+        </div>
+      </Provider> 
     );
   }
 }

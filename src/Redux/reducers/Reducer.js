@@ -1,15 +1,22 @@
-import  { FETCH_POSTS, NEW_POST } from '../actions/types';
+import  { FETCH_PRODUCTS_FROM_SERVER, PRODUCTS_LOADING} from '../actions/types';
 
 const initialState = { 
-    items : []
+    allProducts: [],
+    loading: false
 }
 
 export default function(state = initialState, action){
     switch(action.type){
-        case FETCH_POSTS:
+        case FETCH_PRODUCTS_FROM_SERVER:
             return {
                 ...state,
-                items: action.payload
+                allProducts: action.payload,
+                loading: false
+            }
+        case PRODUCTS_LOADING:
+            return{
+                ...state,
+                loading: true
             }
         default: 
             return state;

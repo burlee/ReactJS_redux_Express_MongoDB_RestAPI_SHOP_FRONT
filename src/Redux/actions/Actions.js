@@ -1,9 +1,26 @@
-import { FETCH_POST, NEW_POST } from './types';
+import { FETCH_PRODUCTS_FROM_SERVER, PRODUCTS_LOADING } from './types';
+import axios from 'axios';
 
-export const fetchPosts = () => dispatch => {
-        axios.get('HTTP')
-            .then( res => dispatch({
-                type: FETCH_POST,
-                payload: posts
-         }))
+export const fetch_all_products = () => dispatch => {
+    dispatch(setProductsLoading());
+    axios.get('http://localhost:3000/offers')
+        .then( response => {
+            dispatch({
+                type: FETCH_PRODUCTS_FROM_SERVER,
+                payload: response.data.products
+            })
+        })
 }
+
+export const setProductsLoading = () => {
+    return{
+        type: PRODUCTS_LOADING
+    }
+}
+// export const deleteItem = (id) => {
+//     return {
+//         type: DELETE_ITEM,
+
+//     }
+
+// }

@@ -1,5 +1,4 @@
 .ProductContainer{
-    border: 1px solid rgb(76, 76, 76, .5);
-    width: 80%;
-    height: 80vh;
+    width: 75%;
+    height: auto;
 }
