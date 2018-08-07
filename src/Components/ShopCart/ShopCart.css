@@ -1,0 +1,21 @@
+.ShopCart{
+    height: 80px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 10px grey;
+    margin: 5px;
+    width: 99%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 40px;
+}
+.ShopCart span{
+    text-align: center;
+    font-size: 12px;
+}
+.ShopCart i {
+    font-size: 40px;
+    color: #808080;
+}

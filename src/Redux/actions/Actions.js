@@ -1,4 +1,9 @@
-import { FETCH_PRODUCTS_FROM_SERVER, PRODUCTS_LOADING } from './types';
+import { 
+    FETCH_PRODUCTS_FROM_SERVER, 
+    PRODUCTS_LOADING,
+    ADD_PRODUCT_TO_SHOPCART
+} 
+from './types';
 import axios from 'axios';
 
 export const fetch_all_products = () => dispatch => {
@@ -17,6 +22,15 @@ export const setProductsLoading = () => {
         type: PRODUCTS_LOADING
     }
 }
+
+export const addProductToShopCart = (productFromShopCart) => {
+    return{
+        type: ADD_PRODUCT_TO_SHOPCART,
+        payload: productFromShopCart
+    }
+}
+
+
 // export const deleteItem = (id) => {
 //     return {
 //         type: DELETE_ITEM,

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import classes from './ProductContainer.css';
-import Basket from '../Basket/Basket';
-import axios from 'axios'
+import ShopCart from '../ShopCart/ShopCart';
 import ProductDisplay from './ProductDisplay/ProductDisplay';
 import PropTypes from 'prop-types'
 import Spinner from '../../UI/Spinner/Spinner';
@@ -11,42 +10,64 @@ import { fetch_all_products } from '../../Redux/actions/Actions'
 
 
 class ProductContainer extends Component {
+  state = {
+    shopCartIsEmpty: localStorage.getItem('Order'),
+    productDisplayHeigth: 250,
+    productDisplayWidth: 100,
+    flexDirection: 'row'
+  }
 
   componentDidMount(){
     this.props.fetch_all_products();
-  }
-  // componentDidMount(){
-  //   axios.get('http://localhost:3000/offers')
-  //     .then( response => {
-  //         const updateProductList = [];
-  //         const productFromDB = response.data.products;
-  //         for(let key in productFromDB){
-  //             updateProductList.push({
-  //               id: productFromDB[key].id,
-  //               productName: productFromDB[key].productName,
-  //               productPrice: productFromDB[key].productPrice
-  //             })
-  //         }
-  //         this.setState({ productsList: updateProductList })
-  //     })
-  // }
 
+    if(this.state.shopCartIsEmpty === null ){
+      localStorage.setItem('Order', JSON.stringify([]));
+    }
+  }
+
+  changeSizeToggle = () => {
+    if(this.state.productDisplayWidth === 45){
+      this.setState({
+        productDisplayWidth: 100,
+        flexDirection: 'row',
+        productDisplayHeigth: 250
+      })
+    }
+    if(this.state.productDisplayWidth === 100){
+      this.setState({
+        productDisplayWidth: 45,
+        flexDirection: 'column',
+        productDisplayHeigth: 250
+      })
+    }
+  }
+  
   render() {
+
     const allProductsFromDB = this.props.allProducts.allProducts;
     let displayAllProduct = null;
+
     displayAllProduct = allProductsFromDB.map( product => {
       return <ProductDisplay
+                productDisplayWidth={this.state.productDisplayWidth}
+                flexDirection={this.state.flexDirection}
+                productDisplayHeigth={this.state.productDisplayHeigth}
                 key={product.id}
+                id={product.id}
                 productName={product.productName}
                 productPrice={product.productPrice}
+                productImgUrl={product.productImgUrl}
             />
     })
 
     return (
       <div className={classes.ProductContainer}>
-        <Basket/>
+        <ShopCart/>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
         {this.props.loading.loading ? <Spinner/> : null}
-        {displayAllProduct}
+        <div className={classes.ProductContainerFlexBox}>
+          {displayAllProduct}
+        </div>
       </div>
     )
   }
