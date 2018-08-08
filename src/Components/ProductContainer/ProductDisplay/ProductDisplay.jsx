@@ -25,7 +25,10 @@ class ProductDisplay extends PureComponent {
     console.log(purchasingArray)
     purchasingArray.push({
       orderID: uuid(),
-      id: this.props.id
+      id: this.props.id,
+      productName: this.props.productName,
+      productPrice: this.props.productPrice,
+      productImgUrl: this.props.productImgUrl
     })
       
     localStorage.setItem( 'Order' , JSON.stringify(purchasingArray));

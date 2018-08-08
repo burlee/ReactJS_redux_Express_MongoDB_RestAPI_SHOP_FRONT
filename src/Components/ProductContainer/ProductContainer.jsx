@@ -62,7 +62,6 @@ class ProductContainer extends Component {
 
     return (
       <div className={classes.ProductContainer}>
-        <ShopCart/>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>

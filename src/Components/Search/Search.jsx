@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 class Search extends Component {
   
-  render() {
+  render() { 
     const productsCounter = `Wyszukaj posrod ${this.props.allProducts.allProducts.length}`;
     return (
         <div className={classes.Search}>
