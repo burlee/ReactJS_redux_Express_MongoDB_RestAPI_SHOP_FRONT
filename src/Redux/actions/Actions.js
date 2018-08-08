@@ -1,10 +1,13 @@
 import { 
     FETCH_PRODUCTS_FROM_SERVER, 
     PRODUCTS_LOADING,
-    ADD_PRODUCT_TO_SHOPCART
+    USER_EXIST
 } 
 from './types';
 import axios from 'axios';
+import FirebaseConfig from '../../FirebaseConfig';
+
+
 
 export const fetch_all_products = () => dispatch => {
     dispatch(setProductsLoading());
@@ -23,12 +26,18 @@ export const setProductsLoading = () => {
     }
 }
 
-export const addProductToShopCart = (productFromShopCart) => {
+export const user_exist = () =>{
     return{
-        type: ADD_PRODUCT_TO_SHOPCART,
-        payload: productFromShopCart
+        type: USER_EXIST,
+        payload: FirebaseConfig.auth().currentUser
     }
 }
+// export const addProductToShopCart = (productFromShopCart) => {
+//     return{
+//         type: ADD_PRODUCT_TO_SHOPCART,
+//         payload: productFromShopCart
+//     }
+// }
 
 
 // export const deleteItem = (id) => {

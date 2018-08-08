@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import classes from './ShopCartOrderSummary.css'
 import { NavLink } from 'react-router-dom'
+import {connect} from 'react-redux'
 
-export default class ShopCartOrderSummary extends Component {
+class ShopCartOrderSummary extends Component {
   state = {
     order: JSON.parse(localStorage.getItem('Order')),
-    priceSummary: 0
+    priceSummary: 0,
+    userExist: true
   }
+
   componentDidMount(){
     document.body.style.overflow = 'hidden';
 
@@ -17,6 +20,9 @@ export default class ShopCartOrderSummary extends Component {
       priceSummary += product.productPrice
     });
 
+    if(this.props.userExist.userExist === null){
+      this.setState({ userExist: false})
+    }
     this.setState({ priceSummary })
 
   }
@@ -30,9 +36,21 @@ export default class ShopCartOrderSummary extends Component {
     this.setState({ order: [], priceSummary: 0})
   }
 
-  render() {
+  deleteProduct = (id, price) => {
+    const oldPrice = this.state.priceSummary;
+    const newPrice = oldPrice - price;
 
+    let filteredOrder = this.state.order.filter( product =>{
+        return product.orderID !== id;
+    });
+
+    localStorage.setItem('Order', JSON.stringify(filteredOrder) );
+    this.setState({ order: filteredOrder, priceSummary: newPrice});
+  }
+
+  render() {
     let showOrderProduct = null;
+
 
     if(this.state.order.length === 0){
       showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty.</h1>
@@ -43,6 +61,7 @@ export default class ShopCartOrderSummary extends Component {
               <span style={{width: '200px', fontSize: '14px'}}>{product.productName}</span>
               <span>{product.productPrice} PLN</span>
               <img src={product.productImgUrl} alt={product.productName}/>
+              <button onClick={() => this.deleteProduct(product.orderID, product.productPrice)}>X</button>
             </div>
           )
       })
@@ -56,7 +75,15 @@ export default class ShopCartOrderSummary extends Component {
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
         </div>
         {showOrderProduct}
+        {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px'}} href="/">Załóż swoje konto</a>}
       </div>
     )
   }
 }
+
+const mapStateToProps = state => ({
+  userExist: state.auctionList
+});
+
+
+export default connect(mapStateToProps)(ShopCartOrderSummary)

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Spinner from '../../UI/Spinner/Spinner';
 //REDUX
 import { connect } from 'react-redux';
-import { fetch_all_products } from '../../Redux/actions/Actions'
+import { fetch_all_products, user_exist } from '../../Redux/actions/Actions'
 
 
 class ProductContainer extends Component {
@@ -19,6 +19,7 @@ class ProductContainer extends Component {
 
   componentDidMount(){
     this.props.fetch_all_products();
+    this.props.user_exist();
 
     if(this.state.shopCartIsEmpty === null ){
       localStorage.setItem('Order', JSON.stringify([]));
@@ -82,4 +83,4 @@ const mapStateToProps = state => ({
   loading: state.auctionList
 });
 
-export default connect(mapStateToProps, {fetch_all_products} )(ProductContainer);
+export default connect(mapStateToProps, {fetch_all_products, user_exist} )(ProductContainer);

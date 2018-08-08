@@ -1,14 +1,16 @@
 import  { 
     FETCH_PRODUCTS_FROM_SERVER, 
     PRODUCTS_LOADING,
-    ADD_PRODUCT_TO_SHOPCART
+    USER_EXIST
 } 
 from '../actions/types';
+import FirebaseConfig from '../../FirebaseConfig';
 
 const initialState = { 
     allProducts: [],
     orderValue: JSON.parse(localStorage.getItem('Order')),
-    loading: false
+    loading: false,
+    userExist: null
 }
 
 // console.log(initialState.orderValue)
@@ -24,6 +26,11 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 loading: true
+            }
+        case USER_EXIST:
+            return{
+                ...state,
+                userExist: action.payload
             }
         default: 
             return state;
