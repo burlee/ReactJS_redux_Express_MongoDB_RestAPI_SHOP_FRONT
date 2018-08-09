@@ -4,7 +4,8 @@ import uuid from 'uuid'
 
 class ProductDisplay extends PureComponent {
   state = {
-    ShowDetailsProduct: false
+    ShowDetailsProduct: false,
+    borderColor: '#fafafa'
   }
 
   ShowDetails = () => {
@@ -18,11 +19,9 @@ class ProductDisplay extends PureComponent {
   }
 
   addProductToShopCart = () => {
-    console.log( this.props.id )
     
     let purchasingArray = JSON.parse(localStorage.getItem('Order'));
     
-    console.log(purchasingArray)
     purchasingArray.push({
       orderID: uuid(),
       id: this.props.id,
@@ -32,14 +31,16 @@ class ProductDisplay extends PureComponent {
     })
       
     localStorage.setItem( 'Order' , JSON.stringify(purchasingArray));
-    
+
+    this.setState({borderColor: '#4caf50'})
+    setTimeout(() => this.setState({borderColor: '#fafafa'}), 2000)
   }
 
   render() {
     const props = this.props;
     
     return (
-      <div style={{height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
+      <div style={{borderTop: `3px solid ${this.state.borderColor}`, height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
         <img onClick={this.ShowDetails} src={props.productImgUrl} alt={props.productName}/>
 
           {this.state.ShowDetailsProduct ?
@@ -51,10 +52,10 @@ class ProductDisplay extends PureComponent {
             </div>
           : null }
 
-          <div className={classes.ProductDetails}>
+          <div  className={classes.ProductDetails}>
             <h3>{props.productName}</h3>
             <span className={classes.Price}>{props.productPrice} PLN</span>
-            <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
+            <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
           </div>
       </div>
     )

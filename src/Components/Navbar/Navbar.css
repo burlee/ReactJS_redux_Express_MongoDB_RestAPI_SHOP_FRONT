@@ -6,8 +6,10 @@
     height: 100px;
     background: none;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
     border-bottom: 1px solid rgb(76, 76, 76, .5);
     background: rgb(76, 76, 76, .75);
 }

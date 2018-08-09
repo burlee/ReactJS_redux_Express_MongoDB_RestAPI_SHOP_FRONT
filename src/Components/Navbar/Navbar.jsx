@@ -41,9 +41,9 @@ export default class Navbar extends Component {
                     position: this.state.navbarPosition, 
                     height: this.state.navbarHeight + 'px'
                  }}>
-                <MainLogo/>
-                <Search/>
+                {/* <MainLogo/> */}
                 <ShopCart/>
+                <Search/>
             </div>
         )
     }

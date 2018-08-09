@@ -10,7 +10,9 @@ class Search extends Component {
   }
   
   pressEnter = (event) => {
+    if(this.state.searchTerm.length === '') return;
     if (event.key === 'Enter') {
+      this.setState({searchTerm: ''})
       this.props.search_product_in_db(this.state.searchTerm);
     }
   }
@@ -19,6 +21,7 @@ class Search extends Component {
     return (
         <div className={classes.Search}>
         <DebounceInput
+            value={this.state.searchTerm}
             onKeyPress={this.pressEnter}
             minLength={2}
             debounceTimeout={300}
