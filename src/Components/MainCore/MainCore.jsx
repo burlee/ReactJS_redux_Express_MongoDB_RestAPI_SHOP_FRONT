@@ -8,8 +8,11 @@ import { Switch, Route, NavLink } from 'react-router-dom';
 import RegisterModul from '../RegisterModul/RegisterModul';
 import LoginModule from '../LoginModule/LoginModule';
 
+import { connect } from 'react-redux'
+import Spinner from '../../UI/Spinner/Spinner';
 
-export default class MainCore extends Component {
+
+class MainCore extends Component {
   state = {
     showPanel: false
   }
@@ -32,7 +35,8 @@ export default class MainCore extends Component {
           <Route path='/loggin' component={LoginModule} /> 
         </Switch>
         
-        
+        {this.props.loading.loading ? <Spinner/> : null }
+
         <Navbar/>
         <ProductDetails/>
         <ProductContainer/>
@@ -40,3 +44,11 @@ export default class MainCore extends Component {
     )
   }
 }
+
+
+const mapStateToProps = state => ({
+  loading: state.auctionList,
+});
+
+
+export default connect(mapStateToProps)(MainCore);
