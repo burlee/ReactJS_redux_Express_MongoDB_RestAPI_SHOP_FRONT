@@ -3,6 +3,7 @@ import classes from './ProductContainer.css';
 import ProductDisplay from './ProductDisplay/ProductDisplay';
 import PropTypes from 'prop-types'
 import Spinner from '../../UI/Spinner/Spinner';
+import debounce from 'lodash.debounce'
 //REDUX
 import { connect } from 'react-redux';
 import { fetch_all_products, user_exist } from '../../Redux/actions/Actions'
@@ -19,11 +20,9 @@ class ProductContainer extends Component {
   componentDidMount(){
     this.props.fetch_all_products();
     this.props.user_exist();
-
-    if(this.state.shopCartIsEmpty === null ){
-      localStorage.setItem('Order', JSON.stringify([]));
-    }
   }
+
+
 
   changeSizeToggle = () => {
     if(this.state.productDisplayWidth === 45){
@@ -59,12 +58,14 @@ class ProductContainer extends Component {
             />
     })
 
+
     return (
       <div className={classes.ProductContainer}>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>
           {displayAllProduct}
+          {this.props.allProducts.allProducts.length === 0 ? <h1>Produkt nie został znaleziony.</h1> : null}
         </div>
       </div>
     )

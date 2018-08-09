@@ -13,7 +13,7 @@ class RegisterModul extends Component {
             returnSecureToken: true
         },
         error: false,
-        successRegister: false
+        message: ''
     }
 
     emailValue = (event) => {
@@ -36,10 +36,15 @@ class RegisterModul extends Component {
         const authData = { ...this.state.userDetails }
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDVjDPro5DtgBtfT1wOxo-yWqIU4TaN0I4', authData)
             .then(response => {
-                console.log(response)
+                console.log(response.status)
+                if(response.status === 200){
+                    this.setState({message: 'Konto zostało utworzone'})
+                }
+                setTimeout(() => this.setState({message: ''}),2500);
             })
-            .catch(error => {
-                console.log(error.data)
+            .catch(() => {
+                this.setState({message: 'Sprawdź poprawność danych'});
+                setTimeout(() => this.setState({message: ''}),2500)
             })
     }
 
@@ -65,6 +70,7 @@ class RegisterModul extends Component {
                     </form>
                     {/* <a href="/">zamknij</a>
                     <button onClick={this.LOGOUT}>Wyloguj się</button> */}
+                    <h3>{this.state.message}</h3>
                 </div>
             </Aux>
 

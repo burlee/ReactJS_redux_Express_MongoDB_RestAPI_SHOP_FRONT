@@ -1,18 +1,47 @@
+.Panel{
+    width: 100%;
+    position: fixed;
+    height: 10vh;
+    background: #808080;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideInUp;
+    animation-duration: 1s;
+}
+
 .CreateAccount{
+    text-decoration: none;
+    background: #4c4c4c;
+    padding: 10px;
+    color: white;
+    height: 20px;
+}
+.Loggin{
+    text-decoration: none;
+    background: #4c4c4c;
+    padding: 10px;
+    color: white;
+    height: 20px;
+}
+.showPanel{
     position: fixed;
     bottom: 10px;
     left: 10px;
-    text-decoration: none;
-    background: #4c4c4c;
-    padding: 10px;
-    color: white;
 }
-.Loggin{
-    position: fixed;
-    bottom: 10px;
-    right: 10px; 
-    text-decoration: none;
-    background: #4c4c4c;
-    padding: 10px;
-    color: white;
-}
+
+
+@keyframes slideInUp {
+    from {
+      -webkit-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+      visibility: visible;
+    }
+  
+    to {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }

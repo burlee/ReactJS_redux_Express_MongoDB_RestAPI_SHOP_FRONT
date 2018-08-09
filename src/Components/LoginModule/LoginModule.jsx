@@ -10,7 +10,7 @@ class LoginModule extends Component {
     state = {
         email: '',
         password: '',
-        error: false
+        message: ''
     }
 
     logginUser = (event) => {
@@ -18,13 +18,11 @@ class LoginModule extends Component {
         event.preventDefault();
         FirebaseConfig.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((response) => {
-                console.log( response )
-                this.props.history.push('/');
+                this.setState({ message: 'Pomyślnie zalogowano' })
                 }
             )
             .catch((() => {
-                this.setState({ error: true })
-                console.log('Błąd logowania...')
+                this.setState({ message: 'Wprowadzone dane są niepoprawne' })
             }));
     }
 
@@ -54,6 +52,7 @@ class LoginModule extends Component {
                             onChange={event => this.setState({ password: event.target.value })} />
                         <button>Zaloguj</button>
                     </form>
+                    <h3>{this.state.message}</h3>
                 </div>
             </Aux>
         )

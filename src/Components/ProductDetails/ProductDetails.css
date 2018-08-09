@@ -3,3 +3,18 @@
     height: 80vh;
     box-shadow: 0px 0px 3px rgb(76, 76, 76, .5);
 }
+.ProductDetails h5{
+    text-align: center;
+    font-weight: 400;
+    font-size: 12px;
+    background: #4c4c4c;
+    color: white;
+    padding: 10px;
+    border-radius: 3px;
+}
+.FillteredBox{
+    display: flex;
+    height: 80px;
+    flex-direction: column;
+    justify-content: space-evenly;
+}

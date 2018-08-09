@@ -10,13 +10,25 @@ import LoginModule from '../LoginModule/LoginModule';
 
 
 export default class MainCore extends Component {
+  state = {
+    showPanel: false
+  }
+  showPanelToggle = () => {
+    this.setState({showPanel: !this.state.showPanel})
+  }
+
   render() {
     return (
       <Aux>
-        <NavLink className={classes.CreateAccount} to="/create-account">Zaloz konto</NavLink>
-        <NavLink className={classes.Loggin} to="/loggin">Zaloguj sie</NavLink>
+        <button className={classes.showPanel} onClick={this.showPanelToggle}>Pokaz panel</button>
+        {this.state.showPanel ? 
+        <div className={classes.Panel}>
+          <NavLink className={classes.CreateAccount} to="/create-account">Zaloz konto</NavLink>
+          <NavLink className={classes.Loggin} to="/loggin">Zaloguj sie</NavLink> 
+        </div>
+        : null }
         <Switch>
-          <Route path='/create-account' component={RegisterModul} /> 
+          <Route path='/create-account' exact component={RegisterModul} /> 
           <Route path='/loggin' component={LoginModule} /> 
         </Switch>
         

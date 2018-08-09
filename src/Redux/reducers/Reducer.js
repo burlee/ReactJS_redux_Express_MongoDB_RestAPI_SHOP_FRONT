@@ -1,10 +1,11 @@
 import  { 
     FETCH_PRODUCTS_FROM_SERVER, 
     PRODUCTS_LOADING,
-    USER_EXIST
+    USER_EXIST,
+    SEARCH_PRODUCT_IN_DB,
+    SEARCH_BY_PRICE
 } 
 from '../actions/types';
-import FirebaseConfig from '../../FirebaseConfig';
 
 const initialState = { 
     allProducts: [],
@@ -31,6 +32,18 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 userExist: action.payload
+            }
+        case SEARCH_PRODUCT_IN_DB:
+            return{
+                ...state,
+                allProducts: action.payload,
+                loading: false
+            }
+        case SEARCH_BY_PRICE:
+            return{
+                ...state,
+                allProducts: action.payload,
+                loading: false
             }
         default: 
             return state;
