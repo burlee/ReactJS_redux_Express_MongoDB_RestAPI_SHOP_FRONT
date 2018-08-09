@@ -13,7 +13,7 @@ const initialState = {
     userExist: null
 }
 
-// console.log(initialState.orderValue)
+
 export default function(state = initialState, action){
     switch(action.type){
         case FETCH_PRODUCTS_FROM_SERVER:

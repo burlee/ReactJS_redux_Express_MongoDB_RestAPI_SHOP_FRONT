@@ -51,7 +51,7 @@ class ShopCartOrderSummary extends Component {
   render() {
     let showOrderProduct = null;
 
-
+    console.log( this.props.userExist.userExist)
     if(this.state.order.length === 0){
       showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty.</h1>
     }else{

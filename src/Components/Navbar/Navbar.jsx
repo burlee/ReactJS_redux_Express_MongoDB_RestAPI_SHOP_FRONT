@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import classes from './Navbar.css';
-import Account from '../Account/Account';
 import MainLogo from '../../UI/MainLogo/MainLogo'
 import Search from '../Search/Search';
 import ShopCart from '../ShopCart/ShopCart';
@@ -44,7 +43,6 @@ export default class Navbar extends Component {
                  }}>
                 <MainLogo/>
                 <Search/>
-                <Account />
                 <ShopCart/>
             </div>
         )

@@ -26,12 +26,34 @@ export const setProductsLoading = () => {
     }
 }
 
-export const user_exist = () =>{
-    return{
-        type: USER_EXIST,
-        payload: FirebaseConfig.auth().currentUser
-    }
+export const user_exist = () => dispatch => {
+    FirebaseConfig.auth().onAuthStateChanged(user => {
+        if (user) {
+          dispatch({
+            type: USER_EXIST,
+            payload: user.uid
+          });
+        } else {
+          dispatch({
+            type: USER_EXIST,
+            payload: null
+          });
+        }
+      });
+    // return{
+    //     type: USER_EXIST,
+    //     payload: FirebaseConfig.auth().currentUser
+    // }
 }
+
+// FirebaseConfig.auth().onAuthStateChanged((user) => {
+//     if (user) {
+//       // User is signed in.
+//       console.log( user.uid )
+//     } else {
+//       // No user is signed in.
+//     }
+//   })
 // export const addProductToShopCart = (productFromShopCart) => {
 //     return{
 //         type: ADD_PRODUCT_TO_SHOPCART,

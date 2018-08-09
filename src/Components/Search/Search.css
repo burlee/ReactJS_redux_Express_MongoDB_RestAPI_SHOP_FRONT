@@ -3,7 +3,7 @@
     width: 200px;
     padding: 10px;
     box-sizing: border-box;
-    outline: none;
+    outline: none;   
 }
 
 .Search button{
@@ -17,4 +17,6 @@
     color: white;
     outline: none;
     font-size: 12px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }

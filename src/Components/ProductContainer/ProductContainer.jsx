@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import classes from './ProductContainer.css';
-import ShopCart from '../ShopCart/ShopCart';
 import ProductDisplay from './ProductDisplay/ProductDisplay';
 import PropTypes from 'prop-types'
 import Spinner from '../../UI/Spinner/Spinner';
@@ -44,10 +43,9 @@ class ProductContainer extends Component {
   }
   
   render() {
-
     const allProductsFromDB = this.props.allProducts.allProducts;
     let displayAllProduct = null;
-
+    
     displayAllProduct = allProductsFromDB.map( product => {
       return <ProductDisplay
                 productDisplayWidth={this.state.productDisplayWidth}
@@ -80,7 +78,8 @@ ProductContainer.propTypes = {
 
 const mapStateToProps = state => ({
   allProducts: state.auctionList,
-  loading: state.auctionList
+  loading: state.auctionList,
+  userExist: state.auctionList
 });
 
 export default connect(mapStateToProps, {fetch_all_products, user_exist} )(ProductContainer);
