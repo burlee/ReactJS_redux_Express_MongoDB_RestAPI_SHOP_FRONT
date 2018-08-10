@@ -3,7 +3,8 @@ import  {
     PRODUCTS_LOADING,
     USER_EXIST,
     SEARCH_PRODUCT_IN_DB,
-    SEARCH_BY_PRICE
+    SEARCH_BY_PRICE,
+    SEARCH_BY_PRICE_MORE
 } 
 from '../actions/types';
 
@@ -40,6 +41,12 @@ export default function(state = initialState, action){
                 loading: false
             }
         case SEARCH_BY_PRICE:
+            return{
+                ...state,
+                allProducts: action.payload,
+                loading: false
+            }
+        case SEARCH_BY_PRICE_MORE:
             return{
                 ...state,
                 allProducts: action.payload,

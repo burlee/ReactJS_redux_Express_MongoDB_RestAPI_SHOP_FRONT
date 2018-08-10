@@ -19,6 +19,10 @@ class ProductContainer extends Component {
   componentDidMount(){
     this.props.fetch_all_products();
     this.props.user_exist();
+    
+    if(this.state.shopCartIsEmpty === null ){
+      localStorage.setItem('Order', JSON.stringify([]));
+    }
   }
 
   changeSizeToggle = () => {
@@ -59,7 +63,7 @@ class ProductContainer extends Component {
     return (
       <div className={classes.ProductContainer}>
       <div className={classes.DisplaySettings}>
-        <button onClick={this.changeSizeToggle}><i class="fab fa-windows"></i></button>
+        <button onClick={this.changeSizeToggle}><i className="fab fa-windows"></i></button>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
