@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classes from './ShopCartOrderSummary.css'
 import { NavLink } from 'react-router-dom'
 import {connect} from 'react-redux'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class ShopCartOrderSummary extends Component {
   state = {
@@ -49,11 +50,17 @@ class ShopCartOrderSummary extends Component {
   }
 
   render() {
+    const transitionOption = {
+      transitionName: "fade",
+      transitionEnterTimeout: 500,
+      transitionLeaveTimeout: 400
+    }
+
     let showOrderProduct = null;
 
     console.log( this.props.userExist.userExist)
     if(this.state.order.length === 0){
-      showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty.</h1>
+      showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty <i className="fas fa-shopping-cart"></i></h1>
     }else{
       showOrderProduct = this.state.order.map( product => {
             return (
@@ -74,7 +81,9 @@ class ShopCartOrderSummary extends Component {
           <span>Ilość produktów: {this.state.order.length}</span>
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
         </div>
-        {showOrderProduct}
+        <ReactCSSTransitionGroup style={{flexDirection:'column', width: '100%', display: 'flex', alignItems: 'center'}} {...transitionOption}>
+          {showOrderProduct}
+        </ReactCSSTransitionGroup>
         {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px'}} href="/">Załóż swoje konto</a>}
       </div>
     )

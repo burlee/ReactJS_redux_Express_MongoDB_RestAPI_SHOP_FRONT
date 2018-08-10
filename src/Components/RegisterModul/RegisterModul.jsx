@@ -68,8 +68,8 @@ class RegisterModul extends Component {
                         <input onChange={this.passwordValue} type="password" id="password" />
                         <button>Zarejestruj</button>
                     </form>
-                    {/* <a href="/">zamknij</a>
-                    <button onClick={this.LOGOUT}>Wyloguj się</button> */}
+                    <a href="/">zamknij</a>
+                    <button onClick={this.LOGOUT}>Wyloguj się</button> 
                     <h3>{this.state.message}</h3>
                 </div>
             </Aux>

@@ -12,7 +12,6 @@ class ShopCart extends Component {
         <div className={classes.ShopCart}>
           <NavLink to="/order-summary"><i className="fas fa-shopping-cart"></i></NavLink>
         </div>
-
         <Switch>
           <Route path='/order-summary' exact component={ShopCartOrderSummary} />     
         </Switch>

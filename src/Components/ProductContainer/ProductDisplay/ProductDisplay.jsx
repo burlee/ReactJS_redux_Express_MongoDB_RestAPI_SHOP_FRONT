@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react'
 import classes from './ProductDisplay.css'
 import uuid from 'uuid'
+import Aux from '../../../HOC/aux_x';
 
 class ProductDisplay extends PureComponent {
   state = {
     ShowDetailsProduct: false,
-    borderColor: '#fafafa'
+    StatusBarWidth: 0
   }
 
   ShowDetails = () => {
@@ -32,32 +33,38 @@ class ProductDisplay extends PureComponent {
       
     localStorage.setItem( 'Order' , JSON.stringify(purchasingArray));
 
-    this.setState({borderColor: '#4caf50'})
-    setTimeout(() => this.setState({borderColor: '#fafafa'}), 2000)
+    
+    for(let i =0; i<101; i++){
+      this.setState({StatusBarWidth: i})
+    }
+    setTimeout(() => this.setState({StatusBarWidth: 0}), 1500)
   }
 
   render() {
     const props = this.props;
     
     return (
-      <div style={{borderTop: `3px solid ${this.state.borderColor}`, height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
-        <img onClick={this.ShowDetails} src={props.productImgUrl} alt={props.productName}/>
+      <Aux>
+        <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar}></div>
+        <div style={{height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
+          <img onClick={this.ShowDetails} src={props.productImgUrl} alt={props.productName}/>
 
-          {this.state.ShowDetailsProduct ?
-            <div  className={classes.ShowDetailsProduct}>
+            {this.state.ShowDetailsProduct ?
+              <div  className={classes.ShowDetailsProduct}>
+                <h3>{props.productName}</h3>
+                <img style={{width: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
+                <span className={classes.Price}>{props.productPrice} PLN</span>
+                <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
+              </div>
+            : null }
+
+            <div  className={classes.ProductDetails}>
               <h3>{props.productName}</h3>
-              <img style={{width: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
               <span className={classes.Price}>{props.productPrice} PLN</span>
-              <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
+              <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
             </div>
-          : null }
-
-          <div  className={classes.ProductDetails}>
-            <h3>{props.productName}</h3>
-            <span className={classes.Price}>{props.productPrice} PLN</span>
-            <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
-          </div>
-      </div>
+        </div>
+      </Aux>
     )
   }
 }

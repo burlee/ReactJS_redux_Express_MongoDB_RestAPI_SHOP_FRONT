@@ -11,16 +11,20 @@ class ProductDetails extends Component {
   }
   
   searchByPrice = () => {
+    if(this.state.searchPrice === '' || this.state.searchPrice === 0) return;
     this.props.search_by_price(parseFloat(this.state.searchPrice));
+    this.setState({searchPrice: ''})
   }
   render() {
     return (
+      
       <div className={classes.ProductDetails}>
         <h5>Personalizuj swoją cenę:</h5>
         <div className={classes.FillteredBox}>
           <span>Mniej niż(pln):</span>
           <DebounceInput
-            minLength={2}
+            value={this.state.searchPrice}
+            minLength={1}
             debounceTimeout={300}
             onChange={event => this.setState({searchPrice: event.target.value})} />
           <button onClick={this.searchByPrice}>Szukaj po cenie</button>

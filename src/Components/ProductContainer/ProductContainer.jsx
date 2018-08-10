@@ -3,7 +3,6 @@ import classes from './ProductContainer.css';
 import ProductDisplay from './ProductDisplay/ProductDisplay';
 import PropTypes from 'prop-types'
 import Spinner from '../../UI/Spinner/Spinner';
-import debounce from 'lodash.debounce'
 //REDUX
 import { connect } from 'react-redux';
 import { fetch_all_products, user_exist } from '../../Redux/actions/Actions'
@@ -21,8 +20,6 @@ class ProductContainer extends Component {
     this.props.fetch_all_products();
     this.props.user_exist();
   }
-
-
 
   changeSizeToggle = () => {
     if(this.state.productDisplayWidth === 45){
@@ -61,7 +58,16 @@ class ProductContainer extends Component {
 
     return (
       <div className={classes.ProductContainer}>
+      <div className={classes.DisplaySettings}>
+        <button onClick={this.changeSizeToggle}><i class="fab fa-windows"></i></button>
         <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+      </div>
+        {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>
           {displayAllProduct}
           {this.props.allProducts.allProducts.length === 0 ? <h1>Produkt nie został znaleziony.</h1> : null}

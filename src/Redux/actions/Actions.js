@@ -12,7 +12,7 @@ import FirebaseConfig from '../../FirebaseConfig';
 
 
 export const fetch_all_products = () => dispatch => {
-    dispatch(setProductsLoading());
+    dispatch(set_products_loading());
     axios.get('http://localhost:3000/offers')
         .then( response => {
             dispatch({
@@ -23,7 +23,7 @@ export const fetch_all_products = () => dispatch => {
 }
 
 export const search_by_price = (priceValue) => dispatch => {
-    dispatch(setProductsLoading());
+    dispatch(set_products_loading());
     console.log(priceValue)
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
@@ -48,7 +48,7 @@ export const search_by_price = (priceValue) => dispatch => {
 }
 
 export const search_product_in_db = (searchTerm) => dispatch => {
-    dispatch(setProductsLoading());
+    dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/${searchTerm}`)
         .then( response => {
             dispatch({
@@ -58,7 +58,7 @@ export const search_product_in_db = (searchTerm) => dispatch => {
         })
 }
 
-export const setProductsLoading = () => {
+export const set_products_loading = () => {
     return{
         type: PRODUCTS_LOADING
     }
