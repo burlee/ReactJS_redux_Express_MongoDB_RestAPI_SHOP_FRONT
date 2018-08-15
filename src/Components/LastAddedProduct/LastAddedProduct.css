@@ -21,6 +21,14 @@
     justify-content: space-evenly;
     
 }
+/* .productContainer button{
+    outline: none;
+    border: none;
+    width: 25px;
+    background: #787878;
+    color: white;
+    font-weight: bold;
+} */
 
 .productDisplay{
     background: white;
