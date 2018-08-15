@@ -64,12 +64,7 @@ class ProductContainer extends Component {
       <div className={classes.ProductContainer}>
       <div className={classes.DisplaySettings}>
         <button onClick={this.changeSizeToggle}><i className="fab fa-windows"></i></button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
-        <button onClick={this.changeSizeToggle}>Zmien wyswietlanie</button>
+        
       </div>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>

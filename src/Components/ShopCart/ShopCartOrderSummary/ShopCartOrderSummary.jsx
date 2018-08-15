@@ -81,7 +81,7 @@ class ShopCartOrderSummary extends Component {
           <span>Ilość produktów: {this.state.order.length}</span>
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
         </div>
-        <ReactCSSTransitionGroup style={{flexDirection:'column', width: '100%', display: 'flex', alignItems: 'center'}} {...transitionOption}>
+        <ReactCSSTransitionGroup style={{ overflowX: 'auto', width: '100%'}} {...transitionOption}>
           {showOrderProduct}
         </ReactCSSTransitionGroup>
         {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px'}} href="/">Załóż swoje konto</a>}

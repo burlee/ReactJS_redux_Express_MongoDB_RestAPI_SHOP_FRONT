@@ -1,6 +1,7 @@
 .ProductDetails{
     width: 20%;
     height: 80vh;
+    background: rgba(128, 128, 128, 0.25);
 }
 .ProductDetails h5{
     text-align: center;
@@ -17,6 +18,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     padding: 10px;
+    
 }
 .FillteredBox span{
     font-size: 12px;

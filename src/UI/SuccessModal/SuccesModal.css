@@ -1,0 +1,15 @@
+.SuccessModal{
+        position: fixed;
+        right: 50px;
+        bottom: 50px;
+        width: 100px;
+        height: 30px;
+        background: #4caf50;
+        border-radius: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: inherit;
+        color: #fff;
+}

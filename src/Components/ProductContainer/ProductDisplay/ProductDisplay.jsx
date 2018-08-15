@@ -2,11 +2,13 @@ import React, { PureComponent } from 'react'
 import classes from './ProductDisplay.css'
 import uuid from 'uuid'
 import Aux from '../../../HOC/aux_x';
+import SuccessModal from '../../../UI/SuccessModal/SuccessModal';
 
 class ProductDisplay extends PureComponent {
   state = {
     ShowDetailsProduct: false,
-    StatusBarWidth: 0
+    StatusBarWidth: 0,
+    productAdded: false
   }
 
   ShowDetails = () => {
@@ -37,6 +39,9 @@ class ProductDisplay extends PureComponent {
     for(let i =0; i<101; i++){
       this.setState({StatusBarWidth: i})
     }
+    
+    this.setState({productAdded: true})
+    setTimeout(() => this.setState({productAdded: false}), 1500)
     setTimeout(() => this.setState({StatusBarWidth: 0}), 1500)
   }
 
@@ -46,6 +51,7 @@ class ProductDisplay extends PureComponent {
     return (
       <Aux>
         <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar}></div>
+        {this.state.productAdded ? <SuccessModal/> : null }
         <div style={{height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
           <img onClick={this.ShowDetails} src={props.productImgUrl} alt={props.productName}/>
 
