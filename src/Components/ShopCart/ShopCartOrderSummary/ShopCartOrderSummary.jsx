@@ -84,7 +84,7 @@ class ShopCartOrderSummary extends Component {
         <ReactCSSTransitionGroup style={{ overflowX: 'auto', width: '100%'}} {...transitionOption}>
           {showOrderProduct}
         </ReactCSSTransitionGroup>
-        {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px'}} href="/">Załóż swoje konto</a>}
+        {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px', padding: '10px'}} href="/">Załóż swoje konto</a>}
       </div>
     )
   }

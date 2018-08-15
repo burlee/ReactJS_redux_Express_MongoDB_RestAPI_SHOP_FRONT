@@ -32,6 +32,7 @@ class RegisterModul extends Component {
     }
 
     getUserDetails = (event) => {
+        
         event.preventDefault();
         const authData = { ...this.state.userDetails }
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDVjDPro5DtgBtfT1wOxo-yWqIU4TaN0I4', authData)

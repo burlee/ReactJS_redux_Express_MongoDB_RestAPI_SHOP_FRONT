@@ -7,6 +7,7 @@ import classes from './MainCore.css';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import RegisterModul from '../RegisterModul/RegisterModul';
 import LoginModule from '../LoginModule/LoginModule';
+import LastAddedProduct from '../LastAddedProduct/LastAddedProduct';
 
 
 export default class MainCore extends Component {
@@ -17,13 +18,17 @@ export default class MainCore extends Component {
     this.setState({showPanel: !this.state.showPanel})
   }
 
+  scrollHidden = () => {
+    document.body.style.overflow = "hidden";
+  }
+
   render() {
     return (
       <Aux>
         <button className={classes.showPanel} onClick={this.showPanelToggle}>Pokaz panel</button>
         {this.state.showPanel ? 
         <div className={classes.Panel}>
-          <NavLink className={classes.CreateAccount} to="/create-account">Zaloz konto</NavLink>
+          <NavLink onClick={this.scrollHidden} className={classes.CreateAccount} to="/create-account">Zaloz konto</NavLink>
           <NavLink className={classes.Loggin} to="/loggin">Zaloguj sie</NavLink> 
         </div>
         : null }
@@ -31,7 +36,6 @@ export default class MainCore extends Component {
           <Route path='/create-account' exact component={RegisterModul} /> 
           <Route path='/loggin' component={LoginModule} /> 
         </Switch>
-        
         
         <Navbar/>
         <ProductDetails/>

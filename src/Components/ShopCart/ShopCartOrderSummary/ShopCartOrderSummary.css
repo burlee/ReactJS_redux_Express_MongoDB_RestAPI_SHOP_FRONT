@@ -11,7 +11,6 @@
     align-items: center;
     animation: zoomIn;
     animation-duration: .5s;
-    
 }
 .ShopCartOrderSummary a {
     font-size: 30px;
@@ -36,9 +35,8 @@
     margin-top: 10px;
 }
 
-
 .productDisplay button{
-  width: 30px;
+    width: 30px;
     height: 30px;
     background: #4c4c4c;
     border: none;
@@ -68,12 +66,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 10px;
 }
 .ShopCartOptions span{
-  font-size: 12px;
+    font-size: 12px;
 }
 .ShopCartOptions button{
-  border: none;
+    border: none;
     outline: none;
     padding: 15px;
     font-size: 12px;
