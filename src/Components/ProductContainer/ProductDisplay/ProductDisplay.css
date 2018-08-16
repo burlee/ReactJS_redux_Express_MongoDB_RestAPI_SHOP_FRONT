@@ -52,7 +52,7 @@
 }
 .ProductDisplay img{
     margin: 10px;
-    width: 100px;
+    max-width: 100px;
     height: 100px;
     cursor: pointer;
 }

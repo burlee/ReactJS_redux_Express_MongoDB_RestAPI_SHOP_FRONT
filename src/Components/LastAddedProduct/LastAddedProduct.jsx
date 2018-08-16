@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import classes from './LastAddedProduct.css'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 class LastAddedProduct extends Component {
     state = {
@@ -17,8 +18,17 @@ class LastAddedProduct extends Component {
         axios.get('http://localhost:3000/offers/')
             .then( response => {
                 this.setState({productsArrayLength: response.data.count})
+        })
+        
+        setInterval(() => {
+            const oldproductPrevious = this.state.productPrevious;
+            this.setState({
+                productPrevious: oldproductPrevious  + 1
             })
-    
+            if(this.state.productsArrayLength - 2 === this.state.productPrevious){
+                this.setState({productPrevious: 0})
+            }
+        }, 5000);
     }
 
     nextProduct = () => {
@@ -66,7 +76,7 @@ class LastAddedProduct extends Component {
                 <h1>Ostatnio dodane produkty</h1>
                 <div className={classes.productContainer}>
                     <button disabled={this.state.nextBtnDiabled} onClick={this.nextProduct}>&gt;</button>
-                    {lastAddedProduct}
+                        {lastAddedProduct}
                     <button disabled={this.state.backBtnDisabled} onClick={this.backProduct}>&lt;</button>
                 </div>
             </div>

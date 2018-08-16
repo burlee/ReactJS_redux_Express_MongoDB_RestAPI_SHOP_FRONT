@@ -1,0 +1,47 @@
+.Footer{
+    display: flex;
+    height: 50vh;
+    width: 100%;
+    background: #cccccc;
+    clear: both;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.socialMedia{
+    flex: 1;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.socialMedia ul li{
+    list-style: none;
+    margin: 5px;
+    font-size: 20px;
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+.socialMedia h2{
+    font-weight: 400;
+}
+
+
+.Information{
+    flex: 1;
+    margin: 5px;
+}
+.Links{
+    flex: 1;
+    margin: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+    .Footer{
+        flex-direction: column;
+        height: 100vh;
+    }
+}
