@@ -15,8 +15,7 @@ import FirebaseConfig from '../../FirebaseConfig';
 
 export const fetch_all_products = (startPagination , endPagination) => dispatch => {
     dispatch(set_products_loading());
-    console.log( startPagination)
-    console.log( endPagination )
+    
     axios.get('http://localhost:3000/offers')
         .then( response => {
             dispatch({
@@ -85,6 +84,10 @@ export const search_by_price_more = (priceValue) => dispatch => {
 }
 
 export const search_product_in_db = (searchTerm) => dispatch => {
+    console.log( searchTerm.length )
+    if(searchTerm.length < 4){
+        return;
+    };
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/${searchTerm}`)
         .then( response => {

@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
-import classes from './Search.css';
 import { DebounceInput } from 'react-debounce-input';
 import { connect } from 'react-redux';
-import { search_product_in_db } from '../../Redux/actions/Actions'
+import { search_product_in_db } from '../../Redux/actions/Actions';
+import classes from './Search.css';
 
 class Search extends Component {
   state = {
-    searchTerm: ''
+    searchTerm: '',
+    placeholder: `Wyszukaj produktu...`
   }
   
   pressEnter = (event) => {
+    
     if(this.state.searchTerm.length === '') return;
+
     if (event.key === 'Enter') {
+
+      if(this.state.searchTerm.length < 4){
+        this.setState({placeholder: `Wyraz jest za krótki...`})
+      }else{this.setState({placeholder: `Wyszukaj produktu...` })}
+
       this.setState({searchTerm: ''})
       this.props.search_product_in_db(this.state.searchTerm);
     }
   }
   render() { 
-    const productsCounter = `Wyszukaj produktu...`;
+    const productsCounter = this.state.placeholder;
     return (
         <div className={classes.Search}>
         <DebounceInput

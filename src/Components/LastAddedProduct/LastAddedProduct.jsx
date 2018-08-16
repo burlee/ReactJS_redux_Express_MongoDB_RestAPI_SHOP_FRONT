@@ -22,11 +22,10 @@ class LastAddedProduct extends Component {
             this.setState({
                 productPrevious: oldproductPrevious  + 1
             })
-            
             if(this.state.productsArrayLength - 2 === this.state.productPrevious){
                 this.setState({productPrevious: 0})
             }
-            
+
         }, 5000);
     }
 

@@ -15,7 +15,8 @@ class ProductContainer extends Component {
     productDisplayWidth: 100,
     flexDirection: 'row',
     startProductPagination: 0,
-    endProductPagination: 15
+    endProductPagination: 15,
+    disabledBackBtn: true
   }
 
   componentDidMount(){
@@ -44,16 +45,47 @@ class ProductContainer extends Component {
     }
   }
 
-  productsPagination = () => {
-    const oldValStartPagination = this.state.startProductPagination + 15;
-    const oldValEndPagination = this.state.endProductPagination + 15;
+  nextPage = () => {
+    if(this.state.startProductPagination !== 15 && this.state.endProductPagination !== 30){
+      this.setState({disabledBackBtn: false})
+    }
+
+    const oldValStartPagination = this.state.startProductPagination;
+    const oldValEndPagination = this.state.endProductPagination;
 
     this.setState({
-      startProductPagination: oldValStartPagination + 15,
-      endProductPagination: oldValEndPagination + 15
+      startProductPagination: oldValStartPagination +15,
+      endProductPagination: oldValEndPagination +15
     })
+    
+    this.props.fetch_all_products(this.state.startProductPagination + 15, this.state.endProductPagination + 15);
+  }
 
-    this.props.fetch_all_products(oldValStartPagination, oldValEndPagination);
+  backToFirstPage = () => {
+    this.setState({
+      startProductPagination: 0,
+      endProductPagination: 15,
+      disabledBackBtn: true
+    })
+    this.props.fetch_all_products(0, 15);
+  }
+
+  backToPreviousPage = () => {
+    if(this.state.startProductPagination === 15 && this.state.endProductPagination === 30){
+      this.setState({disabledBackBtn: true})
+    }
+
+    const oldValStartPagination = this.state.startProductPagination;
+    const oldValEndPagination = this.state.endProductPagination;
+
+    this.setState({
+      startProductPagination: oldValStartPagination - 15,
+      endProductPagination: oldValEndPagination - 15
+    })
+    
+    this.props.fetch_all_products(this.state.startProductPagination -  15, this.state.endProductPagination -  15);
+    console.log(this.state.startProductPagination);
+    console.log(this.state.endProductPagination);
   }
   
   render() {
@@ -78,7 +110,13 @@ class ProductContainer extends Component {
       <div className={classes.ProductContainer}>
       <div className={classes.DisplaySettings}>
         <button onClick={this.changeSizeToggle}><i className="fab fa-windows"></i></button>
-        <button onClick={this.productsPagination}>Następna strona =></button>
+        <button onClick={this.backToFirstPage}>Pierwsza strona</button>
+        <button disabled={this.state.disabledBackBtn} onClick={this.backToPreviousPage}>Wroc</button>  
+        
+        {this.props.allProducts.allProducts.length === 0 ? 
+        <button onClick={this.backToFirstPage}>Pierwsza strona</button> :
+        <button onClick={this.nextPage}>Następna strona =></button>}
+
       </div>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>

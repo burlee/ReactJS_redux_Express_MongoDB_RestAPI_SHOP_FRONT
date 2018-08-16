@@ -23,11 +23,12 @@
 }
 .DisplaySettings button{
     cursor: pointer;
-    width: 70px;
-    height: 70px;
+    width: 125px;
+    height: 35px;
     border: none;
     color: #4c4c4c;
     outline: none;
+    border-radius: 3px;
 }
 
 .DisplaySettings button:hover{
