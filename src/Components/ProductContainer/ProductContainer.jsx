@@ -15,7 +15,7 @@ class ProductContainer extends Component {
     productDisplayWidth: 100,
     flexDirection: 'row',
     startProductPagination: 0,
-    endProductPagination: 15,
+    endProductPagination: 16,
     disabledBackBtn: true
   }
 
@@ -46,7 +46,7 @@ class ProductContainer extends Component {
   }
 
   nextPage = () => {
-    if(this.state.startProductPagination !== 15 && this.state.endProductPagination !== 30){
+    if(this.state.startProductPagination !== 16 && this.state.endProductPagination !== 32){
       this.setState({disabledBackBtn: false})
     }
 
@@ -54,24 +54,24 @@ class ProductContainer extends Component {
     const oldValEndPagination = this.state.endProductPagination;
 
     this.setState({
-      startProductPagination: oldValStartPagination +15,
-      endProductPagination: oldValEndPagination +15
+      startProductPagination: oldValStartPagination +16,
+      endProductPagination: oldValEndPagination +16
     })
     
-    this.props.fetch_all_products(this.state.startProductPagination + 15, this.state.endProductPagination + 15);
+    this.props.fetch_all_products(this.state.startProductPagination + 16, this.state.endProductPagination + 16);
   }
 
   backToFirstPage = () => {
     this.setState({
       startProductPagination: 0,
-      endProductPagination: 15,
+      endProductPagination: 16,
       disabledBackBtn: true
     })
-    this.props.fetch_all_products(0, 15);
+    this.props.fetch_all_products(0, 16);
   }
 
   backToPreviousPage = () => {
-    if(this.state.startProductPagination === 15 && this.state.endProductPagination === 30){
+    if(this.state.startProductPagination === 16 && this.state.endProductPagination === 32){
       this.setState({disabledBackBtn: true})
     }
 
@@ -79,13 +79,12 @@ class ProductContainer extends Component {
     const oldValEndPagination = this.state.endProductPagination;
 
     this.setState({
-      startProductPagination: oldValStartPagination - 15,
-      endProductPagination: oldValEndPagination - 15
+      startProductPagination: oldValStartPagination - 16,
+      endProductPagination: oldValEndPagination - 16
     })
     
-    this.props.fetch_all_products(this.state.startProductPagination -  15, this.state.endProductPagination -  15);
-    console.log(this.state.startProductPagination);
-    console.log(this.state.endProductPagination);
+    this.props.fetch_all_products(this.state.startProductPagination -  16, this.state.endProductPagination -  16);
+  
   }
   
   render() {
@@ -102,6 +101,7 @@ class ProductContainer extends Component {
                 productName={product.productName}
                 productPrice={product.productPrice}
                 productImgUrl={product.productImgUrl}
+                condition={product.condition}
             />
     })
 

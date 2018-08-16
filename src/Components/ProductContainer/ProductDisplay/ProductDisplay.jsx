@@ -59,14 +59,15 @@ class ProductDisplay extends PureComponent {
               <div  className={classes.ShowDetailsProduct}>
                 <h3>{props.productName}</h3>
                 <img style={{maxWidth: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
-                <span className={classes.Price}>{props.productPrice} PLN</span>
+                <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
                 <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
               </div>
             : null }
 
             <div  className={classes.ProductDetails}>
               <h3>{props.productName}</h3>
-              <span className={classes.Price}>{props.productPrice} PLN</span>
+              <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
+              <h5>Stan: {props.condition}</h5>
               <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
             </div>
         </div>

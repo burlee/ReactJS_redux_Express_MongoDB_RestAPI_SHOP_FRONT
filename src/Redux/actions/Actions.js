@@ -15,7 +15,7 @@ import FirebaseConfig from '../../FirebaseConfig';
 
 export const fetch_all_products = (startPagination , endPagination) => dispatch => {
     dispatch(set_products_loading());
-    
+
     axios.get('http://localhost:3000/offers')
         .then( response => {
             dispatch({
@@ -38,21 +38,52 @@ export const fetch_last_15_products_from_db = () => dispatch => {
         })
 }
 
-export const search_by_price = (priceValue) => dispatch => {
+export const search_by_price = (priceValue, checkedNew, checkedUsed) => dispatch => {
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
-            const filteredByPrice = [];
+            let filteredByPrice = [];
             response.data.products.map( product =>{
                 if(product.productPrice < priceValue){
                     filteredByPrice.push({
                         id: product.id,
                         productName: product.productName,
                         productPrice: product.productPrice,
-                        productImgUrl: product.productImgUrl
+                        productImgUrl: product.productImgUrl,
+                        condition: product.condition
                     })
                 }
             })
+            if( checkedNew === true){
+                const filteredWithNewOption = [];
+                filteredByPrice.map( product => {
+                    if( product.condition === "Nowy"){
+                        filteredWithNewOption.push({
+                            id: product.id,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImgUrl: product.productImgUrl,
+                            condition: product.condition
+                        })
+                    }
+                })
+                filteredByPrice = filteredWithNewOption;
+            }
+            if( checkedUsed === true){
+                const filteredWithNewOption = [];
+                filteredByPrice.map( product => {
+                    if( product.condition === "Używany"){
+                        filteredWithNewOption.push({
+                            id: product.id,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImgUrl: product.productImgUrl,
+                            condition: product.condition
+                        })
+                    }
+                })
+                filteredByPrice = filteredWithNewOption;
+            }
             dispatch({
                 type: SEARCH_BY_PRICE,
                 payload: filteredByPrice
@@ -61,7 +92,7 @@ export const search_by_price = (priceValue) => dispatch => {
 }
 
 //Fetch product from RestAPI where price is greather than PRICEVALUE
-export const search_by_price_more = (priceValue) => dispatch => {
+export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dispatch => {
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
@@ -72,7 +103,8 @@ export const search_by_price_more = (priceValue) => dispatch => {
                         id: product.id,
                         productName: product.productName,
                         productPrice: product.productPrice,
-                        productImgUrl: product.productImgUrl
+                        productImgUrl: product.productImgUrl,
+                        condition: product.condition
                     })
                 }
             })
@@ -84,7 +116,6 @@ export const search_by_price_more = (priceValue) => dispatch => {
 }
 
 export const search_product_in_db = (searchTerm) => dispatch => {
-    console.log( searchTerm.length )
     if(searchTerm.length < 4){
         return;
     };

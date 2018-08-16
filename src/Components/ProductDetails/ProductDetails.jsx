@@ -8,20 +8,31 @@ import { search_by_price, search_by_price_more} from '../../Redux/actions/Action
 class ProductDetails extends Component {
   state = {
     searchPrice: '',
-    searchPriceMore: ''
+    searchPriceMore: '',
+    checkedNew: false,
+    checkedUsed: false
   }
   
   searchByPrice = () => {
     if(this.state.searchPrice === '' || this.state.searchPrice === 0) return;
-    this.props.search_by_price(parseFloat(this.state.searchPrice));
+    this.props.search_by_price(parseFloat(this.state.searchPrice), this.state.checkedNew, this.state.checkedUsed );
     this.setState({searchPrice: ''})
   }
 
   searchByPriceMore = () => {
     if(this.state.searchPriceMore === '' || this.state.searchPriceMore === 0) return;
-    this.props.search_by_price_more(parseFloat(this.state.searchPriceMore));
+    this.props.search_by_price_more(parseFloat(this.state.searchPriceMore), this.state.checkedNew, this.state.checkedUsed);
     this.setState({searchPriceMore: ''})
   }
+
+  NewOptionChecked = () => {
+    this.setState({checkedNew: !this.state.checkedNew, checkedUsed: false})
+  }
+
+  UsedOptionChecked = () => {
+    this.setState({checkedUsed: !this.state.checkedUsed, checkedNew: false})
+  }
+
   render() {
     return (
       
@@ -44,6 +55,15 @@ class ProductDetails extends Component {
             debounceTimeout={300}
             onChange={event => this.setState({searchPriceMore: event.target.value})} />
           <button onClick={this.searchByPriceMore}>Szukaj po cenie</button>
+        </div>
+        <div className={classes.ConditionBox}>
+          <span>Wybierz stan:</span>
+            <div className={classes.ConditionBoxLabel}>
+              <label htmlFor="new">Nowy</label><input checked={this.state.checkedNew} onClick={this.NewOptionChecked} id="new" type="checkbox"/>
+            </div>
+            <div className={classes.ConditionBoxLabel}>
+              <label htmlFor="used">Używany</label><input checked={this.state.checkedUsed} onClick={this.UsedOptionChecked} id="used" type="checkbox"/>
+            </div>
         </div>
       </div>
     )
