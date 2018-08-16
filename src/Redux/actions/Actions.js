@@ -4,7 +4,8 @@ import {
     USER_EXIST,
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
-    SEARCH_BY_PRICE_MORE
+    SEARCH_BY_PRICE_MORE,
+    FETCH_LAST_15_PRODUCTS_FROM_DB
 } 
 from './types';
 import axios from 'axios';
@@ -12,20 +13,34 @@ import FirebaseConfig from '../../FirebaseConfig';
 
 
 
-export const fetch_all_products = () => dispatch => {
+export const fetch_all_products = (startPagination , endPagination) => dispatch => {
     dispatch(set_products_loading());
+    console.log( startPagination)
+    console.log( endPagination )
     axios.get('http://localhost:3000/offers')
         .then( response => {
             dispatch({
                 type: FETCH_PRODUCTS_FROM_SERVER,
-                payload: response.data.products
+                payload: response.data.products.slice(startPagination, endPagination)
+            })
+        })
+}
+
+export const fetch_last_15_products_from_db = () => dispatch => {
+    dispatch(set_products_loading());
+    axios.get('http://localhost:3000/offers')
+        .then( response => {
+            const arrayLengthEnd = response.data.count;
+            const arrayLengthStart = arrayLengthEnd - 15;
+            dispatch({
+                type: FETCH_LAST_15_PRODUCTS_FROM_DB,
+                payload: response.data.products.slice(arrayLengthStart , arrayLengthEnd)
             })
         })
 }
 
 export const search_by_price = (priceValue) => dispatch => {
     dispatch(set_products_loading());
-    console.log(priceValue)
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
             const filteredByPrice = [];

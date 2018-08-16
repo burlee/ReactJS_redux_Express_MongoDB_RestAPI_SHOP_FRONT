@@ -4,12 +4,14 @@ import  {
     USER_EXIST,
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
-    SEARCH_BY_PRICE_MORE
+    SEARCH_BY_PRICE_MORE,
+    FETCH_LAST_15_PRODUCTS_FROM_DB
 } 
 from '../actions/types';
 
 const initialState = { 
     allProducts: [],
+    last15products: [],
     orderValue: JSON.parse(localStorage.getItem('Order')),
     loading: false,
     userExist: null
@@ -50,6 +52,12 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 allProducts: action.payload,
+                loading: false
+            }
+        case FETCH_LAST_15_PRODUCTS_FROM_DB:
+            return{
+                ...state,
+                last15products: action.payload,
                 loading: false
             }
         default: 

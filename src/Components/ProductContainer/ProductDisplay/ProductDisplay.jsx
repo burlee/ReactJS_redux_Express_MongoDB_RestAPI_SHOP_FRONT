@@ -58,7 +58,7 @@ class ProductDisplay extends PureComponent {
             {this.state.ShowDetailsProduct ?
               <div  className={classes.ShowDetailsProduct}>
                 <h3>{props.productName}</h3>
-                <img style={{width: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
+                <img style={{maxWidth: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
                 <span className={classes.Price}>{props.productPrice} PLN</span>
                 <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
               </div>

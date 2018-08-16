@@ -13,11 +13,13 @@ class ProductContainer extends Component {
     shopCartIsEmpty: localStorage.getItem('Order'),
     productDisplayHeigth: 250,
     productDisplayWidth: 100,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    startProductPagination: 0,
+    endProductPagination: 15
   }
 
   componentDidMount(){
-    this.props.fetch_all_products();
+    this.props.fetch_all_products(this.state.startProductPagination, this.state.endProductPagination );
     this.props.user_exist();
     
     if(this.state.shopCartIsEmpty === null ){
@@ -40,6 +42,18 @@ class ProductContainer extends Component {
         productDisplayHeigth: 250
       })
     }
+  }
+
+  productsPagination = () => {
+    const oldValStartPagination = this.state.startProductPagination + 15;
+    const oldValEndPagination = this.state.endProductPagination + 15;
+
+    this.setState({
+      startProductPagination: oldValStartPagination + 15,
+      endProductPagination: oldValEndPagination + 15
+    })
+
+    this.props.fetch_all_products(oldValStartPagination, oldValEndPagination);
   }
   
   render() {
@@ -64,7 +78,7 @@ class ProductContainer extends Component {
       <div className={classes.ProductContainer}>
       <div className={classes.DisplaySettings}>
         <button onClick={this.changeSizeToggle}><i className="fab fa-windows"></i></button>
-        
+        <button onClick={this.productsPagination}>Następna strona =></button>
       </div>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>

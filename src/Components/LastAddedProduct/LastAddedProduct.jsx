@@ -1,83 +1,54 @@
 import React, { Component } from 'react'
 import classes from './LastAddedProduct.css'
-import { connect } from 'react-redux'
 import axios from 'axios'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+
+import { connect } from 'react-redux'
+import { fetch_last_15_products_from_db } from '../../Redux/actions/Actions'
+
 
 class LastAddedProduct extends Component {
     state = {
         nextProductVal: 3,
         productPrevious: 0,
-        backBtnDisabled: true,
-        nextBtnDiabled: false,
-        productsArrayLength: 0
+        productsArrayLength: 15
     }
     
     
     componentDidMount(){
-        axios.get('http://localhost:3000/offers/')
-            .then( response => {
-                this.setState({productsArrayLength: response.data.count})
-        })
-        
+        this.props.fetch_last_15_products_from_db();
+
         setInterval(() => {
             const oldproductPrevious = this.state.productPrevious;
             this.setState({
                 productPrevious: oldproductPrevious  + 1
             })
+            
             if(this.state.productsArrayLength - 2 === this.state.productPrevious){
                 this.setState({productPrevious: 0})
             }
+            
         }, 5000);
     }
 
-    nextProduct = () => {
-        const oldproductPrevious = this.state.productPrevious;
-        this.setState({
-            productPrevious: oldproductPrevious  + 1
-        })
-        if(this.state.productPrevious >= 0){
-            this.setState({backBtnDisabled: false})
-        }
-        if(this.state.productsArrayLength - 4 === this.state.productPrevious){
-            this.setState({nextBtnDiabled: true})
-        }
-    }
-
-    backProduct = () => {
-        const oldproductPrevious = this.state.productPrevious;
-        this.setState({
-            productPrevious: oldproductPrevious  - 1
-        })
-        if(this.state.productPrevious <= 1){
-            this.setState({backBtnDisabled: true})
-        }
-        if(this.state.productsArrayLength - 4 < this.state.productPrevious){
-            this.setState({nextBtnDiabled: false})
-        }
-    }
 
     render() {
 
-        const arrayLength = this.props.allProducts.allProducts.length - this.state.productPrevious;
+        const arrayLength = this.props.last15products.last15products.length - this.state.productPrevious;
         const arrayReverse = arrayLength - 3;
 
-        let lastAddedProduct = this.props.allProducts.allProducts.slice(arrayReverse, arrayLength).map(product => {
+        let lastAddedProduct = this.props.last15products.last15products.slice(arrayReverse, arrayLength).map(product => {
             return (
                 <div key={product.id} className={classes.productDisplay}>
-                    <span>{product.productName}</span>
+                    <h4>{product.productName}</h4>
                     <img src={product.productImgUrl} alt={product.productName} />
-                    <span>{product.productPrice} PLN</span>
+                    <h5>{product.productPrice} PLN</h5>
                 </div>)
         })
-
         return (
             <div className={classes.LastAddedProductContainer}>
                 <h1>Ostatnio dodane produkty</h1>
                 <div className={classes.productContainer}>
-                    <button disabled={this.state.nextBtnDiabled} onClick={this.nextProduct}>&gt;</button>
-                        {lastAddedProduct}
-                    <button disabled={this.state.backBtnDisabled} onClick={this.backProduct}>&lt;</button>
+                    {lastAddedProduct}
                 </div>
             </div>
         )
@@ -85,8 +56,8 @@ class LastAddedProduct extends Component {
 }
 
 const mapStateToProps = state => ({
-    allProducts: state.auctionList,
+    last15products: state.auctionList,
     loading: state.auctionList
 });
 
-export default connect(mapStateToProps)(LastAddedProduct);
+export default connect(mapStateToProps, { fetch_last_15_products_from_db })(LastAddedProduct);
