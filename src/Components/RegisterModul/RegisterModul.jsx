@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-import axios from 'axios'
-import classes from './RegisterModul.css'
-import { withRouter } from 'react-router-dom'
-import Aux from '../../HOC/aux_x';
+import axios from 'axios';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
 import FirebaseConfig from '../../FirebaseConfig';
+import Aux from '../../HOC/aux_x';
+import classes from './RegisterModul.css';
 
 class RegisterModul extends Component {
     state = {
@@ -59,19 +60,35 @@ class RegisterModul extends Component {
     render() {
         return (
             <Aux>
-                <div className={classes.Backdrop} onClick={this.closeRegisterModule}>
-                </div>
+                {/* <div className={classes.Backdrop} onClick={this.closeRegisterModule}> */}
+                {/* </div> */}
                 <div className={classes.RegisterModule}>
-                    <form onSubmit={this.getUserDetails}>
-                        <label htmlFor="email">Podaj adres e-mail:</label>
-                        <input onChange={this.emailValue} type="email" id="email" autoComplete="off" />
-                        <label htmlFor="password">Hasło:</label>
-                        <input onChange={this.passwordValue} type="password" id="password" />
-                        <button>Zarejestruj</button>
-                    </form>
-                    <a href="/">zamknij</a>
-                    <button onClick={this.LOGOUT}>Wyloguj się</button> 
-                    <h3>{this.state.message}</h3>
+                    <div className={classes.InformationBox}>
+                        <div>
+                            <h1>1</h1>
+                            <p>Zaloz swoje konto obok</p>
+                        </div>
+                        <div>
+                            <h1>2</h1>
+                            <p>Zaloguj się na stworzone konto</p>
+                        </div>
+                        <div>
+                            <h1>3</h1>
+                            <p>Wystawiaj aukcje i korzystaj z serwisu</p>
+                        </div>
+                    </div>
+                    <div className={classes.Register}>
+                        <form onSubmit={this.getUserDetails}>
+                            <label htmlFor="email">Podaj adres e-mail:</label>
+                            <input onChange={this.emailValue} type="email" id="email" autoComplete="off" />
+                            <label htmlFor="password">Hasło:</label>
+                            <input onChange={this.passwordValue} type="password" id="password" />
+                            <button>Zarejestruj</button>
+                        </form>
+                        <a href="/">zamknij</a>
+                        {/* <button onClick={this.LOGOUT}>Wyloguj się</button>  */}
+                        <h3>{this.state.message}</h3>
+                    </div>
                 </div>
             </Aux>
 

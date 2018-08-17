@@ -96,7 +96,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dis
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
-            const filteredByPrice = [];
+            let filteredByPrice = [];
             response.data.products.map( product =>{
                 if(product.productPrice > priceValue){
                     filteredByPrice.push({
@@ -108,6 +108,36 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dis
                     })
                 }
             })
+            if( checkedNew === true){
+                const filteredWithNewOption = [];
+                filteredByPrice.map( product => {
+                    if( product.condition === "Nowy"){
+                        filteredWithNewOption.push({
+                            id: product.id,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImgUrl: product.productImgUrl,
+                            condition: product.condition
+                        })
+                    }
+                })
+                filteredByPrice = filteredWithNewOption;
+            }
+            if( checkedUsed === true){
+                const filteredWithNewOption = [];
+                filteredByPrice.map( product => {
+                    if( product.condition === "Używany"){
+                        filteredWithNewOption.push({
+                            id: product.id,
+                            productName: product.productName,
+                            productPrice: product.productPrice,
+                            productImgUrl: product.productImgUrl,
+                            condition: product.condition
+                        })
+                    }
+                })
+                filteredByPrice = filteredWithNewOption;
+            }
             dispatch({
                 type: SEARCH_BY_PRICE_MORE,
                 payload: filteredByPrice

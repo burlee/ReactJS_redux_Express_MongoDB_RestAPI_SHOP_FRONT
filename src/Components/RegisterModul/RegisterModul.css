@@ -1,6 +1,45 @@
 .RegisterModule{
-    top: 0px;
-    left: 0px;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 106;
+    background: #FFFFFF;
+    box-sizing: border-box;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.InformationBox{
+    flex: 1;
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.InformationBox div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.InformationBox div h1{
+    color: #4c4c4c;
+    margin: 10px;
+}
+.InformationBox p{
+    font-size: 15px;
+    color: #4c4c4c;
+    text-align: center;
+    width: 80%;
+}
+
+.Register{
+    height: 50vh;
     background: #FFFFFF;
     display: -ms-flexbox;
     display: flex;
@@ -8,16 +47,12 @@
     flex-direction: column;
     -ms-flex-pack: center;
     justify-content: center;
-    position: fixed;
-    z-index: 105;
-    width: 100%;
-    height: 100vh;
     box-shadow: 0px 0px 3px #4c4c4c;
     padding: 15px;
     border-radius: 3px;
-    
+    flex: 1;
 }
-.RegisterModule form{
+.Register form{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -25,7 +60,7 @@
     justify-content: space-between;
 }
 
-.RegisterModule button{
+.Register button{
     width: 80%;
     background: #4c4c4c;
     border: none;
@@ -38,17 +73,17 @@
     margin-top: 20px;
 }
 
-.RegisterModule input{
+.Register input{
     width: 80%;
     height: 30px;
     outline: none;
 }
 
-.RegisterModule label {
+.Register label {
     font-size: 12px;
 }
 
-.RegisterModule h3{
+.Register h3{
     text-align: center;
     width: 100%;
     height: 35px;
@@ -65,4 +100,16 @@
     position: fixed;
     top: 0;
     left: 0;
+}
+
+@media only screen and (max-width: 990px) {
+    .RegisterModule{
+        flex-direction: column;
+    }
+    .Register{
+        width: 50%;
+    }
+    .InformationBox p{
+        font-size: 12px;
+    }
 }
