@@ -7,7 +7,7 @@ import classes from './MainCore.css';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import RegisterModul from '../RegisterModul/RegisterModul';
 import LoginModule from '../LoginModule/LoginModule';
-import LastAddedProduct from '../LastAddedProduct/LastAddedProduct';
+import AddProduct from '../AddProduct/AddProduct';
 
 
 export default class MainCore extends Component {
@@ -33,13 +33,15 @@ export default class MainCore extends Component {
         <div className={classes.Panel}>
           <ul>
             <li><NavLink onClick={this.scrollHidden} to="/create-account">Zaloz konto</NavLink></li>
+            <li><NavLink to="/add-product">Zaloguj sie</NavLink></li>
             <li><NavLink to="/loggin">Zaloguj sie</NavLink></li>
             <li onClick={this.ClosePanel}>Zamknij Panel</li>
           </ul>
         </div>
         : null }
         <Switch>
-          <Route path='/create-account' exact component={RegisterModul} /> 
+          <Route path='/create-account' component={RegisterModul} /> 
+          <Route path='/add-product' component={AddProduct} />
           <Route path='/loggin' component={LoginModule} /> 
         </Switch>
         

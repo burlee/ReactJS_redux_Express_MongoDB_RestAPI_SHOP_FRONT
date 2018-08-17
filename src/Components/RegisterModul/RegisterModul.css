@@ -6,11 +6,12 @@
     top: 0;
     left: 0;
     z-index: 106;
-    background: #FFFFFF;
+    background: #e2e2e2;
     box-sizing: border-box;
-    padding: 15px;
     justify-content: center;
     align-items: center;
+    animation: fadeInDown;
+    animation-duration: 1s;
 }
 
 .InformationBox{
@@ -39,7 +40,7 @@
 }
 
 .Register{
-    height: 50vh;
+    height: 100vh;
     background: #FFFFFF;
     display: -ms-flexbox;
     display: flex;
@@ -47,9 +48,7 @@
     flex-direction: column;
     -ms-flex-pack: center;
     justify-content: center;
-    box-shadow: 0px 0px 3px #4c4c4c;
     padding: 15px;
-    border-radius: 3px;
     flex: 1;
 }
 .Register form{
@@ -62,25 +61,36 @@
 
 .Register button{
     width: 80%;
-    background: #4c4c4c;
+    background: #4caf50;
     border: none;
     outline: none;
     padding: 15px;
-    color: white;
-    font-weight: 600;
-    font-size: 12px;
+    border-radius: 3px;
+    color: #FFFFFF;
+    font-size: 20px;
     cursor: pointer;
-    margin-top: 20px;
+    font-weight: 400;
 }
 
 .Register input{
+    padding-left: 10px;
+    box-sizing: border-box;
+    font-size: 15px;
     width: 80%;
-    height: 30px;
+    height: 40px;
+    border-radius: 3px;
     outline: none;
+    border: 1px solid rgb(128, 128, 128, .5);
+    transition: all .5s ease-in-out;
+}
+.Register input:focus{
+    background: rgb(76, 175, 80, .1);
 }
 
 .Register label {
-    font-size: 12px;
+    font-size: 25px;
+    font-weight: 300;
+    color: #4c4c4c;
 }
 
 .Register h3{
@@ -102,14 +112,44 @@
     left: 0;
 }
 
-@media only screen and (max-width: 990px) {
+.CloseRegisterModuleBtn{
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: none;
+    color: #4c4c4c;
+    font-size: 15px;
+    outline: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
     .RegisterModule{
         flex-direction: column;
     }
     .Register{
-        width: 50%;
+        width: 100%;
+    }
+    .Register form{
+        height: 100%;
     }
     .InformationBox p{
         font-size: 12px;
     }
 }
+
+
+@keyframes fadeInDown {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
