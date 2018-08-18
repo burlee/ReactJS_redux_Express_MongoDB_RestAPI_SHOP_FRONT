@@ -5,9 +5,6 @@ import Search from '../Search/Search';
 import ShopCart from '../ShopCart/ShopCart';
 
 export default class Navbar extends Component {
-    state = {
-        searchTerm: ''
-    }
 
   render() {
         return (

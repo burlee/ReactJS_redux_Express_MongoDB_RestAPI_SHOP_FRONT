@@ -43,7 +43,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed) => dispatch
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
             let filteredByPrice = [];
-            response.data.products.map( product =>{
+            response.data.products.forEach( product =>{
                 if(product.productPrice < priceValue){
                     filteredByPrice.push({
                         id: product.id,
@@ -56,7 +56,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed) => dispatch
             })
             if( checkedNew === true){
                 const filteredWithNewOption = [];
-                filteredByPrice.map( product => {
+                filteredByPrice.forEach( product => {
                     if( product.condition === "Nowy"){
                         filteredWithNewOption.push({
                             id: product.id,
@@ -71,7 +71,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed) => dispatch
             }
             if( checkedUsed === true){
                 const filteredWithNewOption = [];
-                filteredByPrice.map( product => {
+                filteredByPrice.forEach( product => {
                     if( product.condition === "Używany"){
                         filteredWithNewOption.push({
                             id: product.id,
@@ -97,7 +97,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dis
     axios.get(`http://localhost:3000/offers/`)
         .then( response => {
             let filteredByPrice = [];
-            response.data.products.map( product =>{
+            response.data.products.forEach( product =>{
                 if(product.productPrice > priceValue){
                     filteredByPrice.push({
                         id: product.id,
@@ -110,7 +110,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dis
             })
             if( checkedNew === true){
                 const filteredWithNewOption = [];
-                filteredByPrice.map( product => {
+                filteredByPrice.forEach( product => {
                     if( product.condition === "Nowy"){
                         filteredWithNewOption.push({
                             id: product.id,
@@ -125,7 +125,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed) => dis
             }
             if( checkedUsed === true){
                 const filteredWithNewOption = [];
-                filteredByPrice.map( product => {
+                filteredByPrice.forEach( product => {
                     if( product.condition === "Używany"){
                         filteredWithNewOption.push({
                             id: product.id,

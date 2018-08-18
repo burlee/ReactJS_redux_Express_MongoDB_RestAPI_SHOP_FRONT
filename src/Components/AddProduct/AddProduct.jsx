@@ -4,7 +4,7 @@ import axios from 'axios'
 
 class AddProduct extends Component {
     state = {
-        productPrice: 0,
+        productPrice: '',
         productTitle: '',
         imgURL: '',
         imgURLisCorrect: false,
@@ -20,9 +20,19 @@ class AddProduct extends Component {
     AddProductToDataBase = () => {
         const state = this.state;
         
-        if(state.productPrice !== 0 && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
+        if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
             this.setState({message: 'Twoj produkt został dodany'})
             setTimeout(() => this.setState({message: ''}), 5000)
+            const product = {
+                productName: this.state.productTitle,
+                productPrice: this.state.productPrice,
+                productImgUrl: this.state.imgURL,
+                condition: "Nowy"
+            }
+            console.log( this.state.productPrice )
+            axios.post('http://localhost:3000/offers', product)
+                .then( response => console.log( response ))
+                .catch( error => console.log( error ))
         }else(
             this.setState({message: 'Wypełnij wszystkie pola.'}),
             setTimeout(() => this.setState({message: ''}), 5000)
@@ -35,7 +45,7 @@ class AddProduct extends Component {
     }
 
     fetchProductTitle = (event) => {
-        this.setState({ productTitle: event.target.value.slice(0,50)})
+        this.setState({ productTitle: this.firstCharToUppercase(event.target.value.slice(0,50))})
     }
 
     fetchProductPrice = (event) => {
@@ -115,28 +125,10 @@ class AddProduct extends Component {
         }
     }
 
-    // Odzież = () => {
-    //     if(this.state.category === 'Odzież'){
-    //         this.setState({
-    //             category: '', 
-    //             OdzieżBoxShadowStyle: '#4c4c4c'})
-    //     }else{
-    //         this.setState({
-    //             category: 'Odzież',
-    //             OdzieżBoxShadowStyle: 'green'
-    //         })
-    //     }
-        
-    //     // const product = {
-    //     //     productName: "Ipgdasdasd",
-    //     //     productPrice: 2000,
-    //     //     productImgUrl: "https://images-na.ssl-images-amazon.com/images/I/71lXJ5AM7yL._SL1500_.jpg",
-    //     //     condition: "Nowyy"
-    //     // }
-    //     // axios.post('http://localhost:3000/offers', product)
-    // }
+    firstCharToUppercase(string){
+        return string.slice(0,1).toUpperCase() + string.slice(1,50);
+    }
     render() {
-        console.log( this.state.productPrice)
         return (
             <div className={classes.AddProduct}>
                 <h1>Dodaj swój produkt:</h1>

@@ -3,9 +3,17 @@
     justify-content: space-evenly;
     margin-top: 125px;
     flex-wrap: wrap;
+    animation: openmodal;
+    animation-duration: 2.1s;
 }
-
-.fade-enter {
+.CategoryHeader{
+  width: 100%;
+  font-weight: 300;
+  padding: 15px;
+  cursor: pointer;
+  text-align: center;
+}
+/* .fade-enter {
     opacity: 0.01;
   }
   
@@ -21,4 +29,9 @@
   .fade-exit-active {
     opacity: 0.01;
     transition: opacity 1000ms ease-in;
-  }
+  } */
+
+  @keyframes openmodal{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
