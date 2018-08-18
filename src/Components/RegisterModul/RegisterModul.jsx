@@ -64,11 +64,13 @@ class RegisterModul extends Component {
 
 
         if( strongRegex.test(password) === false){
-            this.setState({borderColorPassword: 'gray', disabled: true})
+            this.setState({borderColorPassword: 'red', disabled: true})
         }else{
             this.setState({borderColorPassword: '#4caf50', disabled: false})
         }
-        
+        if(password === ''){
+            this.setState({borderColorPassword: 'gray'})
+        }
     }
 
     emailValidate = (email) => {
@@ -76,11 +78,13 @@ class RegisterModul extends Component {
         let emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 
         if( emailRegex.test(email) === false){
-            this.setState({borderColorEmail: 'gray'})
+            this.setState({borderColorEmail: 'red'})
         }else{
             this.setState({borderColorEmail: '#4caf50'})
         }
-
+        if(email === ''){
+            this.setState({borderColorEmail: 'gray'})
+        }
     }
 
     changeTypePassword = () => {

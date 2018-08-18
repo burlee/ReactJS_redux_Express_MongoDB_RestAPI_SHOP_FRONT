@@ -33,7 +33,7 @@ export default class MainCore extends Component {
         <div className={classes.Panel}>
           <ul>
             <li><NavLink onClick={this.scrollHidden} to="/create-account">Zaloz konto</NavLink></li>
-            <li><NavLink to="/add-product">Zaloguj sie</NavLink></li>
+            <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li>
             <li><NavLink to="/loggin">Zaloguj sie</NavLink></li>
             <li onClick={this.ClosePanel}>Zamknij Panel</li>
           </ul>
