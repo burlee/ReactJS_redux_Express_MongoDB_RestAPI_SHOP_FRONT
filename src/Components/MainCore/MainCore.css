@@ -2,7 +2,7 @@
     width: 100%;
     position: fixed;
     height: 10vh;
-    background: #808080;
+    background: #fafafa;
     bottom: 0;
     left: 0;
     display: flex;
@@ -11,6 +11,7 @@
     animation: slideInUp;
     animation-duration: 1s;
     z-index: 100;
+    border-top: 1px solid hsla(0, 0%, 30%, 0.1);
 }
 
 .Panel ul{
@@ -24,22 +25,16 @@
 .Panel li{
     list-style: none;
     height: 50px;
-    background: #444444;
     width: 100px;
-    cursor: pointer;
     transition: all .5s ease-out;
-    border-radius: 3px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 12px;
 }
-.Panel li:hover{
-    background: rgb(68, 68, 68, .9);
-    border-radius: 3px;
-}
+
 .Panel ul li a{
-    color: #FFFFFF;
+    color: #000000;
     text-decoration: none;
 }
 .showPanel{

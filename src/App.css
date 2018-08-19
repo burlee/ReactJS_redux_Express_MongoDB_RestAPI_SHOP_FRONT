@@ -12,6 +12,21 @@
   padding: 15px;
   cursor: pointer;
   text-align: center;
+  border-top: 1px solid hsla(0, 0%, 30%, 0.1);
+}
+
+.ScrollBtn{
+  position: fixed;
+  height: 35px;
+  bottom: 15px;
+  right: 20px;
+  padding: 10px;
+  border: 1px solid gray;
+  background: none;
+  color: #4c4c4c;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
 }
 /* .fade-enter {
     opacity: 0.01;

@@ -1,64 +1,67 @@
 .LoginModule{
-    top: 25%;
-    left: 35%;
-    background: #FFFFFF;
+    bottom:0;
+    left: 0;
+    margin-bottom: 10vh;
+    border-top: 1px solid rgba(76, 76, 76, 0.1);
+    border-bottom: 1px solid rgba(76, 76, 76, 0.1);
+    background: #fafafa;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: fixed;
     z-index: 105;
-    width: 350px;
-    height: 350px;
-    /* transform: translate(-50%,-50%); */
-    box-shadow: 0px 0px 3px #4c4c4c;
-    padding: 15px;
-    border-radius: 3px;
-    animation: bounceInRight;
-    animation-duration: 2s;
+    width: 100%;
+    height: 10vh;
+    padding: 5px;
+    box-sizing: border-box;
+    animation: openmodal;
+    animation-duration: 1s;
 }
 .LoginModule form{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    height: 60%;
-    justify-content: space-between;
+    height: 10vh;
+    justify-content: space-evenly;
 }
 
 .LoginModule button{
-    width: 80%;
-    background: #4c4c4c;
+    background: none;
     border: none;
     outline: none;
     padding: 15px;
-    color: white;
-    font-weight: 600;
-    font-size: 12px;
+    font-weight: 300;
+    font-size: 15px;
     cursor: pointer;
-    margin-top: 20px;
 }
 
 .LoginModule input{
-    width: 80%;
+    border: 1px solid rgba(76, 76, 76, 0.1);
+    width: 10%;
     height: 30px;
     outline: none;
+    background-color: #fafafa;
+    width: 20%;
+    height: auto;
+    padding-left: 10px;
 }
 
 .LoginModule label {
     font-size: 12px;
+    font-weight: 500;
 }
 
 .LoginModule h3{
     text-align: center;
     width: 100%;
     height: 35px;
-    margin-top: 16px;
     font-size: 14px;
     font-weight: 400;
 }
 
 .Backdrop{
     width: 100%;
-    height: 100vh;
+    height: 90vh;
     z-index: 104;
     background: rgb(76, 76, 76, .5);
     position: fixed;
@@ -67,40 +70,7 @@
 }
 
 
-@keyframes bounceInRight {
-    from,
-    60%,
-    75%,
-    90%,
-    to {
-      -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    }
-  
-    from {
-      opacity: 0;
-      -webkit-transform: translate3d(3000px, 0, 0);
-      transform: translate3d(3000px, 0, 0);
-    }
-  
-    60% {
-      opacity: 1;
-      -webkit-transform: translate3d(-25px, 0, 0);
-      transform: translate3d(-25px, 0, 0);
-    }
-  
-    75% {
-      -webkit-transform: translate3d(10px, 0, 0);
-      transform: translate3d(10px, 0, 0);
-    }
-  
-    90% {
-      -webkit-transform: translate3d(-5px, 0, 0);
-      transform: translate3d(-5px, 0, 0);
-    }
-  
-    to {
-      -webkit-transform: translate3d(0, 0, 0);
-      transform: translate3d(0, 0, 0);
-    }
-  }
+@keyframes openmodal{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}

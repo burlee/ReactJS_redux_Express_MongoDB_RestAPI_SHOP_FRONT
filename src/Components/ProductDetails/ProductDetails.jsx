@@ -59,10 +59,12 @@ class ProductDetails extends Component {
         <div className={classes.ConditionBox}>
           <span>Wybierz stan:</span>
             <div className={classes.ConditionBoxLabel}>
-              <label htmlFor="new">Nowy</label><input checked={this.state.checkedNew} onClick={this.NewOptionChecked} id="new" type="checkbox"/>
+              <label htmlFor="new">Nowy</label>
+              <input checked={this.state.checkedNew} onClick={this.NewOptionChecked} id="new" type="checkbox"/>
             </div>
             <div className={classes.ConditionBoxLabel}>
-              <label htmlFor="used">Używany</label><input checked={this.state.checkedUsed} onClick={this.UsedOptionChecked} id="used" type="checkbox"/>
+              <label htmlFor="used">Używany</label>
+              <input checked={this.state.checkedUsed} onClick={this.UsedOptionChecked} id="used" type="checkbox"/>
             </div>
         </div>
       </div>

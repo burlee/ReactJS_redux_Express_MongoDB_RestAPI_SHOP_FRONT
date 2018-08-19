@@ -28,6 +28,10 @@ class ShopCartOrderSummary extends Component {
 
   }
 
+  goToCreateAccount = () => {
+    this.props.history.push('/create-account');
+  }
+
   overflowShow = () => {
     document.body.style.overflow = 'visible';
   }
@@ -58,7 +62,6 @@ class ShopCartOrderSummary extends Component {
 
     let showOrderProduct = null;
 
-    console.log( this.props.userExist.userExist)
     if(this.state.order.length === 0){
       showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty <i className="fas fa-shopping-cart"></i></h1>
     }else{
@@ -84,7 +87,7 @@ class ShopCartOrderSummary extends Component {
         <ReactCSSTransitionGroup style={{ overflowX: 'auto', width: '100%'}} {...transitionOption}>
           {showOrderProduct}
         </ReactCSSTransitionGroup>
-        {this.state.userExist ? null : <a style={{fontSize: '25px', marginTop: '10px', padding: '10px'}} href="/">Załóż swoje konto</a>}
+        {this.state.userExist ? null : <a onClick={this.goToCreateAccount} style={{cursor: 'pointer',fontSize: '25px', marginTop: '10px', padding: '10px'}}>Załóż swoje konto</a>}
       </div>
     )
   }

@@ -10,41 +10,52 @@ class LoginModule extends Component {
     state = {
         email: '',
         password: '',
-        message: ''
+        LoginStatusFontColor: ''
     }
 
     logginUser = (event) => {
-        console.log( this.state )
         event.preventDefault();
         FirebaseConfig.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((response) => {
-                this.setState({ message: 'Pomyślnie zalogowano' })
+                this.setState({ LoginStatusFontColor: '#4caf50' })
+                setTimeout(() => this.props.history.push('/') , 3000)
                 }
             )
             .catch((() => {
-                this.setState({ message: 'Wprowadzone dane są niepoprawne' })
+                this.setState({ LoginStatusFontColor: '#f44336' })
             }));
+    }
+
+    emailValueHandler = (event) =>{
+        this.setState({ email: event.target.value })
+        if(event.target.value === ''){
+            this.setState({LoginStatusFontColor: ''})
+        }
     }
 
     closeLoginModule = () =>{
         this.props.history.push('/');
     }
     render() {
+        
         return (
             <Aux>
                 <div className={classes.Backdrop} onClick={this.closeLoginModule}>
                 </div>
                 <div className={classes.LoginModule}>
+                    {/* <h3>{this.state.message}</h3> */}
                     <form onSubmit={this.logginUser}>
                         <label htmlFor="email">Podaj adres e-mail:</label>
                         <DebounceInput
+                            style={{color: `${this.state.LoginStatusFontColor}`}}
                             id="email"
                             autoComplete="off"
                             minLength={2}
                             debounceTimeout={250}
-                            onChange={event => this.setState({ email: event.target.value })} />
+                            onChange={event => this.emailValueHandler(event)} />
                         <label htmlFor="password">Hasło:</label>
                         <DebounceInput
+                            style={{color: `1px solid ${this.state.LoginStatusFontColor}`}}
                             type="password"
                             id="password"
                             minLength={2}
@@ -52,7 +63,6 @@ class LoginModule extends Component {
                             onChange={event => this.setState({ password: event.target.value })} />
                         <button>Zaloguj</button>
                     </form>
-                    <h3>{this.state.message}</h3>
                 </div>
             </Aux>
         )
