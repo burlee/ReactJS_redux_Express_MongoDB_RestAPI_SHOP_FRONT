@@ -29,9 +29,8 @@
     background: none;
     border: none;
     outline: none;
-    padding: 15px;
     font-weight: 300;
-    font-size: 15px;
+    font-size: 12px;
     cursor: pointer;
 }
 
@@ -48,7 +47,6 @@
 
 .LoginModule label {
     font-size: 12px;
-    font-weight: 500;
 }
 
 .LoginModule h3{
@@ -67,6 +65,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    cursor: pointer;
 }
 
 

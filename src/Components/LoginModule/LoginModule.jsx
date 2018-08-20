@@ -15,6 +15,7 @@ class LoginModule extends Component {
 
     logginUser = (event) => {
         event.preventDefault();
+        if(this.state.email.length < 3 || this.state.password.length < 3) return;
         FirebaseConfig.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((response) => {
                 this.setState({ LoginStatusFontColor: '#4caf50' })

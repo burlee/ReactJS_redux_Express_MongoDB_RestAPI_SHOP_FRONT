@@ -4,6 +4,8 @@ import axios from 'axios'
 
 class AddProduct extends Component {
     state = {
+        showPreviewBtnContent: 'Podgląd aukcji',
+        showPreview: false,
         productPrice: '',
         productTitle: '',
         imgURL: '',
@@ -45,7 +47,7 @@ class AddProduct extends Component {
     }
 
     fetchProductTitle = (event) => {
-        this.setState({ productTitle: this.firstCharToUppercase(event.target.value.slice(0,50))})
+        this.setState({ productTitle: this.firstCharToUppercase(event.target.value.slice(0,30))})
     }
 
     fetchProductPrice = (event) => {
@@ -125,8 +127,19 @@ class AddProduct extends Component {
         }
     }
 
+    showPreview = () => {
+        if(this.state.productTitle === '' || this.state.productPrice === '' || this.state.category === '' || this.state.imgURLisCorrect === false){
+            this.setState({showPreviewBtnContent: 'Uzupełnij wszystkie pola'})
+        }else{
+            this.setState({
+                showPreviewBtnContent: 'Podgląd',
+                showPreview: !this.state.showPreview
+            })
+        }
+    }
+
     firstCharToUppercase(string){
-        return string.slice(0,1).toUpperCase() + string.slice(1,50);
+        return string.slice(0,1).toUpperCase() + string.slice(1,30);
     }
     render() {
         return (
@@ -138,12 +151,11 @@ class AddProduct extends Component {
                         value={this.state.productTitle}
                         type="text" 
                         onChange={(event) => this.fetchProductTitle(event)}/>
-                    <span>Ilość znakow : {this.state.productTitle.length}/50</span>
+                    <span>Ilość znakow : {this.state.productTitle.length}/30</span>
                 </div>
                 
                 <div className={classes.productCategory}>
                     <h1>Wybierz kategorię: </h1> 
-                    <span>Wybrana kategoria: {this.state.category}</span>
                     <div className={classes.CategoryBox}>
                         <button onClick={() => this.selectedCategory("Odzież")} style={{boxShadow: `0px 0px 15px ${this.state.OdzieżBoxShadowStyle}`}}>Odzież</button>
                         <button onClick={() => this.selectedCategory("Elektronika")}>Elektronika</button>
@@ -151,6 +163,7 @@ class AddProduct extends Component {
                         <button onClick={() => this.selectedCategory("Wyposażenie domu")}>Wyposażenie domu</button>
                         <button onClick={() => this.selectedCategory("Inne")}>Inne</button>
                     </div>
+                    <span>Wybrana kategoria: {this.state.category}</span>
                 </div>
                 <div className={classes.productPriceAndImg}>
                     <div className={classes.productPrice}>
@@ -179,7 +192,15 @@ class AddProduct extends Component {
                         <h2>{this.state.message}</h2>
                     </div>
                 </div>
-                {/* <img src={this.state.imgURL} alt=""/> */}
+                <button onClick={this.showPreview}>{this.state.showPreviewBtnContent}</button>
+                {this.state.showPreview ? 
+                <div className={classes.PreviewProduct}>
+                    <h1>Tytuł aukcji: {this.state.productTitle}</h1>
+                    <h1>Kategoria aukcji: {this.state.category}</h1>
+                    <h1>Cena: {this.state.productPrice}</h1>
+                    <img style={{maxWidth: '150px'}} src={this.state.imgURL}/>
+                </div>
+                : null}
             </div>
         )
     }

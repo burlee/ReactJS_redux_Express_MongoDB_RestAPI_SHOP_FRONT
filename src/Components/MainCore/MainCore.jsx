@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 
 class MainCore extends Component {
   state = {
-    showPanel: false
+    showPanel: true
   }
 
   componentDidMount(){
@@ -31,6 +31,7 @@ class MainCore extends Component {
 
   closePanelToggle = () => {
     this.setState({showPanel: !this.state.showPanel})
+    this.props.history.push('/')
   }
 
   logOut = () =>{
@@ -43,19 +44,22 @@ class MainCore extends Component {
       <Aux>
         {this.state.showPanel ? null : <button className={classes.showPanel} onClick={this.showPanelToggle}>Pokaz panel</button>}
         {this.state.showPanel ? 
-        <div className={classes.Panel}>
-          <ul>
-            {this.props.userExist.userExist !== null ? 
-            <li style={{cursor: 'pointer'}} onClick={this.logOut}>Wyloguj się</li>
-            : 
-            <li><NavLink onClick={this.scrollHidden} to="/create-account">Załóż konto</NavLink></li>
-            }
-            {this.props.userExist.userExist !== null ? <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li> : null}
-            
-            {this.props.userExist.userExist !== null ? null : <li><NavLink to="/loggin">Zaloguj się</NavLink></li>}
-            <li style={{cursor: 'pointer'}} onClick={this.closePanelToggle}>Zamknij Panel</li>
-          </ul>
-        </div>
+          <div className={classes.Panel}>
+            <ul>
+              {this.props.userExist.userExist !== null ? 
+              <Aux>
+                <li style={{cursor: 'pointer'}} onClick={this.logOut}>Wyloguj się</li>
+                <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li>
+              </Aux>
+              :  
+              <Aux>
+                <li><NavLink onClick={this.scrollHidden} to="/create-account">Załóż konto</NavLink></li>
+                <li><NavLink to="/loggin">Zaloguj się</NavLink></li>
+              </Aux>
+              }
+              <li style={{cursor: 'pointer'}} onClick={this.closePanelToggle}>Zamknij Panel</li>
+            </ul>
+          </div>
         : null }
         <Switch>
           <Route path='/create-account' exact component={RegisterModul} /> 

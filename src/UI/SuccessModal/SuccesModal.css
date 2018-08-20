@@ -4,14 +4,14 @@
         top: 64px;
         width: 15px;
         height: 15px;
-        background: #4caf50;
+        background: #ccc;
         border-radius: 3px;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 14px;
         font-weight: inherit;
-        color: #fff;
+        color: #4c4c4c;
         z-index: 101;
         animation: openmodal;
         animation-duration: 1.5s;

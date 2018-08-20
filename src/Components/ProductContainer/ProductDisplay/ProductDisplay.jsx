@@ -8,7 +8,8 @@ class ProductDisplay extends PureComponent {
   state = {
     ShowDetailsProduct: false,
     StatusBarWidth: 0,
-    productAdded: false
+    productAdded: false,
+    ProductAllDetails: false
   }
 
   ShowDetails = () => {
@@ -21,8 +22,11 @@ class ProductDisplay extends PureComponent {
     },250)
   }
 
+  ProductAllDetails = () => {
+    this.setState({ProductAllDetails: true})
+  }
   addProductToShopCart = () => {
-    
+    console.log( this.props)
     let purchasingArray = JSON.parse(localStorage.getItem('Order'));
     
     purchasingArray.push({
@@ -47,7 +51,6 @@ class ProductDisplay extends PureComponent {
 
   render() {
     const props = this.props;
-    
     return (
       <Aux>
         <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar}></div>
@@ -69,7 +72,13 @@ class ProductDisplay extends PureComponent {
               <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
               <h5>Stan: {props.condition}</h5>
               <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
+              <button onClick={this.ProductAllDetails}>Zobacz aukcje</button>
             </div>
+
+            {/* {this.state.ProductAllDetails ? 
+            <div className={classes.ProductAllDetails}>
+              <p>{props.productName}</p>
+            </div> : null } */}
         </div>
       </Aux>
     )

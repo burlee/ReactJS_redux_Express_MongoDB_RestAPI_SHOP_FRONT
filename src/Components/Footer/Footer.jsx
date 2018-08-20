@@ -15,11 +15,18 @@ export default class Footer extends Component {
         </div>
 
         <div className={classes.Information}>
-         Informaton
+          <h2>Informacje</h2>
         </div>
 
         <div className={classes.Links}>
-            Links
+          <h2>Linki</h2>
+          <ul>
+            <li>Regulamin</li>
+            <li>Opinie</li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
         </div>
       </div>
     )

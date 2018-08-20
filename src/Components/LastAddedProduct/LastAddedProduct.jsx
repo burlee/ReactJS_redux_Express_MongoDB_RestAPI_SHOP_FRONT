@@ -40,7 +40,7 @@ class LastAddedProduct extends Component {
                 <div key={product.id} className={classes.productDisplay}>
                     <h4>{product.productName}</h4>
                     <img src={product.productImgUrl} alt={product.productName} />
-                    <h5>{product.productPrice} PLN</h5>
+                    <h5>{product.productPrice.toFixed(2)} PLN</h5>
                 </div>)
         })
         return (

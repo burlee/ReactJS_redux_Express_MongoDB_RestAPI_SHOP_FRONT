@@ -14,14 +14,14 @@ export default class CategoryShowcase extends Component {
         <div className={classes.Category} style={{backgroundImage:`url(https://archiwum.allegro.pl/image//imagesNEW/big/394fc54857e7d09c6e4ddbed804a784125bb9ebffb39d3025d2e1a7b2da7a0b7`}} >
             <h1>Ubrania</h1>
         </div>
-        <div className={classes.Category} style={{backgroundImage:`url(https://iphonebulkstore.com/image/thumbnails/18/7d/8plusgold_jpg-100318-250x250.jpg)`}} >
-            <h1>Elektronika</h1>
+        <div className={classes.Category} style={{backgroundImage:`url(http://wayc-legnica2011.pl/wp-content/uploads/2015/11/wyposazenie-kuchni-w-domu-jednorodzinnym_2.jpg)`}} >
+            <h1>Wyposażenie domu</h1>
         </div>
-        <div className={classes.Category} style={{backgroundImage:`url(https://iphonebulkstore.com/image/thumbnails/18/7d/8plusgold_jpg-100318-250x250.jpg)`}} >
-            <h1>Elektronika</h1>
+        <div className={classes.Category} style={{backgroundImage:`url(http://static.e-mieszkanie.pl/art/6050_small.jpg)`}} >
+            <h1>Samochody</h1>
         </div>
-        <div className={classes.Category} style={{backgroundImage:`url(https://iphonebulkstore.com/image/thumbnails/18/7d/8plusgold_jpg-100318-250x250.jpg)`}} >
-            <h1>Elektronika</h1>
+        <div className={classes.Category} >
+            <h1>Inne</h1>
         </div>
       </div>
     )

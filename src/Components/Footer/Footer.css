@@ -35,12 +35,36 @@
 .Information{
     flex: 1;
     margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
+.Information h2{
+    font-weight: 400;
+}
+
+
 .Links{
     flex: 1;
     margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.Links ul li{
+    list-style: none;
+    margin: 5px;
+    font-size: 20px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
 }
 
+.Links h2{
+    font-weight: 400;
+}
 @media only screen and (max-width: 768px) {
     .Footer{
         flex-direction: column;

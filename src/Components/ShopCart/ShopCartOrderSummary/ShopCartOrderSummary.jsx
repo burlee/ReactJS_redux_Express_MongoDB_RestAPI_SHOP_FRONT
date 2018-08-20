@@ -69,7 +69,7 @@ class ShopCartOrderSummary extends Component {
             return (
             <div key={product.orderID} className={classes.productDisplay}>
               <span style={{width: '200px', fontSize: '14px'}}>{product.productName}</span>
-              <span>{product.productPrice} PLN</span>
+              <span>{product.productPrice.toFixed(2)} PLN</span>
               <img src={product.productImgUrl} alt={product.productName}/>
               <button onClick={() => this.deleteProduct(product.orderID, product.productPrice)}>X</button>
             </div>
