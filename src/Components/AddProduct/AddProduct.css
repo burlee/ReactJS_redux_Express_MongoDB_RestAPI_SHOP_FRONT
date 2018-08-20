@@ -76,6 +76,16 @@
     animation: openmodal;
     animation-duration: 1.5s;
 }
+
+.productPrevBtn{
+    font-size: 15px;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    color: #4caf50;
+}
+
 .productPriceAndImg{
     display: flex;
     height: 15vh;

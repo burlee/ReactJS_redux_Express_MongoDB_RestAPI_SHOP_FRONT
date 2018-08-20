@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import classes from './AddProduct.css'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import uuid from 'uuid'
 
 class AddProduct extends Component {
     state = {
-        showPreviewBtnContent: 'Podgląd aukcji',
+        showPreviewBtnContent: 'Podgląd',
         showPreview: false,
         productPrice: '',
         productTitle: '',
@@ -29,12 +31,16 @@ class AddProduct extends Component {
                 productName: this.state.productTitle,
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
+                uniqueID: uuid(),
                 condition: "Nowy"
             }
             console.log( this.state.productPrice )
             axios.post('http://localhost:3000/offers', product)
                 .then( response => console.log( response ))
                 .catch( error => console.log( error ))
+
+            axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
+            // axios.post(`http://localhost:3000/offers/userAuctionsList/${this.props.userExist.userExist}`, product);
         }else(
             this.setState({message: 'Wypełnij wszystkie pola.'}),
             setTimeout(() => this.setState({message: ''}), 5000)
@@ -130,6 +136,7 @@ class AddProduct extends Component {
     showPreview = () => {
         if(this.state.productTitle === '' || this.state.productPrice === '' || this.state.category === '' || this.state.imgURLisCorrect === false){
             this.setState({showPreviewBtnContent: 'Uzupełnij wszystkie pola'})
+            setTimeout(() => this.setState({showPreviewBtnContent: 'Podgląd'}), 2000)
         }else{
             this.setState({
                 showPreviewBtnContent: 'Podgląd',
@@ -192,12 +199,12 @@ class AddProduct extends Component {
                         <h2>{this.state.message}</h2>
                     </div>
                 </div>
-                <button onClick={this.showPreview}>{this.state.showPreviewBtnContent}</button>
+                <button className={classes.productPrevBtn} onClick={this.showPreview}>{this.state.showPreviewBtnContent}</button>
                 {this.state.showPreview ? 
                 <div className={classes.PreviewProduct}>
                     <h1>Tytuł aukcji: {this.state.productTitle}</h1>
                     <h1>Kategoria aukcji: {this.state.category}</h1>
-                    <h1>Cena: {this.state.productPrice}</h1>
+                    <h1>Cena: {this.state.productPrice}PLN</h1>
                     <img style={{maxWidth: '150px'}} src={this.state.imgURL}/>
                 </div>
                 : null}
@@ -206,5 +213,8 @@ class AddProduct extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    userExist: state.auctionList
+});
 
-export default AddProduct;
+export default connect(mapStateToProps)(AddProduct);

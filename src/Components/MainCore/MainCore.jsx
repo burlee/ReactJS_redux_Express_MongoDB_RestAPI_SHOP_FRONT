@@ -11,6 +11,7 @@ import AddProduct from '../AddProduct/AddProduct';
 import FirebaseConfig from '../../FirebaseConfig';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
 
 class MainCore extends Component {
   state = {
@@ -19,6 +20,7 @@ class MainCore extends Component {
 
   componentDidMount(){
     this.props.history.push('/');
+    document.body.style.overflow = "visible";
   }
   
   showPanelToggle = () => {
@@ -50,6 +52,7 @@ class MainCore extends Component {
               <Aux>
                 <li style={{cursor: 'pointer'}} onClick={this.logOut}>Wyloguj się</li>
                 <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li>
+                <li><NavLink onClick={this.scrollHidden} to="/auction-list">List aukcji</NavLink></li>
               </Aux>
               :  
               <Aux>
@@ -64,6 +67,7 @@ class MainCore extends Component {
         <Switch>
           <Route path='/create-account' exact component={RegisterModul} /> 
           <Route path='/add-product' component={AddProduct} />
+          <Route path='/auction-list' component={UserAuctionsList} />
           <Route path='/loggin' component={LoginModule} />
         </Switch>
         
