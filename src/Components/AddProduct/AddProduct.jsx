@@ -3,6 +3,8 @@ import classes from './AddProduct.css'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import uuid from 'uuid'
+import moment from 'moment';
+import 'moment/locale/pl';
 
 class AddProduct extends Component {
     state = {
@@ -23,23 +25,44 @@ class AddProduct extends Component {
 
     AddProductToDataBase = () => {
         const state = this.state;
-        
+        moment.locale('pl');
+
         if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
+            
             this.setState({message: 'Twoj produkt został dodany'})
+            
             setTimeout(() => this.setState({message: ''}), 5000)
+           
             const product = {
                 productName: this.state.productTitle,
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
                 uniqueID: uuid(),
-                condition: "Nowy"
+                condition: "Nowy",
+                time: moment().format('LL')
             }
-            console.log( this.state.productPrice )
+
+            console.log( product.uniqueID )
             axios.post('http://localhost:3000/offers', product)
-                .then( response => console.log( response ))
+                .then( response => {
+                    const productToFirebase = {
+                        idFromRestAPI: response.data.idFromRestAPI,
+                        productName: this.state.productTitle,
+                        productPrice: this.state.productPrice,
+                        productImgUrl: this.state.imgURL,
+                        uniqueID: uuid(),
+                        condition: "Nowy",
+                        time: moment().format('LL')
+                    }
+                    axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, productToFirebase)
+                        .then( response => response )
+                        .catch( error => console.log( error ))
+                })
                 .catch( error => console.log( error ))
 
-            axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
+            // axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
+            //     .then( response => response )
+            //     .catch( error => console.log( error ))
             // axios.post(`http://localhost:3000/offers/userAuctionsList/${this.props.userExist.userExist}`, product);
         }else(
             this.setState({message: 'Wypełnij wszystkie pola.'}),
@@ -52,11 +75,11 @@ class AddProduct extends Component {
         this.imgUrlValidate(event.target.value);
     }
 
-    fetchProductTitle = (event) => {
+    productTitleHandler = (event) => {
         this.setState({ productTitle: this.firstCharToUppercase(event.target.value.slice(0,30))})
     }
 
-    fetchProductPrice = (event) => {
+    productPriceHandler = (event) => {
         this.setState({ productPrice: event.target.value})
     }
 
@@ -157,7 +180,7 @@ class AddProduct extends Component {
                     <input 
                         value={this.state.productTitle}
                         type="text" 
-                        onChange={(event) => this.fetchProductTitle(event)}/>
+                        onChange={(event) => this.productTitleHandler(event)}/>
                     <span>Ilość znakow : {this.state.productTitle.length}/30</span>
                 </div>
                 
@@ -178,7 +201,7 @@ class AddProduct extends Component {
                         <input 
                         type="number" 
                         placeholder="Podaj cenę..."
-                        onChange={(event) => this.fetchProductPrice(event)}
+                        onChange={(event) => this.productPriceHandler(event)}
                         />
                     </div>
                     <div className={classes.productImg}>

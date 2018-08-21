@@ -15,11 +15,11 @@ import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
 
 class MainCore extends Component {
   state = {
-    showPanel: true
+    showPanel: false
   }
 
   componentDidMount(){
-    this.props.history.push('/');
+    // this.props.history.push('/');
     document.body.style.overflow = "visible";
   }
   
