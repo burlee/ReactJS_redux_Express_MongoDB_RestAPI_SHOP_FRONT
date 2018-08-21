@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import SmallSpinner from '../../UI/SmallSpinner/SmallSpinner';
 import classes from './AddProduct.css'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -8,7 +9,8 @@ import 'moment/locale/pl';
 
 class AddProduct extends Component {
     state = {
-        showPreviewBtnContent: 'Podgląd',
+        spinnerIsLoading: false,
+        showPreviewBtnContent: 'Zobacz podgląd aukcji',
         showPreview: false,
         productPrice: '',
         productTitle: '',
@@ -28,34 +30,31 @@ class AddProduct extends Component {
         moment.locale('pl');
 
         if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
-            
-            this.setState({message: 'Twoj produkt został dodany'})
-            
-            setTimeout(() => this.setState({message: ''}), 5000)
-           
+                    
             const product = {
                 productName: this.state.productTitle,
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
-                uniqueID: uuid(),
                 condition: "Nowy",
                 time: moment().format('LL')
             }
-
-            console.log( product.uniqueID )
             axios.post('http://localhost:3000/offers', product)
                 .then( response => {
+                    this.setState({spinnerIsLoading: true})
                     const productToFirebase = {
                         idFromRestAPI: response.data.idFromRestAPI,
                         productName: this.state.productTitle,
                         productPrice: this.state.productPrice,
                         productImgUrl: this.state.imgURL,
-                        uniqueID: uuid(),
                         condition: "Nowy",
                         time: moment().format('LL')
                     }
                     axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, productToFirebase)
-                        .then( response => response )
+                        .then(() => this.setState({spinnerIsLoading: false}))
+                        .then(() => {
+                            this.setState({message: 'Twoj produkt został dodany'})
+                            setTimeout(() => this.setState({message: ''}), 5000)
+                        })
                         .catch( error => console.log( error ))
                 })
                 .catch( error => console.log( error ))
@@ -70,7 +69,7 @@ class AddProduct extends Component {
         )
 
     }
-    fetchImgURL = (event) => {
+    imgUrlHandler = (event) => {
         this.setState({imgURL: event.target.value})            
         this.imgUrlValidate(event.target.value);
     }
@@ -158,11 +157,11 @@ class AddProduct extends Component {
 
     showPreview = () => {
         if(this.state.productTitle === '' || this.state.productPrice === '' || this.state.category === '' || this.state.imgURLisCorrect === false){
-            this.setState({showPreviewBtnContent: 'Uzupełnij wszystkie pola'})
-            setTimeout(() => this.setState({showPreviewBtnContent: 'Podgląd'}), 2000)
+            this.setState({showPreviewBtnContent: 'Uzupełnij wszystkie pola', showPreview: false})
+            setTimeout(() => this.setState({showPreviewBtnContent: 'Zobacz podgląd aukcji'}), 2000)
         }else{
             this.setState({
-                showPreviewBtnContent: 'Podgląd',
+                showPreviewBtnContent: 'Zobacz podgląd aukcji',
                 showPreview: !this.state.showPreview
             })
         }
@@ -207,7 +206,7 @@ class AddProduct extends Component {
                     <div className={classes.productImg}>
                         <span>Podaj url zdjęcia:</span>
                         <input 
-                        onChange={(event) => this.fetchImgURL(event)} 
+                        onChange={(event) => this.imgUrlHandler(event)} 
                         type="text" 
                         placeholder="Podaj url zdjęcia..."
                         style={{borderBottom: `3px solid ${this.state.borderBottomImgUrl}`}}
@@ -219,6 +218,7 @@ class AddProduct extends Component {
                         <button onClick={this.AddProductToDataBase}>Dodaj produkt</button>
                     </div>
                     <div className={classes.Message}>
+                        {this.state.spinnerIsLoading ?  <SmallSpinner/> : null}
                         <h2>{this.state.message}</h2>
                     </div>
                 </div>
