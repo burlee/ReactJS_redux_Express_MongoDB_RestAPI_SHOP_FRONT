@@ -4,7 +4,7 @@ import classes from './Footer.css'
 export default class Footer extends Component {
   render() {
     return (
-      <div className={classes.Footer}>
+      <footer className={classes.Footer}>
         <div className={classes.socialMedia}>
             <h2>Media</h2>
             <ul>
@@ -28,7 +28,7 @@ export default class Footer extends Component {
             <li></li>
           </ul>
         </div>
-      </div>
+      </footer>
     )
   }
 }

@@ -13,8 +13,11 @@ class UserAuctionsList extends Component {
         spinnerIsLoadingDelete: false
     }
 
+    _isMounted = false;
+    
     componentDidMount() {
-        
+        this._isMounted = true;
+
         axios.get(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`)
             .then( response => {
                 const updateUserAuctionList = [];
@@ -30,7 +33,9 @@ class UserAuctionsList extends Component {
                         time: response.data[key].time
                     })
                 }
-                this.setState({UserAuctionsList: updateUserAuctionList})
+                if(this._isMounted){
+                    this.setState({UserAuctionsList: updateUserAuctionList})
+                }
             })
             .then(() => {
                 if(this.state.UserAuctionsList.length === 0){
@@ -56,6 +61,9 @@ class UserAuctionsList extends Component {
         this.setState({ UserAuctionsList: updateAuctionList})
     }
 
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     render() {
         const transitionOption = {
@@ -90,7 +98,9 @@ class UserAuctionsList extends Component {
             <div className={classes.UserAuctionsList}>
                 {this.state.spinnerIsLoadingDelete ? <SmallSpinner/> : null}
                 <h1>Lista twoich aukcji:</h1>
-                <ReactCSSTransitionGroup style={{ overflowX: 'auto', width: '100%'}} {...transitionOption}>
+                <ReactCSSTransitionGroup 
+                    style={{ overflowX: 'auto', width: '100%'}} 
+                    {...transitionOption}>
                     {displayUserAuctionsList}
                 </ReactCSSTransitionGroup>
                 {this.state.auctionNotFound === true ? <h3>Niestety nie posiadasz żadnych aukcji.</h3> : null}

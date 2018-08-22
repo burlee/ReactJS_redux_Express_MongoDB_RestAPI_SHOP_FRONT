@@ -37,12 +37,19 @@
     color: #000000;
     text-decoration: none;
 }
-.showPanel{
+.showPanelBtn{
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    height: 35px;
+    width: 150px;
+    bottom: 15px;
+    left: 20px;
+    border: 1px solid gray;
+    background: #fafafa;
+    color: #4c4c4c;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
 }
-
 
 @keyframes slideInUp {
     from {

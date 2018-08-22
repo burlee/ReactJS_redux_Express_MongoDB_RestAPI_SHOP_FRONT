@@ -3,13 +3,13 @@ import SmallSpinner from '../../UI/SmallSpinner/SmallSpinner';
 import classes from './AddProduct.css'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import uuid from 'uuid'
 import moment from 'moment';
 import 'moment/locale/pl';
 
 class AddProduct extends Component {
     state = {
         spinnerIsLoading: false,
+        disabledAddToDbBtn: false,
         showPreviewBtnContent: 'Zobacz podgląd aukcji',
         showPreview: false,
         productPrice: '',
@@ -36,28 +36,33 @@ class AddProduct extends Component {
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
                 condition: "Nowy",
+                category: this.state.category,
                 time: moment().format('LL')
             }
             axios.post('http://localhost:3000/offers', product)
                 .then( response => {
-                    this.setState({spinnerIsLoading: true})
+                    this.setState({spinnerIsLoading: true, disabledAddToDbBtn: true})
+                    
                     const productToFirebase = {
                         idFromRestAPI: response.data.idFromRestAPI,
                         productName: this.state.productTitle,
                         productPrice: this.state.productPrice,
                         productImgUrl: this.state.imgURL,
                         condition: "Nowy",
+                        category: this.state.category,
                         time: moment().format('LL')
                     }
-                    axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, productToFirebase)
-                        .then(() => this.setState({spinnerIsLoading: false}))
-                        .then(() => {
-                            this.setState({message: 'Twoj produkt został dodany'})
-                            setTimeout(() => this.setState({message: ''}), 5000)
-                        })
-                        .catch( error => console.log( error ))
+                    if(response.status === 201){
+                        axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, productToFirebase)
+                            .then(() => this.setState({spinnerIsLoading: false, disabledAddToDbBtn: false}))
+                            .then( response => {
+                                this.setState({message: 'Twoj produkt został dodany'})
+                                setTimeout(() => this.setState({message: ''}), 2500)
+                            })
+                            .catch( error => alert('Error connect with Firebase'))
+                    }
                 })
-                .catch( error => console.log( error ))
+                .catch( error => alert('Error connect with RESTapi'))
 
             // axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
             //     .then( response => response )
@@ -70,15 +75,18 @@ class AddProduct extends Component {
 
     }
     imgUrlHandler = (event) => {
+        this.closePreview();
         this.setState({imgURL: event.target.value})            
         this.imgUrlValidate(event.target.value);
     }
 
     productTitleHandler = (event) => {
+        this.closePreview();
         this.setState({ productTitle: this.firstCharToUppercase(event.target.value.slice(0,30))})
     }
 
     productPriceHandler = (event) => {
+        this.closePreview();
         this.setState({ productPrice: event.target.value})
     }
 
@@ -96,6 +104,7 @@ class AddProduct extends Component {
     }
 
     selectedCategory = (category) => {
+        this.closePreview();
         switch(category){
             case "Elektronika": {
                 if(this.state.category === 'Elektronika'){
@@ -170,6 +179,10 @@ class AddProduct extends Component {
     firstCharToUppercase(string){
         return string.slice(0,1).toUpperCase() + string.slice(1,30);
     }
+
+    closePreview  = () => {
+        this.setState({showPreview: false})
+    }
     render() {
         return (
             <div className={classes.AddProduct}>
@@ -215,7 +228,7 @@ class AddProduct extends Component {
                 </div>
                 <div className={classes.AddProductToDataBaseBox}>
                     <div className={classes.AddProductButton}>
-                        <button onClick={this.AddProductToDataBase}>Dodaj produkt</button>
+                        <button disabled={this.state.disabledAddToDbBtn} onClick={this.AddProductToDataBase}>Dodaj produkt</button>
                     </div>
                     <div className={classes.Message}>
                         {this.state.spinnerIsLoading ?  <SmallSpinner/> : null}
