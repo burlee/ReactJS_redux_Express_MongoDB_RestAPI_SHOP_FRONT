@@ -29,13 +29,18 @@ class Search extends Component {
     return (
         <div className={classes.Search}>
         <DebounceInput
+            type="search"
             value={this.state.searchTerm}
             onKeyPress={this.pressEnter}
             minLength={2}
             debounceTimeout={300}
             placeholder={productsCounter}
             onChange={event => this.setState({ searchTerm: event.target.value })} />
-        <button onClick={() => this.props.search_product_in_db(this.state.searchTerm)}><i className="fas fa-search"></i></button>
+        <button 
+          onClick={() => this.props.search_product_in_db(this.state.searchTerm)}
+          >
+          <i className="fas fa-search"></i>
+        </button>
     </div>
     )
   }

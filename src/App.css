@@ -19,14 +19,21 @@
   position: fixed;
   height: 35px;
   bottom: 15px;
-  right: 20px;
+  right: 15px;
   padding: 10px;
-  border: 1px solid gray;
   background: none;
   color: #4c4c4c;
-  border-radius: 3px;
   cursor: pointer;
   outline: none;
+  border: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .App {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
 }
 /* .fade-enter {
     opacity: 0.01;

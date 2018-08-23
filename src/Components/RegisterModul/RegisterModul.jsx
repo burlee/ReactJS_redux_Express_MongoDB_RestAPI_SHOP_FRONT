@@ -127,10 +127,10 @@ class RegisterModul extends Component {
                             <p>Wystawiaj aukcje i korzystaj z serwisu.</p>
                         </div>
                     </div>
-                    <div className={classes.Register}>
+                    <div className={classes.RegisterForm}>
                         <form onSubmit={this.getUserDetails}>
                             <label htmlFor="email">Podaj adres e-mail:</label>
-                            <input style={{borderBottom: `3px solid ${this.state.borderColorEmail}`}} onChange={this.emailValue} type="email" id="email" autoComplete="off" />
+                            <input style={{borderBottom: `1px solid ${this.state.borderColorEmail}`}} onChange={this.emailValue} type="email" id="email" autoComplete="off" />
                                 <label htmlFor="password">
                                 Hasło: 
                                 {this.state.type === "password" ? 
@@ -138,7 +138,7 @@ class RegisterModul extends Component {
                                 <i onClick={this.changeTypePassword} style={{fontSize: '20px', cursor: 'pointer'}} className="far fa-eye"></i> 
                                 }
                                 </label>
-                            <input style={{borderBottom: `3px solid ${this.state.borderColorPassword}`}} onChange={this.passwordValue} type={this.state.type} id="password" />
+                            <input style={{borderBottom: `1px solid ${this.state.borderColorPassword}`}} onChange={this.passwordValue} type={this.state.type} id="password" />
                             <button disabled={this.state.disabled}>Zarejestruj</button>
                         </form>
                         {/* <button onClick={this.LOGOUT}>Wyloguj się</button>  */}

@@ -20,6 +20,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    animation: fadeInDown;
+    animation-duration: 1s;
 }
 .InformationBox div{
     display: flex;
@@ -39,7 +41,7 @@
     width: 80%;
 }
 
-.Register{
+.RegisterForm{
     height: 100vh;
     background: #FFFFFF;
     display: -ms-flexbox;
@@ -50,50 +52,54 @@
     justify-content: center;
     padding: 15px;
     flex: 1;
+    animation: fadeInDown;
+    animation-duration: 1s;
 }
-.Register form{
-    display: flex;
+.RegisterForm form{
+    display: flex;  
     flex-direction: column;
     align-items: center;
     height: 60%;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
-.Register button{
+.RegisterForm button{
     width: 80%;
     background: #4caf50;
     border: none;
     outline: none;
     padding: 15px;
-    border-radius: 3px;
+    border-radius: 1px;
     color: #FFFFFF;
     font-size: 20px;
     cursor: pointer;
     font-weight: 400;
 }
 
-.Register input{
+.RegisterForm input{
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 15px;
     width: 80%;
     height: 40px;
-    border-radius: 3px;
+    border-radius: 1px;
     outline: none;
-    border: 1px solid rgb(128, 128, 128, .5);
+    border: none;
     transition: all .5s ease-in-out;
+    font-size: 14px;
 }
-.Register input:focus{
+.RegisterForm input:focus{
     background: rgb(76, 175, 80, .1);
 }
 
-.Register label {
-    font-size: 25px;
+.RegisterForm label {
+    font-size: 18px;
     font-weight: 300;
     color: #4c4c4c;
+    text-transform: uppercase;
 }
 
-.Register h3{
+.RegisterForm h3{
     text-align: center;
     width: 100%;
     height: 35px;
@@ -153,3 +159,8 @@
       transform: translate3d(0, 0, 0);
     }
   }
+
+  @keyframes openmodal{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}

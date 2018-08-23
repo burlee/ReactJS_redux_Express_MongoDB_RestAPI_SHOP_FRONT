@@ -23,6 +23,7 @@ class MainCore extends Component {
     document.body.style.overflow = "visible";
   }
   
+  
   showPanelToggle = () => {
     this.setState({showPanel: !this.state.showPanel})
   }
@@ -44,7 +45,14 @@ class MainCore extends Component {
   render() {
     return (
       <Aux>
-        {this.state.showPanel ? null : <button className={classes.showPanelBtn} onClick={this.showPanelToggle}>Pokaz panel</button>}
+        {this.state.showPanel ? null : 
+        <button 
+          className={classes.showPanelBtn} 
+          onClick={this.showPanelToggle}
+          >
+          Panel Użytkownika
+          <i style={{fontSize: '30px', marginRight: '8px'}} className="fas fa-user-alt"></i>
+          </button>}
         {this.state.showPanel ? 
           <div className={classes.Panel}>
             <ul>

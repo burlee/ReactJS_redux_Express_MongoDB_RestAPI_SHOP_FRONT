@@ -1,9 +1,10 @@
 .SuccessModal{
         position: fixed;
-        left: 61px;
-        top: 64px;
-        width: 15px;
-        height: 15px;
+        position: fixed;
+        left: 105px;
+        top: 45px;
+        width: 12px;
+        height: 12px;
         background: #ccc;
         border-radius: 3px;
         display: flex;

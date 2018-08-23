@@ -35,7 +35,7 @@ class AddProduct extends Component {
                 productName: this.state.productTitle,
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
-                condition: "Nowy",
+                condition: "Używany",
                 category: this.state.category,
                 time: moment().format('LL')
             }
@@ -48,7 +48,7 @@ class AddProduct extends Component {
                         productName: this.state.productTitle,
                         productPrice: this.state.productPrice,
                         productImgUrl: this.state.imgURL,
-                        condition: "Nowy",
+                        condition: "Używany",
                         category: this.state.category,
                         time: moment().format('LL')
                     }

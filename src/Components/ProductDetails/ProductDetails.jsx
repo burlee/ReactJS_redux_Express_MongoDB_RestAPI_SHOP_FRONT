@@ -44,8 +44,9 @@ class ProductDetails extends Component {
       <div className={classes.ProductDetails}>
         <h5>Personalizuj swoją cenę:</h5>
         <div className={classes.FillteredBox}>
-          <span>Mniej niż(pln):</span>
+          <label htmlFor="lessThanInput">Mniej niż(pln):</label>
           <DebounceInput
+            id="lessThanInput"
             value={this.state.searchPrice}
             minLength={1}
             debounceTimeout={300}
@@ -53,8 +54,9 @@ class ProductDetails extends Component {
           <button onClick={this.searchByPrice}>Szukaj po cenie</button>
         </div>
         <div className={classes.FillteredBox}>
-          <span>Więcej niż niż(pln):</span>
+          <label htmlFor="moreThanInput">Więcej niż niż(pln):</label>
           <DebounceInput
+            id="moreThanInput"
             value={this.state.searchPriceMore}
             minLength={1}
             debounceTimeout={300}

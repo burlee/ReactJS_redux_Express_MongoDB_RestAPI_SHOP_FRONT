@@ -20,7 +20,7 @@
     padding: 10px;
     
 }
-.FillteredBox span{
+.FillteredBox label{
     font-size: 12px;
     text-align: center;
 }
@@ -58,7 +58,7 @@
     width: 20px;
     height: 20px;
     background: #787878;
-    border: 1px solid #4CAF50;
+    border: 1px solid #4c4c4c;
 }
 
 .ConditionBoxLabel input[type="checkbox"]:checked::after{
@@ -66,11 +66,21 @@
     content: "\2714";
     font-size: 18px;
     position: relative;
-    color: #4CAF50;
+    color: #FFFFFF;
     top: -23px;
     left: 4px;
 }
 
 .ConditionBoxLabel label{
     cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .ProductDetails {
+    width: 75%;
+    height: 70vh;
+  }
+  .ConditionBoxLabel{
+    width: 30%;
+  }
 }

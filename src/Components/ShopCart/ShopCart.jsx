@@ -10,7 +10,7 @@ class ShopCart extends Component {
     return (
       <Aux>
         <div className={classes.ShopCart}>
-          <NavLink to="/order-summary"><i className="fas fa-shopping-cart"></i></NavLink>
+          <NavLink to="/order-summary"><i className="fas fa-shopping-cart"></i> Koszyk</NavLink>
         </div>
         <Switch>
           <Route path='/order-summary' exact component={ShopCartOrderSummary} />     

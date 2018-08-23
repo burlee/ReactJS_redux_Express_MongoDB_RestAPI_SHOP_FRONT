@@ -12,11 +12,11 @@ class ProductDisplay extends PureComponent {
     ProductAllDetails: false
   }
 
-  ShowDetails = () => {
+  ShowDetailsProduct = () => {
       this.setState({ShowDetailsProduct: !this.state.ShowDetailsProduct})
   }
 
-  CloseDetails = () => {
+  CloseDetailsProduct = () => {
     setTimeout(()=> {
       this.setState({ShowDetailsProduct: false})
     },250)
@@ -51,20 +51,21 @@ class ProductDisplay extends PureComponent {
 
   render() {
     const props = this.props;
+
     return (
       <Aux>
         <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar}></div>
         {this.state.productAdded ? <SuccessModal/> : null }
-        <div style={{height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetails} className={classes.ProductDisplay}>
-          <img onClick={this.ShowDetails} src={props.productImgUrl} alt={props.productName}/>
-
+        <div style={{height: this.props.productDisplayHeigth + 'px', width: this.props.productDisplayWidth+'%', flexDirection: this.props.flexDirection}} onMouseLeave={this.CloseDetailsProduct} className={classes.ProductDisplay}>
+          <img onClick={this.ShowDetailsProduct} src={props.productImgUrl} alt={props.productName}/>
+          
             {this.state.ShowDetailsProduct ?
-              <div  className={classes.ShowDetailsProduct}>
-                <h3>{props.productName}</h3>
-                <img style={{maxWidth: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
-                <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
-                <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
-              </div>
+                <div className={classes.ShowDetailsProduct}>
+                  <h3>{props.productName}</h3>
+                  <img style={{maxWidth: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
+                  <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
+                  <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
+                </div>
             : null }
 
             <div  className={classes.ProductDetails}>

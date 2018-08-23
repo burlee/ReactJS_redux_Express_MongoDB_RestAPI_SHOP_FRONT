@@ -38,17 +38,30 @@
     text-decoration: none;
 }
 .showPanelBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
     position: fixed;
-    height: 35px;
-    width: 150px;
+    height: 60px;
+    width: 180px;
     bottom: 15px;
     left: 20px;
-    border: 1px solid gray;
-    background: #fafafa;
-    color: #4c4c4c;
-    border-radius: 3px;
+    border: none;
+    background: #4c4c4c;
+    color: #ffffff;
+    border-top-right-radius: 1px;
+    border-bottom-right-radius: 1px;
+    font-size: 11px;
+    text-transform: uppercase;
     cursor: pointer;
     outline: none;
+    transform: translate3d(-90%,0,0) translate3d(1rem,0,0);
+    transition: transform 0.3s;
+}
+.showPanelBtn:hover{
+    transform: translate3d(-20%,0,0) translate3d(1rem,0,0);
+    transition: transform 0.3s;
 }
 
 @keyframes slideInUp {

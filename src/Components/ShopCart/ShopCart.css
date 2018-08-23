@@ -1,10 +1,14 @@
 .ShopCart i {
-    font-size: 25px;
-    color: #f0ffff;
-    border: 1px solid gray;
-    padding: 20px;
-    background: gray;
+    font-size: 15px;
+    color: #4c4c4c;
+    padding: 10px;
 }
 
-
+.ShopCart a{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #4c4c4c;
+}
     
