@@ -26,9 +26,12 @@
     width: 125px;
     height: 35px;
     border: none;
+    background-color: rgb(128, 128, 128, .5);
     color: #4c4c4c;
     outline: none;
+    font-size: 12px;
     border-radius: 3px;
+    font-weight: bold;
 }
 
 .DisplaySettings button:hover{

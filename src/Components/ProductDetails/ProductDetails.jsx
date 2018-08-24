@@ -36,7 +36,6 @@ class ProductDetails extends Component {
 
   selectedCategoryHandler = (event) =>{
     this.setState({selectedCategory: event.target.value})
-
   }
 
   render() {

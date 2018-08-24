@@ -34,8 +34,9 @@
 }
 
 .Panel ul li a{
-    color: #000000;
+    color: #4c4c4c;
     text-decoration: none;
+    font-weight: bold;
 }
 .showPanelBtn{
     display: flex;

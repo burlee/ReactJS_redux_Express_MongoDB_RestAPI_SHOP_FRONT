@@ -241,7 +241,7 @@ class AddProduct extends Component {
                     <h1>Tytuł aukcji: {this.state.productTitle}</h1>
                     <h1>Kategoria aukcji: {this.state.category}</h1>
                     <h1>Cena: {this.state.productPrice}PLN</h1>
-                    <img style={{maxWidth: '150px'}} src={this.state.imgURL}/>
+                    <img style={{maxWidth: '150px'}} src={this.state.imgURL} alt={this.state.productTitle}/>
                 </div>
                 : null}
             </div>

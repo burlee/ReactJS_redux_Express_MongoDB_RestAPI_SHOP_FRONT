@@ -68,7 +68,7 @@ class MainCore extends Component {
                 <li><NavLink to="/loggin">Zaloguj się</NavLink></li>
               </Aux>
               }
-              <li style={{cursor: 'pointer'}} onClick={this.closePanelToggle}>Zamknij Panel</li>
+              <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.closePanelToggle}>Zamknij Panel</li>
             </ul>
           </div>
         : null }

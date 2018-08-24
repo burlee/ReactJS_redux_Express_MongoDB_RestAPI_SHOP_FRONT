@@ -60,7 +60,7 @@ class RegisterModul extends Component {
     }
 
     passwordValidate = (password) =>{
-        let strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        let strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
 
         if( strongRegex.test(password) === false){

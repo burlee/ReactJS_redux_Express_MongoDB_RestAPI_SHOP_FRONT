@@ -26,7 +26,10 @@
 }
 
 .LoginModule button{
-    background: none;
+    background: #4c4c4c;
+    padding: 10px;
+    border-radius: 1px;
+    color: #ffffff;
     border: none;
     outline: none;
     font-weight: 300;
@@ -35,7 +38,7 @@
 }
 
 .LoginModule input{
-    border: 1px solid rgba(76, 76, 76, 0.1);
+    border: 1px solid rgba(76, 76, 76, 0.25);
     width: 10%;
     height: 30px;
     outline: none;
@@ -47,6 +50,8 @@
 
 .LoginModule label {
     font-size: 12px;
+    font-weight: 500;
+    color: #4c4c4c;
 }
 
 .LoginModule h3{
