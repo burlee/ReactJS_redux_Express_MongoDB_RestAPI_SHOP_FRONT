@@ -12,7 +12,7 @@ class App extends Component {
   state = {
     showCategories: true
   }
-
+  
   showCategoriesToggle = () => {
     this.setState({showCategories: !this.state.showCategories})
   }
@@ -24,7 +24,14 @@ class App extends Component {
       behavior: 'smooth'
   });
   }
-
+  // handleScrollToElement = (event) => {
+  //   console.log(this.third.offsetHeight)
+  //     window.scroll({
+  //       top: this.third.current.offsetHeight,
+  //       left: 0,
+  //       behavior: 'smooth'
+  //   });
+  // }
   render() {
     return (
         <Provider store={store}> 

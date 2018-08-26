@@ -2,6 +2,7 @@ import {
     FETCH_PRODUCTS_FROM_SERVER,
     PRODUCTS_LOADING,
     USER_EXIST,
+    USER_EMAIL,
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
     SEARCH_BY_PRICE_MORE,
@@ -288,15 +289,28 @@ export const set_products_loading = () => {
 export const user_exist = () => dispatch => {
     FirebaseConfig.auth().onAuthStateChanged(user => {
         if (user) {
+            // setTimeout(() => {
+            //     FirebaseConfig.auth().signOut();
+            // }, 10000);
             dispatch({
                 type: USER_EXIST,
                 payload: user.uid
             });
+
+            dispatch({
+                type: USER_EMAIL,
+                payload: user.email
+            })
         } else {
             dispatch({
                 type: USER_EXIST,
                 payload: null
             });
+
+            dispatch({
+                type: USER_EMAIL,
+                payload: null
+            })
         }
     });
 }

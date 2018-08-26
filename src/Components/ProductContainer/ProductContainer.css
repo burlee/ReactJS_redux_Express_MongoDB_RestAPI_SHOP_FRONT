@@ -22,16 +22,16 @@
     align-items: center;
 }
 .DisplaySettings button{
-    cursor: pointer;
-    width: 125px;
-    height: 35px;
-    border: none;
-    background-color: rgb(128, 128, 128, .5);
-    color: #4c4c4c;
-    outline: none;
-    font-size: 12px;
+    background: transparent;
     border-radius: 3px;
     font-weight: bold;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    font-size: 12px;
+    outline: none;
+    height: 40px;
+    background: none;
+    width: 150px;
+    cursor: pointer;
 }
 
 .DisplaySettings button:hover{

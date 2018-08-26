@@ -14,8 +14,12 @@ export default class Footer extends Component {
             </ul>
         </div>
 
-        <div className={classes.Information}>
-          <h2>Informacje</h2>
+        <div className={classes.Newsletter}>
+          <h2>Newsletter</h2>
+          <div className={classes.NewsletterBox}>
+            <input placeholder="Podaj swój adres email..." type="text"/>
+            <button>Zapisz</button>
+          </div>
         </div>
 
         <div className={classes.Links}>

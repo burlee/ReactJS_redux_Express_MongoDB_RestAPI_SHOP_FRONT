@@ -26,16 +26,14 @@
     height: 100vh;
 }
 .ProductDisplay button{
-    background: transparent;
     border-radius: 3px;
     font-weight: bold;
-    border: 1px solid rgba(128, 128, 128, 0.5);
     font-size: 12px;
     outline: none;
     height: 40px;
     background: none;
-    width: 200px;
     cursor: pointer;
+    border:none;
 }
 .ProductDetails h5{
     padding: 5px;

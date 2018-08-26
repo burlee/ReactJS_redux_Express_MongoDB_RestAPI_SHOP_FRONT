@@ -32,7 +32,7 @@ class AddProduct extends Component {
         if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
                     
             const product = {
-                productName: this.state.productTitle,
+                productName: this.firstCharToUppercase(this.state.productTitle),
                 productPrice: this.state.productPrice,
                 productImgUrl: this.state.imgURL,
                 condition: "Używany",
@@ -45,7 +45,7 @@ class AddProduct extends Component {
                     
                     const productToFirebase = {
                         idFromRestAPI: response.data.idFromRestAPI,
-                        productName: this.state.productTitle,
+                        productName: this.firstCharToUppercase(this.state.productTitle),
                         productPrice: this.state.productPrice,
                         productImgUrl: this.state.imgURL,
                         condition: "Używany",
@@ -59,10 +59,10 @@ class AddProduct extends Component {
                                 this.setState({message: 'Twoj produkt został dodany'})
                                 setTimeout(() => this.setState({message: ''}), 2500)
                             })
-                            .catch( error => alert('Error connect with Firebase'))
+                            .catch( error => alert(`Error connect with Firebase ${error}`))
                     }
                 })
-                .catch( error => alert('Error connect with RESTapi'))
+                .catch( error => alert(`Error connect with RESTapi ${error}`))
 
             // axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
             //     .then( response => response )

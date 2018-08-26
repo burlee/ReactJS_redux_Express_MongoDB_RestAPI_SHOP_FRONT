@@ -2,6 +2,7 @@ import  {
     FETCH_PRODUCTS_FROM_SERVER, 
     PRODUCTS_LOADING,
     USER_EXIST,
+    USER_EMAIL,
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
     SEARCH_BY_PRICE_MORE,
@@ -14,7 +15,8 @@ const initialState = {
     last15products: [],
     orderValue: JSON.parse(localStorage.getItem('Order')),
     loading: false,
-    userExist: null
+    userExist: null,
+    userEmail: ''
 }
 
 
@@ -59,6 +61,11 @@ export default function(state = initialState, action){
                 ...state,
                 last15products: action.payload,
                 loading: false
+            }
+        case USER_EMAIL:
+            return{
+                ...state,
+                userEmail: action.payload
             }
         default: 
             return state;

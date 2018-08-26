@@ -58,9 +58,9 @@ class MainCore extends Component {
             <ul>
               {this.props.userExist.userExist !== null ? 
               <Aux>
-                <li style={{cursor: 'pointer'}} onClick={this.logOut}>Wyloguj się</li>
+                <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.logOut}>Wyloguj się</li>
                 <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li>
-                <li><NavLink onClick={this.scrollHidden} to="/auction-list">List aukcji</NavLink></li>
+                <li><NavLink onClick={this.scrollHidden} to="/auction-list">Lista aukcji</NavLink></li>
               </Aux>
               :  
               <Aux>
@@ -72,6 +72,7 @@ class MainCore extends Component {
             </ul>
           </div>
         : null }
+        
         <Switch>
           <Route path='/create-account' exact component={RegisterModul} /> 
           <Route path='/add-product' component={AddProduct} />
