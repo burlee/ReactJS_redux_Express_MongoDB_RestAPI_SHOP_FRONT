@@ -37,6 +37,7 @@ class AddProduct extends Component {
                 productImgUrl: this.state.imgURL,
                 condition: "Używany",
                 category: this.state.category,
+                auctionOwnerUserIDfb: this.props.userExist.userExist,
                 time: moment().format('LL')
             }
             axios.post('http://localhost:3000/offers', product)

@@ -16,6 +16,7 @@ class UserAuctionsList extends Component {
         auctionNotFound: false,
         spinnerIsLoading: true,
         spinnerIsLoadingDelete: false,
+        confirmDeleteModal: false,
         idFromFirebase: '',
         idFromRestAPI: '',
         productNameEditData: '',
@@ -57,15 +58,15 @@ class UserAuctionsList extends Component {
 
         
     }
-    deleteUserAuction = (idFromFirebase, idFromRESTapi) =>{
+    deleteUserAuction = () =>{
         this.setState({spinnerIsLoadingDelete: true})
 
-        axios.delete(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts/${idFromFirebase}.json`)
-            .then(()=> this.setState({spinnerIsLoadingDelete: false}))
-        axios.delete(`http://localhost:3000/offers/${idFromRESTapi}`)
+        axios.delete(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts/${this.state.idFromFirebase}.json`)
+            .then(()=> this.setState({spinnerIsLoadingDelete: false, confirmDeleteModal: false}))
+        axios.delete(`http://localhost:3000/offers/${this.state.idFromRestApi}`)
 
         let updateAuctionList = this.state.UserAuctionsList.filter( auction => {
-            return auction.idFromRESTapi !== idFromRESTapi
+            return auction.idFromRESTapi !== this.state.idFromRestApi
         })
 
         this.setState({ UserAuctionsList: updateAuctionList})
@@ -115,11 +116,20 @@ class UserAuctionsList extends Component {
             showEditProductModal: !this.state.showEditProductModal
         })
     }
-
+    closeDeleteAuctionModal = () => {
+        this.setState({confirmDeleteModal: false})
+    }
     validationInputData = (productNameEditData) => {
         if(productNameEditData.length > 4 ){
             this.setState({disabledChangeDataBtn: false})
         }else( this.setState({disabledChangeDataBtn: true}))
+    }
+    confirmDeleteModalFn = (idFromFirebase, idFromRestApi) => {
+        this.setState({
+            confirmDeleteModal: true,
+            idFromFirebase: idFromFirebase,
+            idFromRestApi: idFromRestApi
+        })
     }
 
     componentWillUnmount(){
@@ -146,7 +156,7 @@ class UserAuctionsList extends Component {
                                 <label>Cena: {displayUserAuction.productPrice}PLN</label>
                                 <label>Stan: {displayUserAuction.condition}</label>
                                 <label>Czas dodania: {displayUserAuction.time}</label>
-                                <button onClick={() => this.deleteUserAuction(displayUserAuction.id, displayUserAuction.idFromRESTapi)}>Zakończ aukcję</button>
+                                <button onClick={() => this.confirmDeleteModalFn(displayUserAuction.id, displayUserAuction.idFromRESTapi)}>Zakończ aukcję</button>
                                 <button
                                     style={{backgroundColor: 'transparent',color: '#4c4c4c'}}
                                     onClick={()=> this.editProductData(displayUserAuction.id, displayUserAuction.idFromRESTapi, displayUserAuction.productName, displayUserAuction.productPrice, displayUserAuction.condition)}
@@ -163,6 +173,17 @@ class UserAuctionsList extends Component {
         }
         return (
             <div className={classes.UserAuctionsList}>
+
+                {this.state.confirmDeleteModal ? 
+                    <Aux>
+                        <div onClick={this.closeDeleteAuctionModal} className={classes.Backdrop}></div>
+                        <div className={classes.DeleteAuctionModal}>
+                            <h1>Czy jesteś pewny?</h1>
+                            <button onClick={this.deleteUserAuction}>Tak</button>
+                        </div> 
+                    </Aux>
+                : null}
+                
                 {this.state.spinnerIsLoadingDelete ? <SmallSpinner/> : null}
                 <h1>Lista twoich aukcji:</h1>
                 <ReactCSSTransitionGroup 

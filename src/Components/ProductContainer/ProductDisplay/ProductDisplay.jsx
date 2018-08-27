@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import classes from './ProductDisplay.css'
 import uuid from 'uuid'
+import Messager from '../../Messager/Messager';
 import Aux from '../../../HOC/aux_x';
 import SuccessModal from '../../../UI/SuccessModal/SuccessModal';
 
@@ -9,7 +10,8 @@ class ProductDisplay extends PureComponent {
     ShowDetailsProduct: false,
     StatusBarWidth: 0,
     productAdded: false,
-    ProductAllDetails: false
+    ProductAllDetails: false,
+    showMessager: false
   }
 
   ShowDetailsProduct = () => {
@@ -34,7 +36,8 @@ class ProductDisplay extends PureComponent {
       id: this.props.id,
       productName: this.props.productName,
       productPrice: this.props.productPrice,
-      productImgUrl: this.props.productImgUrl
+      productImgUrl: this.props.productImgUrl,
+      userIdFromFirebase: this.props.userIdFromFirebase
     })
       
     localStorage.setItem( 'Order' , JSON.stringify(purchasingArray));
@@ -49,6 +52,10 @@ class ProductDisplay extends PureComponent {
     setTimeout(() => this.setState({StatusBarWidth: 0}), 1500)
   }
 
+
+  ShowMessager = () => {
+    this.setState({showMessager: !this.state.showMessager})
+  }
   render() {
     const props = this.props;
 
@@ -80,6 +87,13 @@ class ProductDisplay extends PureComponent {
             <div className={classes.ProductAllDetails}>
               <p>{props.productName}</p>
             </div> : null } */}
+            <button onClick={this.ShowMessager}><i style={{fontSize: '20px', color: '#4c4c4c'}} className="fas fa-envelope"></i></button>
+            {this.state.showMessager ? <Messager 
+              closeBackdrop={this.ShowMessager} 
+              userIdFromFirebase={this.props.userIdFromFirebase}
+              userLogginID={this.props.userLogginID}
+              productName={this.props.productName}
+            /> : null}
         </div>
       </Aux>
     )

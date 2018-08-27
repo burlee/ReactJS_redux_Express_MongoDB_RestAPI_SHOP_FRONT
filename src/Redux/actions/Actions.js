@@ -272,6 +272,7 @@ export const search_product_in_db = (searchTerm) => dispatch => {
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/${searchTerm}`)
         .then(response => {
+            console.log( response.data)
             dispatch({
                 type: SEARCH_PRODUCT_IN_DB,
                 payload: response.data.products

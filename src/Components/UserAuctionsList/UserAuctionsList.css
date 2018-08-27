@@ -4,13 +4,14 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background: white;
+    background: rgb(250, 250, 250);
     z-index: 102;
     padding: 15px;
     box-sizing: border-box;
     overflow-x: scroll;
     animation: opacity;
     animation-duration: 1s;
+    overflow-x: auto;
 }
 
 .UserAuctionsList h1{
@@ -64,12 +65,12 @@
     justify-content: space-around;
     align-items: center;
     padding: 15px;
-    transition: .2s all ease-in-out;
+    transition: .1s all ease-in-out;
 }
 
 .DisplayUserAuction:hover{
     box-shadow: 0px 0px 3px rgb(128, 128, 128, 1);
-    transform: scale(1.01);
+    transform: scale(1.005);
 }
 
 .ImgContainer {
@@ -112,7 +113,7 @@
     font-weight: 300;
     font-size: 18px;
     background-color: #4c4c4c;
-    color: #FFFFFF;
+    color: rgb(250, 250, 250);
 }
 .EditProductModal label{
     font-size: 13px;
@@ -127,6 +128,41 @@
     padding-left: 10px;
     border: 1px solid rgba(76, 76, 76, 0.25);
 }
+
+.DeleteAuctionModal{
+    z-index: 106;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgb(250, 250, 250);
+    width: 330px;
+    height: 140px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 15px #4c4c4c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: opacity;
+    animation-duration: 1s;
+}
+.DeleteAuctionModal h1{
+    font-weight: 400;
+    color: #4c4c4c;
+}
+.DeleteAuctionModal button{
+    background: #4c4c4c;
+    cursor: pointer;
+    color: #FFFFFF;
+    outline: none;
+    padding: 10px 35px;
+    border-radius: 20px;
+    border: none;
+    font-size: 12px;
+    margin: 5px;
+}
+
 @keyframes opacity{
     from{opacity: 0;}
     to{opacity: 1;}

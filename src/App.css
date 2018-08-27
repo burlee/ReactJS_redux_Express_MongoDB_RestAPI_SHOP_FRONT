@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     animation: openmodal;
     animation-duration: 2.1s;
+    overflow-x: auto;
 }
 .CategoryHeader{
   width: 100%;

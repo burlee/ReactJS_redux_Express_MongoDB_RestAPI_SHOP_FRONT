@@ -10,8 +10,9 @@ import LoginModule from '../LoginModule/LoginModule';
 import AddProduct from '../AddProduct/AddProduct';
 import FirebaseConfig from '../../FirebaseConfig';
 import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
+import Messages from '../Messager/Messages/Messages';
+import { connect } from 'react-redux';
 
 class MainCore extends Component {
   state = {
@@ -61,6 +62,7 @@ class MainCore extends Component {
                 <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.logOut}>Wyloguj się</li>
                 <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj produkt</NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/auction-list">Lista aukcji</NavLink></li>
+                <li><NavLink onClick={this.scrollHidden} to="/messages">Wiadomości</NavLink></li>
               </Aux>
               :  
               <Aux>
@@ -78,6 +80,7 @@ class MainCore extends Component {
           <Route path='/add-product' component={AddProduct} />
           <Route path='/auction-list' component={UserAuctionsList} />
           <Route path='/loggin' component={LoginModule} />
+          <Route path='/messages' component={Messages} />
         </Switch>
         
         <Navbar/>

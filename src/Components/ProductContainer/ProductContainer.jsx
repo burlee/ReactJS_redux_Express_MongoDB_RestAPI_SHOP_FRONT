@@ -11,7 +11,7 @@ import { fetch_all_products, user_exist } from '../../Redux/actions/Actions'
 class ProductContainer extends Component {
   state = {
     shopCartIsEmpty: localStorage.getItem('Order'),
-    productDisplayHeigth: 250,
+    productDisplayHeigth: 300,
     productDisplayWidth: 100,
     flexDirection: 'row',
     startProductPagination: 0,
@@ -33,14 +33,14 @@ class ProductContainer extends Component {
       this.setState({
         productDisplayWidth: 100,
         flexDirection: 'row',
-        productDisplayHeigth: 250
+        productDisplayHeigth: 300
       })
     }
     if(this.state.productDisplayWidth === 100){
       this.setState({
         productDisplayWidth: 45,
         flexDirection: 'column',
-        productDisplayHeigth: 250
+        productDisplayHeigth: 300
       })
     }
   }
@@ -101,6 +101,8 @@ class ProductContainer extends Component {
                 productName={product.productName}
                 productPrice={product.productPrice}
                 productImgUrl={product.productImgUrl}
+                userIdFromFirebase={product.auctionOwnerUserIDfb}
+                userLogginID={this.props.userExist.userExist}
                 condition={product.condition}
             />
     })
