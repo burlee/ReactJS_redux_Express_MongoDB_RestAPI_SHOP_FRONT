@@ -6,11 +6,12 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Aux from '../../HOC/aux_x';
 import { DebounceInput } from 'react-debounce-input'
 import { connect } from 'react-redux'
+import BackButton from '../../UI/BackButton/BackButton'
 
 class UserAuctionsList extends Component {
     state = {
         UserAuctionsList: [],
-        borderBottomPriceColor: 'rgba(76, 76, 76, 0.25)',
+        borderBottomPriceColor: 'rgba(76, 76, 76, 0.1)',
         disabledChangeDataBtn: true,
         showEditProductModal: false,
         auctionNotFound: false,
@@ -21,7 +22,9 @@ class UserAuctionsList extends Component {
         idFromRestAPI: '',
         productNameEditData: '',
         productPriceEditData: '',
-        productConditionEditData: ''
+        productConditionEditData: '',
+        searchAuction: '',
+        editStatus: ''
     }
 
     _isMounted = false;
@@ -59,10 +62,9 @@ class UserAuctionsList extends Component {
         
     }
     deleteUserAuction = () =>{
-        this.setState({spinnerIsLoadingDelete: true})
-
+        
         axios.delete(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts/${this.state.idFromFirebase}.json`)
-            .then(()=> this.setState({spinnerIsLoadingDelete: false, confirmDeleteModal: false}))
+            .then(()=> this.setState({confirmDeleteModal: false}))
         axios.delete(`http://localhost:3000/offers/${this.state.idFromRestApi}`)
 
         let updateAuctionList = this.state.UserAuctionsList.filter( auction => {
@@ -79,7 +81,6 @@ class UserAuctionsList extends Component {
     saveEditDataToDB = () => {
         
         if(this.state.productNameEditData !== '' && this.state.productPriceEditData !== '' && this.state.productConditionEditData !== ''){
-            this.setState({spinnerIsLoading: true})
             
             const updateProductData = {
                 productName: this.state.productNameEditData.slice(0,30),
@@ -87,14 +88,17 @@ class UserAuctionsList extends Component {
                 condition: this.state.productConditionEditData
             }
             axios.patch(`http://localhost:3000/offers/${this.state.idFromRestAPI}`, updateProductData)
-                .then( response => this.setState({spinnerIsLoading: false}))
+                .then( () => {
+                    this.setState({editStatus: 'Zmiany zostały zapisane'});
+                    setTimeout(() => this.setState({showEditProductModal: false, editStatus: ''}), 4000)  
+                })
     
             axios.patch(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts/${this.state.idFromFirebase}.json`, updateProductData)
         }
 
         if(this.state.productPriceEditData === ''){
-            this.setState({borderBottomPriceColor: 'red'})
-            setTimeout(()=> this.setState({borderBottomPriceColor: 'rgba(76, 76, 76, 0.25)'}), 2500)
+            this.setState({borderBottomPriceColor: '#f44336'})
+            setTimeout(()=> this.setState({borderBottomPriceColor: 'rgba(76, 76, 76, 0.1)'}), 2500)
         }
     }
 
@@ -137,7 +141,6 @@ class UserAuctionsList extends Component {
     }
 
     render() {
-        console.log( this.state)
         const transitionOption = {
             transitionName: "fade",
             transitionEnterTimeout: 500,
@@ -147,7 +150,11 @@ class UserAuctionsList extends Component {
         let displayUserAuctionsList = null;
 
         if(this.state.UserAuctionsList.length !== 0){
-            displayUserAuctionsList = this.state.UserAuctionsList.map( displayUserAuction => {
+            displayUserAuctionsList = this.state.UserAuctionsList
+            .filter(auction => {
+                return auction.productName.toLowerCase().indexOf(this.state.searchAuction.toLowerCase()) !== -1;
+            })
+            .map( displayUserAuction => {
                 return (
                     <div key={displayUserAuction.id} className={classes.DisplayUserAuction}>
                         <h3>{displayUserAuction.productName}</h3>
@@ -178,14 +185,22 @@ class UserAuctionsList extends Component {
                     <Aux>
                         <div onClick={this.closeDeleteAuctionModal} className={classes.Backdrop}></div>
                         <div className={classes.DeleteAuctionModal}>
-                            <h1>Czy jesteś pewny?</h1>
-                            <button onClick={this.deleteUserAuction}>Tak</button>
+                            <button onClick={this.deleteUserAuction}>Potwierdzam</button>
                         </div> 
                     </Aux>
                 : null}
                 
                 {this.state.spinnerIsLoadingDelete ? <SmallSpinner/> : null}
-                <h1>Lista twoich aukcji:</h1>
+                <header>
+                    Lista twoich aukcji:
+                    <DebounceInput
+                            placeholder="Wyszukaj swojej aukcji..."
+                            id="auctionName"
+                            minLength={1}
+                            debounceTimeout={500}
+                            onChange={ event => this.setState({searchAuction: event.target.value})} 
+                            />
+                </header>
                 <ReactCSSTransitionGroup 
                     style={{ overflowX: 'auto', width: '100%'}} 
                     {...transitionOption}>
@@ -198,15 +213,15 @@ class UserAuctionsList extends Component {
                 <Aux>
                     <div onClick={this.editProductToggle} className={classes.Backdrop}></div> 
                     <div className={classes.EditProductModal}>
-                        <h1>Edytuj szczegóły aukcji:</h1>
-                        <label htmlFor="auctionName">Edytuj nazwę aukcji:</label>
+                        <h1><i class="fas fa-edit"></i>Edytuj szczegóły aukcji</h1>
+                        <label htmlFor="auctionNamex">Nowa nazwa aukcji:</label>
                         <DebounceInput
-                            id="auctionName"
+                            id="auctionNamex"
                             minLength={5}
                             debounceTimeout={300}
                             onChange={ event => this.productNameHandler(event)} />
 
-                        <label htmlFor="auctionPrice">Edytuj cenę:</label>
+                        <label htmlFor="auctionPrice">Nowa cena:</label>
                         <DebounceInput
                             style={{borderBottom: `1px solid ${this.state.borderBottomPriceColor}`}}
                             id="auctionPrice"
@@ -214,17 +229,22 @@ class UserAuctionsList extends Component {
                             debounceTimeout={300}
                             onChange={ event => this.setState({productPriceEditData: event.target.value})} />
 
-                        <label htmlFor="auctionCondition">Edytuj stan produktu:</label>
-                        <DebounceInput
-                            id="auctionCondition"
-                            minLength={4}
-                            debounceTimeout={300}
-                            onChange={ event => this.setState({productConditionEditData: event.target.value})} />
-
-                        <button disabled={this.state.disabledChangeDataBtn} onClick={this.saveEditDataToDB}>Zapisz zmiany</button>
+                        <label htmlFor="auctionCondition">Zmień stan produktu:</label>
+                        
+                        <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Nowy'})}>Nowy</button>
+                        <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Używany'})}>Używany</button>
+                        
+                        <button 
+                            style={{cursor: 'pointer', backgroundColor: 'transparent', outline: 'none', border: 'none', padding: '20px', color: '#4c4c4c'}}
+                            disabled={this.state.disabledChangeDataBtn} 
+                            onClick={this.saveEditDataToDB}>
+                            Zapisz zmiany
+                        </button>
+                        <h2 style={{textAlign: 'center', fontWeight: '400', paddingTop: '10px'}}>{this.state.editStatus}</h2>
                     </div>
                 </Aux>
                 : null}
+                <BackButton/>
             </div>
         )
     }

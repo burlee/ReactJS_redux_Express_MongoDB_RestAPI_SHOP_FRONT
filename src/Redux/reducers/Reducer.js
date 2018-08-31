@@ -6,7 +6,9 @@ import  {
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
     SEARCH_BY_PRICE_MORE,
-    FETCH_LAST_15_PRODUCTS_FROM_DB
+    FETCH_LAST_15_PRODUCTS_FROM_DB,
+    MESSAGE_COUNTER,
+    SETTINGS_USER_FILLED
 } 
 from '../actions/types';
 
@@ -16,7 +18,9 @@ const initialState = {
     orderValue: JSON.parse(localStorage.getItem('Order')),
     loading: false,
     userExist: null,
-    userEmail: ''
+    userEmail: '',
+    messageCount: 0,
+    userSettings: ''
 }
 
 
@@ -66,6 +70,16 @@ export default function(state = initialState, action){
             return{
                 ...state,
                 userEmail: action.payload
+            }
+        case MESSAGE_COUNTER:
+            return{
+                ...state,
+                messageCount: action.payload
+            }
+        case SETTINGS_USER_FILLED:
+            return{
+                ...state,
+                userSettings: action.payload
             }
         default: 
             return state;

@@ -28,13 +28,13 @@
 .LoginModule button{
     background: #4c4c4c;
     padding: 10px;
-    border-radius: 1px;
     color: #ffffff;
     border: none;
     outline: none;
     font-weight: 300;
     font-size: 12px;
     cursor: pointer;
+    border-radius: 3px;
 }
 
 .LoginModule input{
@@ -50,7 +50,7 @@
 
 .LoginModule label {
     font-size: 12px;
-    font-weight: 500;
+    font-weight: bold;
     color: #4c4c4c;
 }
 
@@ -73,7 +73,28 @@
     cursor: pointer;
 }
 
+@media only screen and (max-width: 768px) {
+    .LoginModule{
+        margin-bottom: 20vh;
+        height: 35vh;
+    }
+    .LoginModule form{
+        height: 35vh;
+        flex-direction: column;
+    }
+    .LoginModule input{
+        width: 80%;
+    }
+    .LoginModule button{
+        padding: 8px 15px;
+    }
+    .Backdrop{
+        height: 80vh;
+    }
+}
+@media only screen and (max-width: 768px) {
 
+}
 @keyframes openmodal{
     from{opacity: 0;}
     to{opacity: 1;}

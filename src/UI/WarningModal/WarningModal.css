@@ -1,0 +1,20 @@
+.WarningModal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 100px;
+    box-shadow: 0px 0px 15px #4c4c4c;
+    background-color: #fafafa;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+.WarningModal h3{
+    font-weight: 400;
+    color: #4c4c4c;
+    text-align: center;
+}

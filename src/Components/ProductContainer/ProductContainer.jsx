@@ -6,17 +6,20 @@ import Spinner from '../../UI/Spinner/Spinner';
 //REDUX
 import { connect } from 'react-redux';
 import { fetch_all_products, user_exist } from '../../Redux/actions/Actions'
+import RectangleIcons from '../../UI/RectangleIcon/RectangleIcons';
+import SquereIcon from '../../UI/SquereIcon/SquereIcon';
 
 
 class ProductContainer extends Component {
   state = {
     shopCartIsEmpty: localStorage.getItem('Order'),
-    productDisplayHeigth: 300,
+    productDisplayHeigth: 315,
     productDisplayWidth: 100,
     flexDirection: 'row',
     startProductPagination: 0,
     endProductPagination: 16,
-    disabledBackBtn: true
+    disabledBackBtn: true,
+    rectangleIcon: false
   }
 
   componentDidMount(){
@@ -31,16 +34,18 @@ class ProductContainer extends Component {
   changeSizeToggle = () => {
     if(this.state.productDisplayWidth === 45){
       this.setState({
+        rectangleIcon: false,
         productDisplayWidth: 100,
         flexDirection: 'row',
-        productDisplayHeigth: 300
+        productDisplayHeigth: 315
       })
     }
     if(this.state.productDisplayWidth === 100){
       this.setState({
+        rectangleIcon: true,
         productDisplayWidth: 45,
         flexDirection: 'column',
-        productDisplayHeigth: 300
+        productDisplayHeigth: 315
       })
     }
   }
@@ -59,6 +64,28 @@ class ProductContainer extends Component {
     })
     
     this.props.fetch_all_products(this.state.startProductPagination + 16, this.state.endProductPagination + 16);
+  }
+
+  nextPageBeloweBtn = () => {
+    if(this.state.startProductPagination !== 16 && this.state.endProductPagination !== 32){
+      this.setState({disabledBackBtn: false})
+    }
+
+    const oldValStartPagination = this.state.startProductPagination;
+    const oldValEndPagination = this.state.endProductPagination;
+
+    this.setState({
+      startProductPagination: oldValStartPagination +16,
+      endProductPagination: oldValEndPagination +16
+    })
+    
+    this.props.fetch_all_products(this.state.startProductPagination + 16, this.state.endProductPagination + 16);
+  
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   backToFirstPage = () => {
@@ -104,27 +131,31 @@ class ProductContainer extends Component {
                 userIdFromFirebase={product.auctionOwnerUserIDfb}
                 userLogginID={this.props.userExist.userExist}
                 condition={product.condition}
+                userExist={this.props.userExist.userExist}
             />
     })
 
 
     return (
       <div className={classes.ProductContainer}>
-      <div className={classes.DisplaySettings}>
-        <button onClick={this.changeSizeToggle}><i className="fab fa-windows"></i></button>
-        <button onClick={this.backToFirstPage}>Pierwsza strona</button>
-        <button disabled={this.state.disabledBackBtn} onClick={this.backToPreviousPage}>Wroc</button>  
-        
-        {this.props.allProducts.allProducts.length === 0 ? 
-        <button onClick={this.backToFirstPage}>Pierwsza strona</button> :
-        <button onClick={this.nextPage}>Następna strona =></button>}
+        <div className={classes.DisplaySettings}>
+          <button onClick={this.changeSizeToggle}>
+          {this.state.rectangleIcon ? <RectangleIcons/> : <SquereIcon/>}
+          </button>
+          <button onClick={this.backToFirstPage}>Pierwsza strona</button>
+          <button disabled={this.state.disabledBackBtn} onClick={this.backToPreviousPage}>Wróć</button>  
+          
+          {this.props.allProducts.allProducts.length === 0 ? 
+          <button onClick={this.backToFirstPage}>Pierwsza strona</button> :
+          <button onClick={this.nextPage}>Następna strona</button>}
 
-      </div>
+        </div>
         {this.props.loading.loading ? <Spinner/> : null}
         <div className={classes.ProductContainerFlexBox}>
           {displayAllProduct}
-          {this.props.allProducts.allProducts.length === 0 ? <h1>Produkt nie został znaleziony.</h1> : null}
+          {this.props.allProducts.allProducts.length === 0 ? <h1 style={{color: '#4c4c4c'}}>Produkt nie został znaleziony.</h1> : null}
         </div>
+        {this.props.allProducts.allProducts.length === 0 ? null : <button onClick={this.nextPageBeloweBtn}>Następna strona</button>}
       </div>
     )
   }

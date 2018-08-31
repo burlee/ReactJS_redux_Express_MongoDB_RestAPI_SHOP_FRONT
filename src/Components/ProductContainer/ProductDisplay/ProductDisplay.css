@@ -1,7 +1,7 @@
 .ProductDisplay{
     height: 200px;
     border-bottom: 3px solid #808080;
-    margin: 0px 5px 5px 5px;
+    margin: 5px 0px;
     box-shadow: 0px 0px 3px rgb(128, 128, 128, .5);
     display: flex;
     justify-content: space-between;
@@ -17,7 +17,11 @@
     justify-content: center;
     align-items: center;
 }
-
+.ProductDetails h3{
+    font-weight: 600;
+    text-align: center;
+    color: #4c4c4c;
+}
 .ProductAllDetails{
     position: fixed;
     top: 0;
@@ -34,6 +38,7 @@
     background: none;
     cursor: pointer;
     border:none;
+    color: #4c4c4c;
 }
 .ProductDetails h5{
     padding: 5px;
@@ -42,6 +47,7 @@
     font-weight: 400;
     color: #FFFFFF;
     font-size: 12px;
+    text-align: center;
 }
 
 .ShowDetailsProduct{
@@ -50,7 +56,7 @@
     left: 40%;
     width: 400px;
     height: 400px;
-    background: #FFFFFF;
+    background: rgb(250, 250, 250);
     border-radius: 1px;
     box-shadow: 0px 0px 5px #4c4c4c;
     display: flex;
@@ -64,18 +70,34 @@
 }
 .ShowDetailsProduct h3{
     font-weight: 500;
-    font-size: 25px;
+    font-size: 20px;
+    color: #4c4c4c;
+    padding: 10px;
+    background: #e2e2e2;
+    border-radius: 3px;
+    width: 95%;
+    text-align: center;
+}
+.ShowDetailsProduct button{
+    padding: 5px 20px;
+    background: #4caf50;
+    border-radius: 3px;
+    font-weight: bold;
+    color: #FFFFFF;
+    font-size: 11px;
+    text-align: center;
 }
 
 .Price{
     font-size: 20px;
+    color: #4c4c4c;
 }
 .ProductDisplay:hover{
-    border-bottom: 3px solid rgb(0, 0, 0, .7);
+    border-bottom: 3px solid rgb(76, 76, 76, .9);
 }
 .ProductDisplay img{
     margin: 10px;
-    max-width: 100px;
+    max-width: 125px;
     height: 100px;
     cursor: pointer;
 }
@@ -98,8 +120,33 @@
     top: 100px;
     left: 0px;
 }
+.ProductDisplayShopIcon{
+    display: none;
+    padding: 15px;
+}
 
 @keyframes openmodal{
     from{opacity: 0;}
     to{opacity: 1;}
+}
+
+@media only screen and (max-width: 768px) {
+    .ProductDisplay h3{
+        text-align: center;
+        font-size: 15px;
+        font-weight: bold;
+    }
+    .Price{
+        font-size: 16px;
+        text-align: center;
+    }
+    .ProductDisplay button{
+        display: none;
+    }
+    .ProductDisplayShopIcon{
+        display: block;
+    }
+    .ShowDetailsProduct{
+        display: none;
+    }
 }

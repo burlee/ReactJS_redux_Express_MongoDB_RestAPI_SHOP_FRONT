@@ -1,14 +1,20 @@
-import React, { Component } from 'react'
-import classes from './ShopCartOrderSummary.css'
-import { NavLink } from 'react-router-dom'
-import {connect} from 'react-redux'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import axios from 'axios';
+import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import Aux from '../../../HOC/aux_x';
+import classes from './ShopCartOrderSummary.css';
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import SuccessOrderModal from '../../../UI/SuccessOrderModal/SuccessOrderModal';
+
 
 class ShopCartOrderSummary extends Component {
   state = {
     order: JSON.parse(localStorage.getItem('Order')),
     priceSummary: 0,
-    userExist: true
+    userExist: true,
+    isOrderModal: false,
+    orderIsSuccess: false
   }
 
   componentDidMount(){
@@ -21,11 +27,46 @@ class ShopCartOrderSummary extends Component {
       priceSummary += product.productPrice
     });
 
-    if(this.props.userExist.userExist === null){
-      this.setState({ userExist: false})
-    }
-    this.setState({ priceSummary })
+    if(this.props.userExist.userExist === null){this.setState({ userExist: false})};
 
+    this.setState({ priceSummary });
+  }
+
+  deleteProduct = (id, price) => {
+    const oldPrice = this.state.priceSummary;
+    const newPrice = oldPrice - price;
+
+    let filteredOrder = this.state.order.filter( product =>{
+        return product.orderID !== id;
+    });
+
+    localStorage.setItem('Order', JSON.stringify(filteredOrder) );
+    this.setState({ order: filteredOrder, priceSummary: newPrice});
+  }
+
+  makeOrder = () => {
+      
+    this.state.order.forEach( order => {
+      const orderDetails = {
+        orderOwnerID: this.props.userExist.userExist,
+        id: order.id,
+        orderID: order.orderID,
+        productImgUrl: order.productImgUrl,
+        productName: order.productName,
+        productPrice: order.productPrice,
+        userIdFromFirebase: order.userIdFromFirebase
+      }
+      axios.post(`https://shop-237ef.firebaseio.com/${order.userIdFromFirebase}/orderDetails.json`, orderDetails)
+        .then( response => {
+          if(response.status === 200){this.setState({isOrderModal: false})};
+        })
+        .then(()=>{
+          this.setState({orderIsSuccess: true})
+          setTimeout(()=> this.setState({orderIsSuccess: false}), 3500)
+        })
+    })
+
+    
   }
 
   goToCreateAccount = () => {
@@ -41,16 +82,8 @@ class ShopCartOrderSummary extends Component {
     this.setState({ order: [], priceSummary: 0})
   }
 
-  deleteProduct = (id, price) => {
-    const oldPrice = this.state.priceSummary;
-    const newPrice = oldPrice - price;
-
-    let filteredOrder = this.state.order.filter( product =>{
-        return product.orderID !== id;
-    });
-
-    localStorage.setItem('Order', JSON.stringify(filteredOrder) );
-    this.setState({ order: filteredOrder, priceSummary: newPrice});
+  orderModalToggle = () => {
+    this.setState({isOrderModal: !this.state.isOrderModal})
   }
 
   render() {
@@ -61,21 +94,31 @@ class ShopCartOrderSummary extends Component {
     }
 
     let showOrderProduct = null;
+    let showOrderProductDetails = null;
 
     if(this.state.order.length === 0){
-      showOrderProduct = <h1 style={{textAlign: 'center',fontWeight: 100, marginTop: '150px'}}>Twój koszyk jest pusty <i className="fas fa-shopping-cart"></i></h1>
+      showOrderProduct = <h1 style={{fontSize: '25px',fontWeight: '400', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center'}}>Twój koszyk jest pusty <i className="fas fa-shopping-cart"></i></h1>
     }else{
       showOrderProduct = this.state.order.map( product => {
             return (
             <div key={product.orderID} className={classes.productDisplay}>
-              <span style={{width: '200px', fontSize: '14px'}}>{product.productName}</span>
-              <span>{product.productPrice.toFixed(2)} PLN</span>
+              <span>{product.productName}</span>
+              <span style={{width: '100px'}}>{product.productPrice.toFixed(2)} PLN</span>
               <img src={product.productImgUrl} alt={product.productName}/>
               <button onClick={() => this.deleteProduct(product.orderID, product.productPrice)}>X</button>
             </div>
           )
       })
     }
+    showOrderProductDetails = this.state.order.map( (product) => {
+      return (
+        <div key={product.orderID} className={classes.productDisplay}>
+          <span>{product.productName}</span>
+          <span style={{width: '100px'}}>{product.productPrice.toFixed(2)} PLN</span>
+        </div>
+      )
+    })
+
     return (
       <div className={classes.ShopCartOrderSummary}>
         <div className={classes.ShopCartOptions}>
@@ -83,11 +126,34 @@ class ShopCartOrderSummary extends Component {
           <span>Suma zamówienia: {this.state.priceSummary.toFixed(2)} PLN</span>
           <span>Ilość produktów: {this.state.order.length}</span>
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
+          {this.state.order.length === 0 || this.props.userExist.userExist === null ? null : <button onClick={this.orderModalToggle}>Złoż zamówienie</button>}
         </div>
+
+        {this.state.isOrderModal ? 
+          <Aux>
+            <div className={classes.Backdrop} onClick={this.orderModalToggle}></div>
+              <div className={classes.orderModal}>
+                <h4>Potwierdź swoje zamówienie</h4>
+                {showOrderProductDetails}
+                <button onClick={this.makeOrder}>Potwierdzam</button>
+              </div> 
+          </Aux>
+        : null}
+        {this.state.orderIsSuccess ? <SuccessOrderModal/> : null }
         <ReactCSSTransitionGroup style={{ overflowX: 'auto', width: '100%'}} {...transitionOption}>
           {showOrderProduct}
         </ReactCSSTransitionGroup>
-        {this.state.userExist ? null : <a onClick={this.goToCreateAccount} style={{cursor: 'pointer',fontSize: '25px', marginTop: '10px', padding: '10px'}}>Załóż swoje konto</a>}
+        {this.state.userExist ? null : 
+          <a onClick={this.goToCreateAccount} 
+            style={{
+              cursor: 'pointer',
+              fontSize: '22px', 
+              position: 'absolute' ,
+              bottom: '0px', 
+              padding: '15px', 
+              textAlign:'center', 
+              width: '100%'}}>Załóż swoje konto, aby składać zamówienia.</a>
+        }
       </div>
     )
   }

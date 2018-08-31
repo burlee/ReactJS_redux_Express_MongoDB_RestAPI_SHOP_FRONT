@@ -160,8 +160,10 @@ class AddProduct extends Component {
                         category: 'Inne'
                     })
                 }
+                break;
             }
-            
+            default:
+                return;
         }
     }
 

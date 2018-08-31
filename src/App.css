@@ -6,6 +6,7 @@
     animation: openmodal;
     animation-duration: 2.1s;
     overflow-x: auto;
+    color: #4c4c4c;
 }
 .CategoryHeader{
   width: 100%;

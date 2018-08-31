@@ -50,7 +50,7 @@ class Messages extends PureComponent {
     }
 
     showAllMesages = (userID) => {
-        this.setState({acctualyUserId: userID, showAllMesages: true, spinnerIsLoading: true})
+        this.setState({acctualyUserId: userID, showAllMesages: false, spinnerIsLoading: true})
         axios.get(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/messages/${userID}.json`)
             .then(response => {
                 const messagesUpdate = [];
@@ -64,7 +64,7 @@ class Messages extends PureComponent {
                 }
                 this.setState({ messages: messagesUpdate})
             })
-            .then(()=> this.setState({spinnerIsLoading: false}))
+            .then(()=> this.setState({spinnerIsLoading: false, showAllMesages: true}))
     }
 
     sendResponse = () => {
@@ -105,10 +105,9 @@ class Messages extends PureComponent {
             .then( response =>{
                 if(response.status === 200){
                     const messages = this.state.userMessageID.filter( message => {
-                        return message.userMessageID != deleteMessageAuctionID;
+                        return message.userMessageID !== deleteMessageAuctionID;
                     })
                     this.setState({userMessageID: messages})
-                    console.log( messages )
                 }
             })
     }
@@ -116,12 +115,17 @@ class Messages extends PureComponent {
     backToMainMessageBox = () => {
         this.setState({showAllMesages: false, responseInputShow: false})
     }
+
+    backToMainPage = () =>{
+        document.body.style.overflow = "visible";
+        this.props.history.push('/')
+    }
+
     render() {
-        console.log( this.state)
         let userMessageID = this.state.userMessageID.map( (userID, index) => {
             return (
                 <div key={index} className={classes.messageUser}>
-                    <h5>{index + 1}. Twoja korespondencja do aukcji: {userID.userMessageID.slice(28,58)}</h5>
+                    <h5>Wiadomości do aukcji {userID.userMessageID.slice(28,58)}</h5>
                     <div>
                         <button className={classes.showMsgBtn} onClick={() => this.showAllMesages(userID.userMessageID)}>Pokaż wiadomości</button>
                         <button className={classes.deleteMsgBtn} onClick={() => this.deleteMessage(userID.userMessageID)}>Usuń</button>
@@ -154,8 +158,12 @@ class Messages extends PureComponent {
         return (
             <div className={classes.Messages}>
                 {this.state.spinnerIsLoading ? <SmallSpinner/> : null}
-                {this.state.showAllMesages ? <h1>Twoja wiadomości:</h1> :<h1>Twoja skrzynka: {this.state.userMessageID.length}</h1> }
-                {this.state.showAllMesages ? <button onClick={this.backToMainMessageBox}>Wroc</button> : null}
+                
+                {this.state.showAllMesages ? 
+                    <header><button onClick={this.backToMainMessageBox}>Wróć</button>Twoja korespondencja</header> : 
+                    <header><button onClick={this.backToMainPage}>Wyjdź</button> Skrzynka odbiorcza: ({this.state.userMessageID.length})</header>
+                }
+                
                 <div className={classes.MessagesDisplayFlex}>
                     {this.state.showAllMesages ? messages : userMessageID }
                 </div>
@@ -168,7 +176,8 @@ class Messages extends PureComponent {
                             debounceTimeout={300}
                             onChange={ event => this.setState({responseMessage: event.target.value})} />
                         <button onClick={this.sendResponse}>Wyślij odpowiedź</button>
-                    </div> : null }
+                    </div> : null 
+                }
             </div>
         )
     }

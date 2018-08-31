@@ -1,0 +1,20 @@
+.SuccesOrderModal{
+    z-index: 106;
+    position: fixed;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fafafa;
+    border-radius: 3px;
+    box-shadow: 0px 0px 15px #4c4c4c;
+    animation: opacity;
+    animation-duration: .25s;
+}
+.SuccesOrderModal h3{
+    font-weight: 400;
+}
+@keyframes opacity{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}

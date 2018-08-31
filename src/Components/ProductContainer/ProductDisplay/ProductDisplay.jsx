@@ -28,9 +28,11 @@ class ProductDisplay extends PureComponent {
     this.setState({ProductAllDetails: true})
   }
   addProductToShopCart = () => {
-    console.log( this.props)
     let purchasingArray = JSON.parse(localStorage.getItem('Order'));
     
+    if(this.props.userExist === this.props.userIdFromFirebase){
+      return;
+    }
     purchasingArray.push({
       orderID: uuid(),
       id: this.props.id,
@@ -71,16 +73,19 @@ class ProductDisplay extends PureComponent {
                   <h3>{props.productName}</h3>
                   <img style={{maxWidth: '150px', height: '150px'}} src={props.productImgUrl} alt={props.productName}/>
                   <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
-                  <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka</button>
+                  <button onClick={this.addProductToShopCart}>Dodaj do koszyka</button>
                 </div>
             : null }
 
-            <div  className={classes.ProductDetails}>
+            <div className={classes.ProductDetails}>
               <h3>{props.productName}</h3>
               <span className={classes.Price}>{props.productPrice.toFixed(2)} PLN</span>
               <h5>Stan: {props.condition}</h5>
               <button onClick={this.addProductToShopCart}>Dodaj produkt do koszyka<i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i></button>
-              <button onClick={this.ProductAllDetails}>Zobacz aukcje</button>
+              <div className={classes.ProductDisplayShopIcon}>
+                <i onClick={this.addProductToShopCart} style={{fontSize: '25px', cursor: 'pointer'}} className="fas fa-cart-plus"></i>
+              </div>
+              {/* <button onClick={this.ProductAllDetails}>Zobacz aukcje</button> */}
             </div>
 
             {/* {this.state.ProductAllDetails ? 

@@ -1,0 +1,14 @@
+.RectangleIcons{
+    width: 40px;
+    height: 40px;
+    display: block;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.RectangleIcons div{
+    height: 8px;
+    background-color: #4c4c4c;
+    border-radius: 2px;
+}

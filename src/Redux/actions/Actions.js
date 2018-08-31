@@ -6,7 +6,9 @@ import {
     SEARCH_PRODUCT_IN_DB,
     SEARCH_BY_PRICE,
     SEARCH_BY_PRICE_MORE,
-    FETCH_LAST_15_PRODUCTS_FROM_DB
+    FETCH_LAST_15_PRODUCTS_FROM_DB,
+    MESSAGE_COUNTER,
+    SETTINGS_USER_FILLED
 }
     from './types';
 import axios from 'axios';
@@ -47,7 +49,6 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
         axios.get(`http://localhost:3000/offers/`)
             .then(response => {
                 let filteredByPrice = [];
-                console.log(response.data.products)
                 response.data.products.forEach(product => {
                     if (product.productPrice < priceValue && product.category === selectedCategory) {
                         filteredByPrice.push({
@@ -102,7 +103,6 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
         axios.get(`http://localhost:3000/offers/`)
             .then(response => {
                 let filteredByPrice = [];
-                console.log(response.data.products)
                 
                 response.data.products.forEach(product => {
                     if (product.productPrice < priceValue) {
@@ -272,7 +272,6 @@ export const search_product_in_db = (searchTerm) => dispatch => {
     dispatch(set_products_loading());
     axios.get(`http://localhost:3000/offers/${searchTerm}`)
         .then(response => {
-            console.log( response.data)
             dispatch({
                 type: SEARCH_PRODUCT_IN_DB,
                 payload: response.data.products
@@ -301,7 +300,15 @@ export const user_exist = () => dispatch => {
             dispatch({
                 type: USER_EMAIL,
                 payload: user.email
-            })
+            });
+
+            //----
+            dispatch(settings_user_filled(user.uid));
+
+            //----
+            dispatch(message_counter(user.uid));
+            setInterval(()=> dispatch(message_counter(user.uid)) , 180000);
+
         } else {
             dispatch({
                 type: USER_EXIST,
@@ -311,8 +318,37 @@ export const user_exist = () => dispatch => {
             dispatch({
                 type: USER_EMAIL,
                 payload: null
-            })
+            });
         }
     });
 }
 
+export const settings_user_filled = (userID) => dispatch => {
+    axios.get(`https://shop-237ef.firebaseio.com/${userID}/PaymentOptions.json`)
+        .then( response => {
+            dispatch({
+                type: SETTINGS_USER_FILLED,
+                payload: response.data
+            });
+        })
+}
+
+export const message_counter = (userID) => dispatch => {
+    axios.get(`https://shop-237ef.firebaseio.com/${userID}/messages.json`)
+        .then( response =>{
+            const messageCounter = [];
+            if(response.data === null){
+                return;
+            }
+            let messages = Object.values(response.data);
+            for(let key in messages){
+               Object.keys( messages[key]).map( message => {
+                   messageCounter.push(message)
+               });
+            };     
+            dispatch({
+                type: MESSAGE_COUNTER,
+                payload: messageCounter.length
+            })
+        })
+}

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-
 import FirebaseConfig from '../../FirebaseConfig';
 import Aux from '../../HOC/aux_x';
 import classes from './RegisterModul.css';

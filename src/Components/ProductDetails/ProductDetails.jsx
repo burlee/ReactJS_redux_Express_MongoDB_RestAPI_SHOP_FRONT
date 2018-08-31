@@ -41,26 +41,26 @@ class ProductDetails extends Component {
   render() {
     return (
       <div className={classes.ProductDetails}>
-        <h5>Personalizuj swoją cenę:</h5>
+        <h5>Personalizuj swoje ustawienia</h5>
         <div className={classes.FillteredBox}>
-          <label htmlFor="lessThanInput">Mniej niż(pln):</label>
+          <label htmlFor="lessThanInput">Mniej niż:</label>
           <DebounceInput
             id="lessThanInput"
             value={this.state.searchPrice}
             minLength={1}
             debounceTimeout={300}
             onChange={event => this.setState({ searchPrice: event.target.value })} />
-          <button onClick={this.searchByPrice}>Szukaj po cenie</button>
+          <button onClick={this.searchByPrice}>Szukaj</button>
         </div>
         <div className={classes.FillteredBox}>
-          <label htmlFor="moreThanInput">Więcej niż niż(pln):</label>
+          <label htmlFor="moreThanInput">Więcej niż niż:</label>
           <DebounceInput
             id="moreThanInput"
             value={this.state.searchPriceMore}
             minLength={1}
             debounceTimeout={300}
             onChange={event => this.setState({ searchPriceMore: event.target.value })} />
-          <button onClick={this.searchByPriceMore}>Szukaj po cenie</button>
+          <button onClick={this.searchByPriceMore}>Szukaj</button>
         </div>
         <div className={classes.ConditionBox}>
           <span>Wybierz stan:</span>

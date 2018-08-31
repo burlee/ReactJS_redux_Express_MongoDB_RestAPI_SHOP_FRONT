@@ -64,7 +64,13 @@
     transform: translate3d(-20%,0,0) translate3d(1rem,0,0);
     transition: transform 0.3s;
 }
-
+.MessageCount{
+    background: #4caf50;
+    color: #FFFFFF;
+    border-radius: 25%;
+    padding: 5px 6px;
+    font-size: 11px;
+}
 @keyframes slideInUp {
     from {
       -webkit-transform: translate3d(0, 100%, 0);
@@ -76,4 +82,33 @@
       -webkit-transform: translate3d(0, 0, 0);
       transform: translate3d(0, 0, 0);
     }
-  }
+}
+
+@media only screen and (max-width: 768px) {
+    .Panel{
+        height: 20vh;
+    }
+    .Panel ul{
+        height: 20vh;
+        flex-wrap: wrap;
+    }
+    .Panel ul li{
+        width: 30%;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .Panel ul li{
+        font-size: 11px;
+    }
+    .Panel ul li a{
+        font-size: 11px;
+    }
+}@media only screen and (max-width: 420px) {
+    .Panel ul li{
+        font-size: 11px;
+    }
+    .Panel ul li a{
+        font-size: 11px;
+    }
+}

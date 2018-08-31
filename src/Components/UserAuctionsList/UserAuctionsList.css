@@ -14,11 +14,25 @@
     overflow-x: auto;
 }
 
-.UserAuctionsList h1{
+.UserAuctionsList header{
     font-weight: 300;
     text-align: center;
     font-size: 25px;
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.UserAuctionsList header input{
+    border-radius: 1px;
+    border: none;
+    font-size: 12px;
+    outline: none;
+    color: #4c4c4c;
+    border-bottom: 1px solid hsla(0, 0%, 30%, 0.1);
+    padding: 10px;
+    cursor: pointer;
 }
 
 .UserAuctionsList h3{
@@ -44,7 +58,7 @@
     color: #FFFFFF;
     outline: none;
     padding: 10px 35px;
-    border-radius: 20px;
+    border-radius: 3px;
     border: none;
     font-size: 12px;
     margin: 5px;
@@ -58,7 +72,7 @@
 .DisplayUserAuction{
     max-width: 80%;
     height: 200px;
-    box-shadow: 0px 0px 3px rgb(128, 128, 128, .5);
+    border: 1px solid hsla(0, 0%, 30%, 0.1);
     margin: 10px auto;
     display: flex;
     flex-direction: column;
@@ -66,11 +80,6 @@
     align-items: center;
     padding: 15px;
     transition: .1s all ease-in-out;
-}
-
-.DisplayUserAuction:hover{
-    box-shadow: 0px 0px 3px rgb(128, 128, 128, 1);
-    transform: scale(1.005);
 }
 
 .ImgContainer {
@@ -84,7 +93,7 @@
 
 .Backdrop{
     z-index: 1;
-    background-color: rgb(0, 0, 0, .8);
+    background-color: rgba(250, 250, 250, 0.5);
     position: fixed;
     top: 0;
     left: 0;
@@ -94,74 +103,88 @@
 }
 .EditProductModal{
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+    top: 0;
+    right: 0;
     z-index: 2;
-    width: 80%;
-    height: 80%;
-    border-radius: 1px;
-    margin: 0 auto;
-    background-color: #FFF;
+    width: 50%;
+    height: 100vh;
+    background-color: rgba(250, 250, 250);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     animation: opacity;
     animation-duration: 1s;
+    box-shadow: 0px 0px 10px #4c4c4c;
+    padding: 15px;
 }
 .EditProductModal h1{
-    font-weight: 300;
-    font-size: 18px;
-    background-color: #4c4c4c;
-    color: rgb(250, 250, 250);
-}
-.EditProductModal label{
-    font-size: 13px;
+    font-weight: 400;
+    font-size: 25px;
+    color: #4c4c4c;
+    padding: 10px;
     text-align: center;
 }
+.EditProductModal label{
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #4c4c4c;
+    text-align: center;
+    padding: 15px;
+}
 .EditProductModal input{
+    border: none;
+    border: 1px solid hsla(0, 0%, 30%, 0.1);
     height: 40px;
     font-size: 18px;
     outline: none;
     box-sizing: border-box;
     margin: 5px;
     padding-left: 10px;
-    border: 1px solid rgba(76, 76, 76, 0.25);
 }
-
-.DeleteAuctionModal{
-    z-index: 106;
+.DeleteAuctionModal button{
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgb(250, 250, 250);
-    width: 330px;
-    height: 140px;
-    border-radius: 3px;
-    box-shadow: 0px 0px 15px #4c4c4c;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    animation: opacity;
-    animation-duration: 1s;
-}
-.DeleteAuctionModal h1{
-    font-weight: 400;
+    transform: translate(-50%,-50%);
+    background: none;
     color: #4c4c4c;
-}
-.DeleteAuctionModal button{
-    background: #4c4c4c;
-    cursor: pointer;
-    color: #FFFFFF;
-    outline: none;
-    padding: 10px 35px;
-    border-radius: 20px;
     border: none;
-    font-size: 12px;
-    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    outline: none;
+    z-index: 200;
+    font-size: 35px;
+    transition: .25s all ease-in-out;
 }
+.DeleteAuctionModal button:hover{
+    color: #F44336;
+}
+.EditButton{
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 3px;
+    background: #4caf50;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #FFF;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid hsla(0, 0%, 30%, 0.1);
+}
+@media only screen and (max-width: 768px) {
+    .AuctionBox{
+        flex-direction: column;
+    }
+    .DisplayUserAuction{
+        height: auto;
+    }
+    .ImgContainer{
+        margin: 0 auto;
+    }
+    .EditProductModal{
+        width: 70%;
+    }
+}
+
 
 @keyframes opacity{
     from{opacity: 0;}
