@@ -31,6 +31,7 @@
     justify-content: center;
     align-items: center;
     font-size: 12px;
+    margin: 5px;
 }
 
 .Panel ul li a{
@@ -71,6 +72,16 @@
     padding: 5px 6px;
     font-size: 11px;
 }
+
+.ColorPicker{
+    margin-bottom: 10px;
+    position: absolute;
+    bottom: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    background: #e9e9e9;
+    width: 196px;
+}
 @keyframes slideInUp {
     from {
       -webkit-transform: translate3d(0, 100%, 0);
@@ -86,10 +97,10 @@
 
 @media only screen and (max-width: 768px) {
     .Panel{
-        height: 20vh;
+        height: auto;
     }
     .Panel ul{
-        height: 20vh;
+        height: auto;
         flex-wrap: wrap;
     }
     .Panel ul li{
@@ -100,13 +111,7 @@
 @media only screen and (max-width: 420px) {
     .Panel ul li{
         font-size: 11px;
-    }
-    .Panel ul li a{
-        font-size: 11px;
-    }
-}@media only screen and (max-width: 420px) {
-    .Panel ul li{
-        font-size: 11px;
+        text-align: center;
     }
     .Panel ul li a{
         font-size: 11px;

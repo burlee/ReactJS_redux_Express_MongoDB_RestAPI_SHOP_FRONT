@@ -3,6 +3,7 @@ import classes from './UserSettings.css';
 import { DebounceInput } from 'react-debounce-input';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { user_exist } from '../../Redux/actions/Actions'
 import BackButton from '../../UI/BackButton/BackButton'
 
 
@@ -23,7 +24,8 @@ class UserSettings extends Component {
         showPaymentsModal: false,
         currentBTCAddress: '',
         currentLTCAddress: '',
-        currentBANKAddres: ''
+        currentBANKAddres: '',
+        userNameAndSurname: ''
     }
 
     showPaymentDetailsToggle = () => {
@@ -65,6 +67,25 @@ class UserSettings extends Component {
         }
     }
 
+    saveUserNameAndSurname = () => {
+        if(this.state.userNameAndSurname.length < 8 ) return;
+
+        const userNameAndSurname = {
+            userNameAndSurname: this.state.userNameAndSurname
+        }
+        axios.patch(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/UserDetails.json`, userNameAndSurname)
+        .then( response => {
+            if(response.status === 200){
+                this.props.user_exist();
+                this.refs.userNameAndSurname.state.value = '';
+                this.setState({successAddedAddress: true, userNameAndSurname: ''});
+                setTimeout(() => this.setState({successAddedAddress: false}), 2500)
+            }
+        })
+    }
+
+
+
     saveBTCaddress = () => {
         if(this.state.bitcoinAddressNumber.length >= 26){
             const BTCaddress = {
@@ -74,6 +95,7 @@ class UserSettings extends Component {
             axios.patch(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/PaymentOptions.json`, BTCaddress)
                 .then( response => {
                     if(response.status === 200){
+                        this.props.user_exist();
                         this.refs.btc.state.value = '';
                         this.setState({successAddedAddress: true, bitcoinAddressNumber: '', bitcoinAddressBorderBottom: '#4c4c4c'});
                         setTimeout(() => this.setState({successAddedAddress: false}), 2500)
@@ -90,6 +112,7 @@ class UserSettings extends Component {
             axios.patch(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/PaymentOptions.json`, BANKaddress)
                 .then( response => {
                     if(response.status === 200){
+                        this.props.user_exist();
                         this.refs.bank.state.value = '';
                         this.setState({successAddedAddress: true, accountBankNumber: '', accountBankNbBorderColor: '#4c4c4c'});
                         setTimeout(() => this.setState({successAddedAddress: false}), 2500)
@@ -107,6 +130,7 @@ class UserSettings extends Component {
             axios.patch(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/PaymentOptions.json`, LTCaddress)
                 .then( response => {
                     if(response.status === 200){
+                        this.props.user_exist();
                         this.refs.ltc.state.value = '';
                         this.setState({successAddedAddress: true, litecoinAddressNumber: '', litecoinAddressBorderBottom: '#4c4c4c'});
                         setTimeout(() => this.setState({successAddedAddress: false}), 2500)
@@ -144,11 +168,31 @@ class UserSettings extends Component {
     render() {
         return (
             <div className={classes.UserSettings}>
+                {this.props.userExist.userPersonalDetails === null ? 
                 <header>Ustawienia konta {this.state.successAddedAddress ? <span>Ustawienia zostały zapisane.</span> : null }</header>
+                :
+                <header>Witaj {this.props.userExist.userPersonalDetails.userNameAndSurname} w ustawieniach konta {this.state.successAddedAddress ? <span>Ustawienia zostały zapisane.</span> : null }</header>
+                }
+                
                 <div className={classes.UserSettingsBox}>
                     <h2 onClick={this.showPaymentDetailsToggle}><i className="fas fa-cogs"></i>Twoje dane {this.state.showPaymentDetails ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i> }</h2>
                     {this.state.showPaymentDetails ? 
-                    <div><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus autem ducimus deleniti officia quis nihil inventore doloremque amet ex. Fugiat assumenda eos excepturi perspiciatis reiciendis quae possimus beatae ex facilis ad sint, sequi fugit enim commodi iste explicabo praesentium architecto!</p></div>
+                    <div>
+                        <p>Uzupełnij lub edytuj swoje dane personalne poniżej, aby wystawiać swoje aukcje.</p>
+                        <h3>
+                            <span>Uzupełnij swoje imię i nazwisko:</span>
+                            <span className={classes.Wrapper}>
+                                <DebounceInput
+                                    ref="userNameAndSurname"
+                                    minLength={8}
+                                    debounceTimeout={200}
+                                    maxLength={20}
+                                    style={{borderBottom: `1px solid #4c4c4c`}}
+                                    onChange={event => this.setState({userNameAndSurname: event.target.value})} />
+                                <button onClick={this.saveUserNameAndSurname}>Zapisz</button>
+                            </span>
+                        </h3>
+                    </div>
                     : null }
                 </div>
 
@@ -221,7 +265,8 @@ class UserSettings extends Component {
 }
 
 const mapStateToProps = state => ({
-    userExist: state.auctionList
+    userExist: state.auctionList,
+    userEmail: state.auctionList
 });
 
-export default connect(mapStateToProps)(UserSettings);
+export default connect(mapStateToProps, {user_exist})(UserSettings);

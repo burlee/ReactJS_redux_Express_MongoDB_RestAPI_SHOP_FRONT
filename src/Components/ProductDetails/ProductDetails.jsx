@@ -40,7 +40,7 @@ class ProductDetails extends Component {
 
   render() {
     return (
-      <div className={classes.ProductDetails}>
+      <aside className={classes.ProductDetails}>
         <h5>Personalizuj swoje ustawienia</h5>
         <div className={classes.FillteredBox}>
           <label htmlFor="lessThanInput">Mniej niż:</label>
@@ -84,7 +84,7 @@ class ProductDetails extends Component {
             <option value="Inne">Inne</option>
           </select>
         </div>
-      </div>
+      </aside>
     )
   }
 }

@@ -128,6 +128,7 @@ class UserAuctionsList extends Component {
             this.setState({disabledChangeDataBtn: false})
         }else( this.setState({disabledChangeDataBtn: true}))
     }
+
     confirmDeleteModalFn = (idFromFirebase, idFromRestApi) => {
         this.setState({
             confirmDeleteModal: true,
@@ -214,9 +215,9 @@ class UserAuctionsList extends Component {
                     <div onClick={this.editProductToggle} className={classes.Backdrop}></div> 
                     <div className={classes.EditProductModal}>
                         <h1><i class="fas fa-edit"></i>Edytuj szczegóły aukcji</h1>
-                        <label htmlFor="auctionNamex">Nowa nazwa aukcji:</label>
+                        <label htmlFor="auctionNameEdit">Nowa nazwa aukcji: <span>*</span></label>
                         <DebounceInput
-                            id="auctionNamex"
+                            id="auctionNameEdit"
                             minLength={5}
                             debounceTimeout={300}
                             onChange={ event => this.productNameHandler(event)} />

@@ -8,7 +8,8 @@ import {
     SEARCH_BY_PRICE_MORE,
     FETCH_LAST_15_PRODUCTS_FROM_DB,
     MESSAGE_COUNTER,
-    SETTINGS_USER_FILLED
+    USER_PAYMENT_SETTINGS,
+    USER_PERSONAL_DETAILS
 }
     from './types';
 import axios from 'axios';
@@ -291,6 +292,7 @@ export const user_exist = () => dispatch => {
         if (user) {
             // setTimeout(() => {
             //     FirebaseConfig.auth().signOut();
+            //     window.location.reload();
             // }, 10000);
             dispatch({
                 type: USER_EXIST,
@@ -327,10 +329,19 @@ export const settings_user_filled = (userID) => dispatch => {
     axios.get(`https://shop-237ef.firebaseio.com/${userID}/PaymentOptions.json`)
         .then( response => {
             dispatch({
-                type: SETTINGS_USER_FILLED,
+                type: USER_PAYMENT_SETTINGS,
                 payload: response.data
             });
         })
+//Fetch user name and surname
+    axios.get(`https://shop-237ef.firebaseio.com/${userID}/UserDetails.json`)
+    .then( response => {
+        dispatch({
+            type: USER_PERSONAL_DETAILS,
+            payload: response.data
+        });
+    })
+
 }
 
 export const message_counter = (userID) => dispatch => {

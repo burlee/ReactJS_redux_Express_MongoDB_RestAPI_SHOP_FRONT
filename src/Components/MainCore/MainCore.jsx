@@ -15,11 +15,16 @@ import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
 import Messages from '../Messager/Messages/Messages';
 import { connect } from 'react-redux';
 import UserSettings from '../UserSettings/UserSettings';
+import { CirclePicker } from 'react-color';
+
 
 class MainCore extends Component {
   state = {
     showPanel: false,
-    warningModal: false
+    warningModal: false,
+    showColorPicker: false,
+    panelBgColor: localStorage.getItem('panelBgColor'),
+    colors: ['#fafafa', "#e2e2e2", '#cecece', '#b5b5b5','#a1a1a1']
   }
 
   componentDidMount(){
@@ -43,14 +48,26 @@ class MainCore extends Component {
 
   logOut = () =>{
     FirebaseConfig.auth().signOut();
-    this.props.history.push('/');
+    window.location.reload();
   }
   
   warningModal = () => {
     this.setState({warningModal: true});
     setTimeout(()=> this.setState({warningModal: false}), 5000);
   }
+
+  showColorPicker = () => {
+    this.setState({showColorPicker: !this.state.showColorPicker})
+  }
+
+  colorHandler = (color) => {
+    console.log( color )
+    this.setState({ panelBgColor: color.hex });
+    localStorage.setItem('panelBgColor', color.hex)
+  }
+
   render() {
+    console.log(this.state )
     return (
       <Aux>
         {this.state.showPanel ? null : 
@@ -62,13 +79,21 @@ class MainCore extends Component {
           <i style={{fontSize: '30px', marginRight: '8px'}} className="fas fa-user-alt"></i>
           </button>}
         {this.state.showPanel ? 
-          <div className={classes.Panel}>
+          <nav className={classes.Panel} style={{backgroundColor: this.state.panelBgColor}}>
+            
+            {this.state.showColorPicker ? 
+            <div className={classes.ColorPicker}>
+              <CirclePicker colors={this.state.colors} onChange={this.colorHandler} />
+            </div> : null }
+
             <ul>
               {this.props.userExist.userExist !== null ? 
               <Aux>
+                <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold', background: '#e2e2e2', borderRadius: '3px'}} onClick={this.showColorPicker}><i style={{fontSize: '25px'}} class="fas fa-palette"></i></li>
                 <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.logOut}>Wyloguj się</li>
-                
-                { this.props.userSettings.userSettings === null ? 
+
+                { this.props.userSettings.userPaymentSettings === null ||
+                  this.props.userSettings.userPersonalDetails === null ? 
                     <li onClick={this.warningModal} style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}}>Dodaj aukcję</li> : 
                     <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj aukcję</NavLink></li>
                 }
@@ -85,7 +110,7 @@ class MainCore extends Component {
               }
               <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.closePanelToggle}>Zamknij</li>
             </ul>
-          </div>
+          </nav>
         : null }
         
         <Switch>

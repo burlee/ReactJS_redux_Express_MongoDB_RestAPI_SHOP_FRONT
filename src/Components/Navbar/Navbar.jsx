@@ -7,11 +7,11 @@ export default class Navbar extends Component {
 
   render() {
         return (
-            <div className={classes.Navbar}>
+            <nav className={classes.Navbar}>
                 {/* <MainLogo/> */}
                 <ShopCart/>
                 <Search/>
-            </div>
+            </nav>
         )
     }
 }

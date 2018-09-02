@@ -17,6 +17,7 @@ class ShopCartOrderSummary extends Component {
     orderIsSuccess: false
   }
 
+
   componentDidMount(){
     document.body.style.overflow = 'hidden';
 
@@ -44,7 +45,7 @@ class ShopCartOrderSummary extends Component {
     this.setState({ order: filteredOrder, priceSummary: newPrice});
   }
 
-  makeOrder = () => {
+  confirmOrder = () => {
       
     this.state.order.forEach( order => {
       const orderDetails = {
@@ -86,6 +87,7 @@ class ShopCartOrderSummary extends Component {
     this.setState({isOrderModal: !this.state.isOrderModal})
   }
 
+
   render() {
     const transitionOption = {
       transitionName: "fade",
@@ -114,6 +116,7 @@ class ShopCartOrderSummary extends Component {
       return (
         <div key={product.orderID} className={classes.productDisplay}>
           <span>{product.productName}</span>
+          <img src={product.productImgUrl} alt={product.productName}/>
           <span style={{width: '100px'}}>{product.productPrice.toFixed(2)} PLN</span>
         </div>
       )
@@ -126,16 +129,21 @@ class ShopCartOrderSummary extends Component {
           <span>Suma zamówienia: {this.state.priceSummary.toFixed(2)} PLN</span>
           <span>Ilość produktów: {this.state.order.length}</span>
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
-          {this.state.order.length === 0 || this.props.userExist.userExist === null ? null : <button onClick={this.orderModalToggle}>Złoż zamówienie</button>}
+          {this.state.order.length === 0 || this.props.userExist.userExit === null || this.props.userExist.userPaymentSettings === null || this.props.userExist.userPersonalDetails === null  ?
+             <i title="Twoj koszyk jest pusty lub nie uzupełniłeś swojego profilu." style={{fontSize: '25px', cursor: 'pointer'}} className="fas fa-info-circle"></i> : 
+             <button style={{backgroundColor: 'rgba(128, 128, 128, 0.2)'}} onClick={this.orderModalToggle}>Złoż zamówienie</button>
+          }
         </div>
 
         {this.state.isOrderModal ? 
           <Aux>
-            <div className={classes.Backdrop} onClick={this.orderModalToggle}></div>
+            <div className={classes.Backdrop} onClick={this.orderModalToggle}>
+              <button onClick={this.confirmOrder}>Potwierdzam</button>
+            </div>
               <div className={classes.orderModal}>
                 <h4>Potwierdź swoje zamówienie</h4>
                 {showOrderProductDetails}
-                <button onClick={this.makeOrder}>Potwierdzam</button>
+                <button onClick={this.confirmOrder}>Potwierdzam</button>
               </div> 
           </Aux>
         : null}
@@ -152,6 +160,7 @@ class ShopCartOrderSummary extends Component {
               bottom: '0px', 
               padding: '15px', 
               textAlign:'center', 
+              background: '#fafafa',
               width: '100%'}}>Załóż swoje konto, aby składać zamówienia.</a>
         }
       </div>

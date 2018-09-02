@@ -93,7 +93,8 @@ class ProductDisplay extends PureComponent {
               <p>{props.productName}</p>
             </div> : null } */}
             <button onClick={this.ShowMessager}><i style={{fontSize: '20px', color: '#4c4c4c'}} className="fas fa-envelope"></i></button>
-            {this.state.showMessager ? <Messager 
+            {this.state.showMessager ? 
+            <Messager 
               closeBackdrop={this.ShowMessager} 
               userIdFromFirebase={this.props.userIdFromFirebase}
               userLogginID={this.props.userLogginID}

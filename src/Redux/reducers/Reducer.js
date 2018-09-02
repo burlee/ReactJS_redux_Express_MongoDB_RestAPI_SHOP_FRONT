@@ -8,7 +8,8 @@ import  {
     SEARCH_BY_PRICE_MORE,
     FETCH_LAST_15_PRODUCTS_FROM_DB,
     MESSAGE_COUNTER,
-    SETTINGS_USER_FILLED
+    USER_PAYMENT_SETTINGS,
+    USER_PERSONAL_DETAILS
 } 
 from '../actions/types';
 
@@ -20,7 +21,8 @@ const initialState = {
     userExist: null,
     userEmail: '',
     messageCount: 0,
-    userSettings: ''
+    userPaymentSettings: null,
+    userPersonalDetails: null
 }
 
 
@@ -76,10 +78,15 @@ export default function(state = initialState, action){
                 ...state,
                 messageCount: action.payload
             }
-        case SETTINGS_USER_FILLED:
+        case USER_PAYMENT_SETTINGS:
             return{
                 ...state,
-                userSettings: action.payload
+                userPaymentSettings: action.payload
+            }
+        case USER_PERSONAL_DETAILS:
+            return{
+                ...state,
+                userPersonalDetails: action.payload
             }
         default: 
             return state;
