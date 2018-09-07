@@ -13,7 +13,7 @@
 
 .Search button{
     padding: 4px;
-    height: 35px;
+    height: 36px;
     width: 35px;
     cursor: pointer;
     text-transform: uppercase;
@@ -30,4 +30,10 @@
 }
 .Search i{
     font-size: 15px;
+}
+
+@media only screen and (max-width: 468px) {
+    .Search input{
+        width: auto;
+    }
 }

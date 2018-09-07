@@ -50,7 +50,7 @@ export default class Messager extends Component {
       <Aux>
       <div className={classes.Backdrop} onClick={this.props.closeBackdrop}></div>
         <div className={classes.Messager}>
-          <label htmlFor="message">Wpisz treść wiadomości:</label>
+          <label htmlFor="message">Wyślij wiadomość do sprzedającego</label>
           <DebounceInput 
               minLength={15}
               debounceTimeout={500}

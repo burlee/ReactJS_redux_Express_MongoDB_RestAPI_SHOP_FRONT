@@ -16,6 +16,7 @@ import Messages from '../Messager/Messages/Messages';
 import { connect } from 'react-redux';
 import UserSettings from '../UserSettings/UserSettings';
 import { CirclePicker } from 'react-color';
+import Orders from '../Orders/Orders';
 
 
 class MainCore extends Component {
@@ -61,13 +62,11 @@ class MainCore extends Component {
   }
 
   colorHandler = (color) => {
-    console.log( color )
     this.setState({ panelBgColor: color.hex });
     localStorage.setItem('panelBgColor', color.hex)
   }
 
   render() {
-    console.log(this.state )
     return (
       <Aux>
         {this.state.showPanel ? null : 
@@ -89,7 +88,7 @@ class MainCore extends Component {
             <ul>
               {this.props.userExist.userExist !== null ? 
               <Aux>
-                <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold', background: '#e2e2e2', borderRadius: '3px'}} onClick={this.showColorPicker}><i style={{fontSize: '25px'}} class="fas fa-palette"></i></li>
+                <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.showColorPicker}>Dostosuj kolor</li>
                 <li style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}} onClick={this.logOut}>Wyloguj się</li>
 
                 { this.props.userSettings.userPaymentSettings === null ||
@@ -97,7 +96,7 @@ class MainCore extends Component {
                     <li onClick={this.warningModal} style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}}>Dodaj aukcję</li> : 
                     <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj aukcję</NavLink></li>
                 }
-                
+                <li><NavLink onClick={this.scrollHidden} to="/orders">Zamówienia</NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/auction-list">Lista aukcji</NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/messages">Wiadomości <span className={classes.MessageCount}>{this.props.messageCount.messageCount}</span></NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/settings">Ustawienia</NavLink></li>
@@ -118,11 +117,12 @@ class MainCore extends Component {
           <Route path='/add-product' component={AddProduct} />
           <Route path='/auction-list' component={UserAuctionsList} />
           <Route path='/loggin' component={LoginModule} />
+          <Route path='/orders' component={Orders} />
           <Route path='/messages' component={Messages} />
           <Route path='/settings' component={UserSettings} />
         </Switch>
         
-        <Navbar/>
+        <Navbar bgColor={this.state.panelBgColor}/>
         <ProductDetails/>
         <ProductContainer/>
 

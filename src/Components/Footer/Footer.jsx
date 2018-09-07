@@ -16,6 +16,7 @@ export default class Footer extends Component {
 
         <div className={classes.Newsletter}>
           <h2>Newsletter</h2>
+          <p>Zapisz się i otrzymuj najnowsze informacje</p>
           <div className={classes.NewsletterBox}>
             <input placeholder="Podaj swój adres email..." type="text"/>
             <button>Zapisz</button>

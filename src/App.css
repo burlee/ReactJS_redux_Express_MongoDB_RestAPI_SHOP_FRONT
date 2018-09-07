@@ -37,6 +37,13 @@
       align-items: center;
   }
 }
+
+@media only screen and (max-width: 468px) {
+  .App{
+    margin-top: 75px;
+  }
+}
+
 /* .fade-enter {
     opacity: 0.01;
   }

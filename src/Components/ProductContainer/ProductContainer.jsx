@@ -13,7 +13,7 @@ import SquereIcon from '../../UI/SquereIcon/SquereIcon';
 class ProductContainer extends Component {
   state = {
     shopCartIsEmpty: localStorage.getItem('Order'),
-    productDisplayHeigth: 315,
+    productDisplayHeigth: 'auto',
     productDisplayWidth: 100,
     flexDirection: 'row',
     startProductPagination: 0,
@@ -37,7 +37,7 @@ class ProductContainer extends Component {
         rectangleIcon: false,
         productDisplayWidth: 100,
         flexDirection: 'row',
-        productDisplayHeigth: 315
+        productDisplayHeigth: 'auto'
       })
     }
     if(this.state.productDisplayWidth === 100){
@@ -45,7 +45,7 @@ class ProductContainer extends Component {
         rectangleIcon: true,
         productDisplayWidth: 45,
         flexDirection: 'column',
-        productDisplayHeigth: 315
+        productDisplayHeigth: 'auto'
       })
     }
   }
@@ -126,6 +126,7 @@ class ProductContainer extends Component {
                 key={product.id}
                 id={product.id}
                 productName={product.productName}
+                productColor={product.productColor}
                 productPrice={product.productPrice}
                 productImgUrl={product.productImgUrl}
                 userIdFromFirebase={product.auctionOwnerUserIDfb}
@@ -155,7 +156,7 @@ class ProductContainer extends Component {
           {displayAllProduct}
           {this.props.allProducts.allProducts.length === 0 ? <h1 style={{color: '#4c4c4c'}}>Produkt nie został znaleziony.</h1> : null}
         </div>
-        {this.props.allProducts.allProducts.length === 0 ? null : <button onClick={this.nextPageBeloweBtn}>Następna strona</button>}
+        {this.props.allProducts.allProducts.length === 0 ? null : <button className={classes.nextPageBtnUnderContainer} onClick={this.nextPageBeloweBtn}>Następna strona</button>}
       </div>
     )
   }

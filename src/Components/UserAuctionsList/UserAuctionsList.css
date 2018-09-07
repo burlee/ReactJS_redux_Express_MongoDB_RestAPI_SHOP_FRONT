@@ -9,8 +9,8 @@
     padding: 15px;
     box-sizing: border-box;
     overflow-x: scroll;
-    animation: opacity;
-    animation-duration: 1s;
+    animation: zoomIn;
+    animation-duration: .5s;
     overflow-x: auto;
 }
 
@@ -117,7 +117,7 @@
     padding: 15px;
 }
 .EditProductModal h1{
-    font-weight: 400;
+    font-weight: 300;
     font-size: 25px;
     color: #4c4c4c;
     padding: 10px;
@@ -189,4 +189,16 @@
 @keyframes opacity{
     from{opacity: 0;}
     to{opacity: 1;}
+}
+
+@keyframes zoomIn {
+    from {
+      opacity: 0;
+      -webkit-transform: scale3d(0.3, 0.3, 0.3);
+      transform: scale3d(0.3, 0.3, 0.3);
+    }
+  
+    50% {
+      opacity: 1;
+    }
 }

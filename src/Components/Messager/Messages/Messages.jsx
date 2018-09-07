@@ -6,6 +6,7 @@ import moment from 'moment';
 import 'moment/locale/pl';
 import { connect } from 'react-redux';
 import SmallSpinner from '../../../UI/SmallSpinner/SmallSpinner';
+import Aux from '../../../HOC/aux_x'
 
 class Messages extends PureComponent {
     state = {
@@ -17,10 +18,13 @@ class Messages extends PureComponent {
         userSendMessageId: '',
         productName: '',
         showAllMesages: false,
-        spinnerIsLoading: false
+        spinnerIsLoading: false,
+        messagesIsLoading: false
     }
 
     componentDidMount() {
+        this.setState({messagesIsLoading: false})
+
         axios.get(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/messages.json`)
             .then(response => {
                 const userMessageIDUpdate = [];
@@ -30,6 +34,9 @@ class Messages extends PureComponent {
                     })
                 }
                 this.setState({userMessageID: userMessageIDUpdate})
+            })
+            .then(() => {
+                this.setState({messagesIsLoading: true})
             })
     }
 
@@ -122,6 +129,7 @@ class Messages extends PureComponent {
     }
 
     render() {
+        console.log( this.state)
         let userMessageID = this.state.userMessageID.map( (userID, index) => {
             return (
                 <div key={index} className={classes.messageUser}>
@@ -159,20 +167,26 @@ class Messages extends PureComponent {
             <div className={classes.Messages}>
                 {this.state.spinnerIsLoading ? <SmallSpinner/> : null}
                 
-                {this.state.showAllMesages ? 
-                    <header><button onClick={this.backToMainMessageBox}>Wróć</button>Twoja korespondencja</header> : 
-                    <header><button onClick={this.backToMainPage}>Wyjdź</button> Skrzynka odbiorcza: ({this.state.userMessageID.length})</header>
-                }
-                
-                <div className={classes.MessagesDisplayFlex}>
-                    {this.state.showAllMesages ? messages : userMessageID }
-                </div>
+                {this.state.messagesIsLoading ? 
+                    <Aux>
+                        {this.state.showAllMesages ? 
+                            <header><button onClick={this.backToMainMessageBox}>Wróć</button>Twoja korespondencja</header> : 
+                            <header><button onClick={this.backToMainPage}>Wyjdź</button> Skrzynka odbiorcza: ({this.state.userMessageID.length})</header>
+                        }
+                        
+                        <div className={classes.MessagesDisplayFlex}>
+                            {this.state.showAllMesages ? messages : userMessageID }
+                        </div>
+                    </Aux>
+                : null }
+
                 {this.state.responseInputShow ?
                     <div className={classes.replyBox}>
                         <DebounceInput
                             id="lessThanInput"
                             value={this.state.searchPrice}
                             minLength={1}
+                            placeholder="Wpisz odpowiedź..."
                             debounceTimeout={300}
                             onChange={ event => this.setState({responseMessage: event.target.value})} />
                         <button onClick={this.sendResponse}>Wyślij odpowiedź</button>

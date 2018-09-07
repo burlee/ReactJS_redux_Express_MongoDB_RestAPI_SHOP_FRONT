@@ -55,6 +55,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                         filteredByPrice.push({
                             id: product.id,
                             productName: product.productName,
+                            productColor: product.productColor,
                             productPrice: product.productPrice,
                             productImgUrl: product.productImgUrl,
                             category: product.category,
@@ -69,6 +70,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 category: product.category,
@@ -85,6 +87,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 category: product.category,
@@ -110,6 +113,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                         filteredByPrice.push({
                             id: product.id,
                             productName: product.productName,
+                            productColor: product.productColor,
                             productPrice: product.productPrice,
                             productImgUrl: product.productImgUrl,
                             category: product.category,
@@ -124,6 +128,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 category: product.category,
@@ -140,6 +145,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 category: product.category,
@@ -170,6 +176,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                     filteredByPrice.push({
                         id: product.id,
                         productName: product.productName,
+                        productColor: product.productColor,
                         productPrice: product.productPrice,
                         productImgUrl: product.productImgUrl,
                         condition: product.condition
@@ -183,6 +190,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                         filteredWithNewOption.push({
                             id: product.id,
                             productName: product.productName,
+                            productColor: product.productColor,
                             productPrice: product.productPrice,
                             productImgUrl: product.productImgUrl,
                             condition: product.condition
@@ -198,6 +206,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                         filteredWithNewOption.push({
                             id: product.id,
                             productName: product.productName,
+                            productColor: product.productColor,
                             productPrice: product.productPrice,
                             productImgUrl: product.productImgUrl,
                             condition: product.condition
@@ -222,6 +231,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                         filteredByPrice.push({
                             id: product.id,
                             productName: product.productName,
+                            productColor: product.productColor,
                             productPrice: product.productPrice,
                             productImgUrl: product.productImgUrl,
                             condition: product.condition
@@ -235,6 +245,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 condition: product.condition
@@ -250,6 +261,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                             filteredWithNewOption.push({
                                 id: product.id,
                                 productName: product.productName,
+                                productColor: product.productColor,
                                 productPrice: product.productPrice,
                                 productImgUrl: product.productImgUrl,
                                 condition: product.condition

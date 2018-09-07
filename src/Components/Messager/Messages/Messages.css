@@ -10,8 +10,8 @@
     box-sizing: border-box;
     animation-duration: 1s;
     overflow-x: auto;
-    animation: openmodal;
-    animation-duration: .25s;
+    animation: zoomIn;
+    animation-duration: .5s;
 }
 .Messages header{
     font-weight: 300;
@@ -150,6 +150,8 @@
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
+    animation: fadeInUp;
+    animation-duration: .5s;
 }
 .replyBox button{
     cursor: pointer;
@@ -172,6 +174,8 @@
     background: #e2e2e2;
     color: #4c4c4c;
     padding-left: 5px;
+    animation: fadeInUp;
+    animation-duration: .75s;
 }
 
 .MessagesBoxOwn{
@@ -207,5 +211,19 @@
   
     50% {
       opacity: 1;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
     }
   }

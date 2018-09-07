@@ -16,9 +16,9 @@ class RegisterModul extends Component {
         error: false,
         message: '',
         borderColorPassword: '#808080',
-        disabledPasswordInput: true,
         borderColorEmail: '#808080',
-        disabled: true
+        emailIsCorrectly: false,
+        passwordIsCorrectly: false
     }
 
     emailValue = (event) => {
@@ -53,7 +53,7 @@ class RegisterModul extends Component {
                 setTimeout(() => this.setState({message: ''}),2500);
             })
             .catch(() => {
-                this.setState({message: 'Nieprawidłowe dane lub konto już istnieje.'});
+                this.setState({message: 'Konto już istnieje.'});
                 setTimeout(() => this.setState({message: ''}),2500)
             })
     }
@@ -63,9 +63,9 @@ class RegisterModul extends Component {
 
 
         if( strongRegex.test(password) === false){
-            this.setState({borderColorPassword: 'red', disabled: true})
+            this.setState({borderColorPassword: 'red', disabled: true, passwordIsCorrectly: false})
         }else{
-            this.setState({borderColorPassword: '#4caf50', disabled: false})
+            this.setState({borderColorPassword: '#4caf50', disabled: false, passwordIsCorrectly: true})
         }
         if(password === ''){
             this.setState({borderColorPassword: 'gray'})
@@ -77,9 +77,9 @@ class RegisterModul extends Component {
         let emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
 
         if( emailRegex.test(email) === false){
-            this.setState({borderColorEmail: 'red'})
+            this.setState({borderColorEmail: 'red', emailIsCorrectly: false})
         }else{
-            this.setState({borderColorEmail: '#4caf50'})
+            this.setState({borderColorEmail: '#4caf50', emailIsCorrectly: true})
         }
         if(email === ''){
             this.setState({borderColorEmail: 'gray'})
@@ -103,10 +103,14 @@ class RegisterModul extends Component {
         FirebaseConfig.auth().signOut();
     }
     render() {
+        let registerButton = <button disabled={true}>Zarejestruj</button>
+
+        if(this.state.emailIsCorrectly && this.state.passwordIsCorrectly){
+            registerButton = <button disabled={false}>Zarejestruj</button>
+        }
+
         return (
             <Aux>
-                {/* <div className={classes.Backdrop} onClick={this.closeRegisterModule}> */}
-                {/* </div> */}
                 <div className={classes.RegisterModule}>
                     <div className={classes.InformationBox}>
                         <div>
@@ -138,9 +142,8 @@ class RegisterModul extends Component {
                                 }
                                 </label>
                             <input style={{borderBottom: `1px solid ${this.state.borderColorPassword}`}} onChange={this.passwordValue} type={this.state.type} id="password" />
-                            <button disabled={this.state.disabled}>Zarejestruj</button>
+                            {registerButton}
                         </form>
-                        {/* <button onClick={this.LOGOUT}>Wyloguj się</button>  */}
                         <h3 style={{fontSize: '15px', color: '#4c4c4c'}}>{this.state.message}</h3>
                     </div>
                     <button className={classes.CloseRegisterModuleBtn} onClick={this.closeRegisterModule}>Zamknij</button>

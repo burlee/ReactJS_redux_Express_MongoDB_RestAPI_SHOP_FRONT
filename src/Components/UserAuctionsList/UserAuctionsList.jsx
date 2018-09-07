@@ -230,7 +230,7 @@ class UserAuctionsList extends Component {
                             debounceTimeout={300}
                             onChange={ event => this.setState({productPriceEditData: event.target.value})} />
 
-                        <label htmlFor="auctionCondition">Zmień stan produktu:</label>
+                        <label htmlFor="auctionCondition">Zmień stan produktu: {this.state.productConditionEditData}</label>
                         
                         <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Nowy'})}>Nowy</button>
                         <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Używany'})}>Używany</button>

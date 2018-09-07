@@ -5,6 +5,8 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import moment from 'moment';
 import 'moment/locale/pl';
+import { ChromePicker } from 'react-color';
+
 
 class AddProduct extends Component {
     state = {
@@ -18,7 +20,8 @@ class AddProduct extends Component {
         imgURLisCorrect: false,
         category: '',
         borderBottomImgUrl: 'gray',
-        message: ''
+        message: '',
+        chosenColor: '#8B4242'
     }
 
     componentDidMount(){
@@ -28,12 +31,14 @@ class AddProduct extends Component {
     AddProductToDataBase = () => {
         const state = this.state;
         moment.locale('pl');
-
+        
         if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
-                    
+            
+
             const product = {
                 productName: this.firstCharToUppercase(this.state.productTitle),
                 productPrice: this.state.productPrice,
+                productColor: this.state.chosenColor,
                 productImgUrl: this.state.imgURL,
                 condition: "Używany",
                 category: this.state.category,
@@ -48,6 +53,7 @@ class AddProduct extends Component {
                         idFromRestAPI: response.data.idFromRestAPI,
                         productName: this.firstCharToUppercase(this.state.productTitle),
                         productPrice: this.state.productPrice,
+                        productColor: this.state.chosenColor,
                         productImgUrl: this.state.imgURL,
                         condition: "Używany",
                         category: this.state.category,
@@ -186,6 +192,11 @@ class AddProduct extends Component {
     closePreview  = () => {
         this.setState({showPreview: false})
     }
+
+    colorHandler = (color) => {
+        this.setState({ chosenColor: color.hex });
+    }
+
     render() {
         return (
             <div className={classes.AddProduct}>
@@ -210,6 +221,12 @@ class AddProduct extends Component {
                     </div>
                     <span>Wybrana kategoria: {this.state.category}</span>
                 </div>
+
+                <div className={classes.productColorsTable}>
+                    <h3>Wybierz kolor:</h3>
+                    <ChromePicker color={this.state.chosenColor} onChangeComplete={this.colorHandler}/>
+                </div>
+
                 <div className={classes.productPriceAndImg}>
                     <div className={classes.productPrice}>
                         <span>Podaj cenę:</span>
@@ -245,6 +262,8 @@ class AddProduct extends Component {
                     <h1>Kategoria aukcji: {this.state.category}</h1>
                     <h1>Cena: {this.state.productPrice}PLN</h1>
                     <img style={{maxWidth: '150px'}} src={this.state.imgURL} alt={this.state.productTitle}/>
+                    <h1>Wybrany color:</h1>
+                    <div style={{backgroundColor: this.state.chosenColor}}></div>
                 </div>
                 : null}
             </div>

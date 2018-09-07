@@ -10,7 +10,8 @@ class LoginModule extends Component {
     state = {
         email: '',
         password: '',
-        LoginStatusFontColor: ''
+        LoginStatusFontColor: '',
+        panelBgColor: localStorage.getItem('panelBgColor')
     }
 
     logginUser = (event) => {
@@ -43,7 +44,7 @@ class LoginModule extends Component {
             <Aux>
                 <div className={classes.Backdrop} onClick={this.closeLoginModule}>
                 </div>
-                <div className={classes.LoginModule}>
+                <div className={classes.LoginModule} style={{backgroundColor: this.state.panelBgColor}}>
                     {/* <h3>{this.state.message}</h3> */}
                     <form onSubmit={this.logginUser}>
                         <label htmlFor="email">Podaj adres e-mail:</label>

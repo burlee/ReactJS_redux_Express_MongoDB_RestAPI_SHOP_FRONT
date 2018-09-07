@@ -55,14 +55,24 @@ class ShopCartOrderSummary extends Component {
         productImgUrl: order.productImgUrl,
         productName: order.productName,
         productPrice: order.productPrice,
-        userIdFromFirebase: order.userIdFromFirebase
+        userIdFromFirebase: order.userIdFromFirebase,
+        email: this.props.userExist.userEmail,
+        userNameAndSurname: this.props.userExist.userPersonalDetails.userNameAndSurname
       }
       axios.post(`https://shop-237ef.firebaseio.com/${order.userIdFromFirebase}/orderDetails.json`, orderDetails)
         .then( response => {
-          if(response.status === 200){this.setState({isOrderModal: false})};
+          if(response.status === 200){
+            axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/ownOrders.json`, orderDetails)
+              .then( response => {
+                if(response.status === 200){
+                  this.setState({isOrderModal: false})
+                }
+              })
+          };
         })
         .then(()=>{
           this.setState({orderIsSuccess: true})
+          this.clearOrder();
           setTimeout(()=> this.setState({orderIsSuccess: false}), 3500)
         })
     })
@@ -89,6 +99,7 @@ class ShopCartOrderSummary extends Component {
 
 
   render() {
+    console.log( this.props )
     const transitionOption = {
       transitionName: "fade",
       transitionEnterTimeout: 500,

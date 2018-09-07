@@ -72,6 +72,11 @@
     font-size: 12px;
 }
 
+.Newsletter p{
+    text-align: center;
+    font-size: 13px;
+}
+
 .Links{
     flex: 1;
     margin: 5px;
@@ -102,5 +107,13 @@
         flex-direction: column;
         height: 100vh;
         margin-bottom: 20vh;
+        border: none;
+    }
+    .Newsletter{
+        border-bottom: 1px solid hsla(0, 0%, 30%, 0.1);
+    }
+    .socialMedia{
+        border-bottom: 1px solid hsla(0, 0%, 30%, 0.1);
+        border-top: 1px solid hsla(0, 0%, 30%, 0.1);
     }
 }
