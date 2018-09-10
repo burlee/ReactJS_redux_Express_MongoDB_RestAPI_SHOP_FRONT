@@ -50,7 +50,8 @@ class Orders extends Component {
                         productPrice: response.data[key].productPrice ,
                         userIdFromFirebase: response.data[key].userIdFromFirebase,
                         email: response.data[key].email,
-                        userNameAndSurname: response.data[key].userNameAndSurname
+                        userNameAndSurname: response.data[key].userNameAndSurname,
+                        orderTime: response.data[key].orderTime
                     })
                 }
                 this.setState({usersOrders: usersOrdersUpdate})
@@ -72,7 +73,8 @@ class Orders extends Component {
                         productPrice: response.data[key].productPrice ,
                         userIdFromFirebase: response.data[key].userIdFromFirebase,
                         email: response.data[key].email,
-                        userNameAndSurname: response.data[key].userNameAndSurname
+                        userNameAndSurname: response.data[key].userNameAndSurname,
+                        orderTime: response.data[key].orderTime
                     })
                 }
                 this.setState({ownOrders: ownOrdersUpdate})
@@ -186,7 +188,6 @@ class Orders extends Component {
     }
 
     render() {
-        console.log(this.state)
         let usersOrders = null;
         let ownOrders = null;
         let statusInformationItem = <span>Żaden status przesyłki nie uległ zmianie.</span>;
@@ -197,11 +198,13 @@ class Orders extends Component {
                 return order.productName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) !== -1;
             })
             .map( (order, i) => {
+                console.log( order )
                 return (<div key={i} className={classes.UserOrder}>
+                    <h4>Data zamówienia: {order.orderTime}</h4>
                     <span>{order.productName}</span>
                     <img src={order.productImgUrl} alt={order.productName}></img>
                     <span>{order.productPrice}PLN</span>
-                    <span style={{cursor: 'pointer'}} onClick={() => this.showPaymentMethod(order.userIdFromFirebase, order.productPrice)}>Sprawdź metody płatności</span>
+                    <span style={{cursor: 'pointer'}} onClick={() => this.showPaymentMethod(order.userIdFromFirebase, order.productPrice)}>Sprawdź dostępne metody płatności</span>
                 </div>)
             })
         }
@@ -213,15 +216,14 @@ class Orders extends Component {
             })
             .map( (order, i)=> {
                 return (<div key={i} className={classes.UserOrder}>
+                    <h4>Data zamówienia: {order.orderTime}</h4>
                     <span>{order.productName}</span>
                     <img src={order.productImgUrl}></img>
                     <span>{order.productPrice}PLN</span>
-                    <p>Masz zamówienie od {order.userNameAndSurname}
-                    O adresie email {order.email}
-                    </p>
-                    <span>Zmień status na wysłane:</span>
+                    <span>Masz zamówienie od {order.userNameAndSurname}</span>
+                    <span>O adresie email {order.email}</span>
+                    <span>Zmień status wysyłki:</span>
                     <button onClick={()=> this.checkValidityStatus(order.orderOwnerID, order.orderID)}>Wyślij powiadomienie</button>
-                    
                 </div>
                 )
             })
@@ -303,7 +305,7 @@ class Orders extends Component {
                             <button disabled={this.state.disableSendStatusBtn} className={classes.changeSendStatusBtn} onClick={this.changeSendStatus}>
                             {this.state.showSendStatusBtn ? 
                                 <Aux>
-                                    {this.state.disableSendStatusBtn === true ? "Już wysłałeś powiadomienie" : "Potwierdź że wysłałeś przesyłkę"}
+                                    {this.state.disableSendStatusBtn === true ? "Już wysłałeś powiadomienie" : "Potwierdź wysłanie przesyłki"}
                                 </Aux>
                             :null }
                             </button>
@@ -332,11 +334,11 @@ class Orders extends Component {
                 <Aux>
                     <div className={classes.Backdrop} onClick={()=>this.setState({showStatusInformationBox: false})}></div>
                     <div className={classes.showStatusInformationBox}>
-                            <div>
-                                <span style={{border: 'none', backgroundColor: 'none'}}>Przedmiot</span>
-                                <span style={{border: 'none', backgroundColor: 'none'}}>Status przesyłki</span>
-                            </div>
-                            {statusInformationItem}
+                        <div>
+                            <span style={{border: 'none', backgroundColor: 'none'}}>Przedmiot</span>
+                            <span style={{border: 'none', backgroundColor: 'none'}}>Status przesyłki</span>
+                        </div>
+                        {statusInformationItem}
                     </div> 
                 </Aux>
                 : null}

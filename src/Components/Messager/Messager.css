@@ -42,6 +42,11 @@
     text-transform: inherit;
 }
 
+.Messager h4{
+    font-size: 13px;
+    font-weight: 400;
+}
+
 .Backdrop{
     z-index: 106;
     position: fixed;

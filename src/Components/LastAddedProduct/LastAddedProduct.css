@@ -1,7 +1,7 @@
 .LastAddedProductContainer{
     width: 100%;
     height: 50vh;
-    background: #fafafa;
+    background: #e2e2e2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,6 +9,8 @@
     justify-content: space-around;
     margin: 100px 0px;
     border-top: 1px solid hsla(0, 0%, 30%, 0.1);
+    border-bottom: 1px solid hsla(0, 0%, 30%, 0.1);
+    padding-bottom: 75px;
 }
 .LastAddedProductContainer h1{
     text-align: center;
@@ -28,20 +30,21 @@
 
 .productDisplay{
     background: #fafafa;
-    width: 200px;
-    height: 200px;
+    width: 260px;
+    height: 190px;
+    margin-right: 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    border-radius: 3px;
+    border-radius: 1px;
     border: 1px solid hsla(0, 0%, 30%, 0.1);
     animation: openmodal;
     animation-duration: 1.1s;
 }
 .productDisplay img{
     max-width: 100px;
-    height: 100px;
+    height: 75px;
 }
 .productDisplay h4{
     margin: 5px;

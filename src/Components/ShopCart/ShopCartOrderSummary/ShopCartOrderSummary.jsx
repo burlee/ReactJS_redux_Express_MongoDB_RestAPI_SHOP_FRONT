@@ -6,6 +6,7 @@ import classes from './ShopCartOrderSummary.css';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SuccessOrderModal from '../../../UI/SuccessOrderModal/SuccessOrderModal';
+import moment from 'moment';
 
 
 class ShopCartOrderSummary extends Component {
@@ -46,7 +47,6 @@ class ShopCartOrderSummary extends Component {
   }
 
   confirmOrder = () => {
-      
     this.state.order.forEach( order => {
       const orderDetails = {
         orderOwnerID: this.props.userExist.userExist,
@@ -57,7 +57,8 @@ class ShopCartOrderSummary extends Component {
         productPrice: order.productPrice,
         userIdFromFirebase: order.userIdFromFirebase,
         email: this.props.userExist.userEmail,
-        userNameAndSurname: this.props.userExist.userPersonalDetails.userNameAndSurname
+        userNameAndSurname: this.props.userExist.userPersonalDetails.userNameAndSurname,
+        orderTime: moment().format('LL')
       }
       axios.post(`https://shop-237ef.firebaseio.com/${order.userIdFromFirebase}/orderDetails.json`, orderDetails)
         .then( response => {
@@ -75,6 +76,7 @@ class ShopCartOrderSummary extends Component {
           this.clearOrder();
           setTimeout(()=> this.setState({orderIsSuccess: false}), 3500)
         })
+        .catch(error => alert(error))
     })
 
     
@@ -142,7 +144,7 @@ class ShopCartOrderSummary extends Component {
           <button onClick={this.clearOrder}>Wyczyść koszyk</button>
           {this.state.order.length === 0 || this.props.userExist.userExit === null || this.props.userExist.userPaymentSettings === null || this.props.userExist.userPersonalDetails === null  ?
              <i title="Twoj koszyk jest pusty lub nie uzupełniłeś swojego profilu." style={{fontSize: '25px', cursor: 'pointer'}} className="fas fa-info-circle"></i> : 
-             <button style={{backgroundColor: 'rgba(128, 128, 128, 0.2)'}} onClick={this.orderModalToggle}>Złoż zamówienie</button>
+             <button style={{backgroundColor: '#e2e2e2'}} onClick={this.orderModalToggle}>Złoż zamówienie</button>
           }
         </div>
 

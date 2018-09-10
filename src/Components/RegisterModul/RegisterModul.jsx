@@ -24,6 +24,7 @@ class RegisterModul extends Component {
     emailValue = (event) => {
         const emailValue = event.target.value;
         const userDetails = this.state.userDetails;
+
         userDetails.email = emailValue;
         this.setState({ userDetails: userDetails })
 
@@ -95,13 +96,10 @@ class RegisterModul extends Component {
     }
     
     closeRegisterModule = () => {
-        this.props.history.push('/')
+        this.props.history.push('/');
         document.body.style.overflow = "visible";
     }
-
-    LOGOUT = () => {
-        FirebaseConfig.auth().signOut();
-    }
+    
     render() {
         let registerButton = <button disabled={true}>Zarejestruj</button>
 
@@ -137,8 +135,8 @@ class RegisterModul extends Component {
                                 <label htmlFor="password">
                                 Hasło: 
                                 {this.state.type === "password" ? 
-                                <i onClick={this.changeTypePassword} style={{fontSize: '20px', cursor: 'pointer'}} className="far fa-eye-slash"></i> :
-                                <i onClick={this.changeTypePassword} style={{fontSize: '20px', cursor: 'pointer'}} className="far fa-eye"></i> 
+                                    <i onClick={this.changeTypePassword} style={{fontSize: '20px', cursor: 'pointer'}} className="far fa-eye-slash"></i> :
+                                    <i onClick={this.changeTypePassword} style={{fontSize: '20px', cursor: 'pointer'}} className="far fa-eye"></i> 
                                 }
                                 </label>
                             <input style={{borderBottom: `1px solid ${this.state.borderColorPassword}`}} onChange={this.passwordValue} type={this.state.type} id="password" />

@@ -82,11 +82,14 @@
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    padding: 30px;
+    padding: 15px;
     justify-content: center;
     align-items: center;
-    animation: zoomIn;
+    animation: zoomIn; 
     animation-duration: .75s;
+}
+.UserOrder h4{
+    width: 100%;
 }
 .SendStatusModal{
     z-index: 1;
@@ -200,9 +203,20 @@
 
 .UserOrder button{
     width: auto;
-    background: none;
     color: #4c4c4c;
-    font-size: 20px;
+    font-size: 14px;
+    margin: 5px;
+    border: none;
+    transition: .5s all ease-in-out;
+    outline: none;
+    cursor: pointer;
+    background: none;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.UserOrder button:hover{
+    color: #4caf50;
 }
 
 .Backdrop{
@@ -251,12 +265,16 @@
 .sendBoxStatus{
     width: 100%;
     position: fixed;
-    bottom: 10px;
-    left: 100px;
+    bottom: 0px;
+    left: 0px;
+    background: #fafafa;
+    border-top: 1px solid #ededed;
 }
 .sendBoxStatus h1{
+    padding: 20px;
     font-weight: 400;
-    font-size: 25px;
+    font-size: 20px;
+    text-align: center;
 }
 
 .CheckStatusBtn{

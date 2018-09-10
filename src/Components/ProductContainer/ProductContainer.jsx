@@ -59,14 +59,14 @@ class ProductContainer extends Component {
     const oldValEndPagination = this.state.endProductPagination;
 
     this.setState({
-      startProductPagination: oldValStartPagination +16,
-      endProductPagination: oldValEndPagination +16
+      startProductPagination: oldValStartPagination + 16,
+      endProductPagination: oldValEndPagination + 16
     })
     
     this.props.fetch_all_products(this.state.startProductPagination + 16, this.state.endProductPagination + 16);
   }
 
-  nextPageBeloweBtn = () => {
+  nextPageBelowBtn = () => {
     if(this.state.startProductPagination !== 16 && this.state.endProductPagination !== 32){
       this.setState({disabledBackBtn: false})
     }
@@ -120,19 +120,19 @@ class ProductContainer extends Component {
     
     displayAllProduct = allProductsFromDB.map( product => {
       return <ProductDisplay
-                productDisplayWidth={this.state.productDisplayWidth}
-                flexDirection={this.state.flexDirection}
-                productDisplayHeigth={this.state.productDisplayHeigth}
                 key={product.id}
                 id={product.id}
                 productName={product.productName}
                 productColor={product.productColor}
                 productPrice={product.productPrice}
                 productImgUrl={product.productImgUrl}
+                condition={product.condition}
                 userIdFromFirebase={product.auctionOwnerUserIDfb}
                 userLogginID={this.props.userExist.userExist}
-                condition={product.condition}
                 userExist={this.props.userExist.userExist}
+                productDisplayWidth={this.state.productDisplayWidth}
+                flexDirection={this.state.flexDirection}
+                productDisplayHeigth={this.state.productDisplayHeigth}
             />
     })
 
@@ -148,7 +148,8 @@ class ProductContainer extends Component {
           
           {this.props.allProducts.allProducts.length === 0 ? 
           <button onClick={this.backToFirstPage}>Pierwsza strona</button> :
-          <button onClick={this.nextPage}>Następna strona</button>}
+          <button onClick={this.nextPage}>Następna strona</button>
+          }
 
         </div>
         {this.props.loading.loading ? <Spinner/> : null}
@@ -156,7 +157,7 @@ class ProductContainer extends Component {
           {displayAllProduct}
           {this.props.allProducts.allProducts.length === 0 ? <h1 style={{color: '#4c4c4c'}}>Produkt nie został znaleziony.</h1> : null}
         </div>
-        {this.props.allProducts.allProducts.length === 0 ? null : <button className={classes.nextPageBtnUnderContainer} onClick={this.nextPageBeloweBtn}>Następna strona</button>}
+        {this.props.allProducts.allProducts.length === 0 ? null : <button className={classes.nextPageBtnUnderContainer} onClick={this.nextPageBelowBtn}>Następna strona</button>}
       </div>
     )
   }

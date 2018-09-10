@@ -1,18 +1,21 @@
-import React, { Component } from 'react';
-import classes from './UserSettings.css';
-import { DebounceInput } from 'react-debounce-input';
 import axios from 'axios';
+import React, { Component } from 'react';
+import { DebounceInput } from 'react-debounce-input';
 import { connect } from 'react-redux';
-import { user_exist } from '../../Redux/actions/Actions'
-import BackButton from '../../UI/BackButton/BackButton'
+import { user_exist } from '../../Redux/actions/Actions';
+import BackButton from '../../UI/BackButton/BackButton';
+import classes from './UserSettings.css';
+import FirebaseConfig from '../../FirebaseConfig';
 
 
 class UserSettings extends Component {
     state = {
         showPaymentDetails: false,
         showPaymentOptions: false,
+        showAccountSettings: false,
         accountNumberIsCorrectly: true,
         accountBankNbBorderColor: '#4c4c4c',
+        btnStatusColor: '#4c4c4c',
         accountBankNumber: '',
         bitcoinAddressNumber: '',
         litecoinAddressNumber: '',
@@ -20,12 +23,19 @@ class UserSettings extends Component {
         litecoinAddressBorderBottom: '#4c4c4c',
         bitcoinAddressIsCorrectly: true,
         bitcoinAddressBorderBottom: '#4c4c4c',
-        successAddedAddress: false,
+        successStatus: false,
+        successStatusEmail: false,
         showPaymentsModal: false,
         currentBTCAddress: '',
         currentLTCAddress: '',
         currentBANKAddres: '',
-        userNameAndSurname: ''
+        userNameAndSurname: '',
+        newUserEmail: '',
+        userCurrentPassword: ''
+    }
+
+    showAccountSettingsToggle = () => {
+        this.setState({showAccountSettings: !this.state.showAccountSettings})
     }
 
     showPaymentDetailsToggle = () => {
@@ -78,8 +88,8 @@ class UserSettings extends Component {
             if(response.status === 200){
                 this.props.user_exist();
                 this.refs.userNameAndSurname.state.value = '';
-                this.setState({successAddedAddress: true, userNameAndSurname: ''});
-                setTimeout(() => this.setState({successAddedAddress: false}), 2500)
+                this.setState({successStatus: true, userNameAndSurname: ''});
+                setTimeout(() => this.setState({successStatus: false}), 2500)
             }
         })
     }
@@ -97,8 +107,8 @@ class UserSettings extends Component {
                     if(response.status === 200){
                         this.props.user_exist();
                         this.refs.btc.state.value = '';
-                        this.setState({successAddedAddress: true, bitcoinAddressNumber: '', bitcoinAddressBorderBottom: '#4c4c4c'});
-                        setTimeout(() => this.setState({successAddedAddress: false}), 2500)
+                        this.setState({successStatus: true, bitcoinAddressNumber: '', bitcoinAddressBorderBottom: '#4c4c4c'});
+                        setTimeout(() => this.setState({successStatus: false}), 2500)
                     }
                 })
         }
@@ -114,8 +124,8 @@ class UserSettings extends Component {
                     if(response.status === 200){
                         this.props.user_exist();
                         this.refs.bank.state.value = '';
-                        this.setState({successAddedAddress: true, accountBankNumber: '', accountBankNbBorderColor: '#4c4c4c'});
-                        setTimeout(() => this.setState({successAddedAddress: false}), 2500)
+                        this.setState({successStatus: true, accountBankNumber: '', accountBankNbBorderColor: '#4c4c4c'});
+                        setTimeout(() => this.setState({successStatus: false}), 2500)
                     }
                 })
         }
@@ -132,8 +142,8 @@ class UserSettings extends Component {
                     if(response.status === 200){
                         this.props.user_exist();
                         this.refs.ltc.state.value = '';
-                        this.setState({successAddedAddress: true, litecoinAddressNumber: '', litecoinAddressBorderBottom: '#4c4c4c'});
-                        setTimeout(() => this.setState({successAddedAddress: false}), 2500)
+                        this.setState({successStatus: true, litecoinAddressNumber: '', litecoinAddressBorderBottom: '#4c4c4c'});
+                        setTimeout(() => this.setState({successStatus: false}), 2500)
                     }
                 })
         }
@@ -164,18 +174,61 @@ class UserSettings extends Component {
             .then(() => this.setState({showPaymentsModal: !this.state.showPaymentsModal}))
     }
 
+    changeUserEmail = () => {
+        const user = FirebaseConfig.auth().currentUser;
+
+        if(this.state.newUserEmail === '0' || this.state.userCurrentPassword === ''){
+            this.setState({btnStatusColor: '#f44336'})
+            setTimeout(()=> this.setState({btnStatusColor: '#4c4c4c'}), 2500)
+            return;
+        };
+
+        FirebaseConfig.auth().signInWithEmailAndPassword(this.props.userExist.userEmail, this.state.userCurrentPassword)
+            .then(() => {
+                user.updateEmail(this.state.newUserEmail)
+                    .then(() => {
+                        this.setState({successStatus: true, newUserEmail: '', userCurrentPassword: ''})
+                        setTimeout(()=> this.setState({successStatus: false}), 2500);
+                        this.refs.userEmail.state.value = '';
+                        this.refs.userCurrentPassword.state.value = '';
+                        this.props.user_exist();
+                    })
+                    .catch( error => {
+                       this.setState({btnStatusColor: '#f44336'})
+                       setTimeout(()=> this.setState({btnStatusColor: '#4c4c4c'}), 2500)
+                    });
+            })
+            .catch( error => {
+                this.setState({btnStatusColor: '#f44336'})
+                setTimeout(()=> this.setState({btnStatusColor: '#4c4c4c'}), 2500)
+            })
+    }
+    
+    changeUserPassword = () => {
+        const user = FirebaseConfig.auth();
+
+        user.sendPasswordResetEmail(this.props.userExist.userEmail)
+            .then(() => {
+                this.setState({successStatusEmail: true});
+                setTimeout(() => this.setState({successStatusEmail: false}), 5000)
+            })
+            .catch((error) =>{
+                alert(error)
+            });
+        
+    }
 
     render() {
         return (
             <div className={classes.UserSettings}>
                 {this.props.userExist.userPersonalDetails === null ? 
-                <header>Ustawienia konta {this.state.successAddedAddress ? <span>Ustawienia zostały zapisane.</span> : null }</header>
+                <header>Ustawienia konta {this.state.successStatus ? <span>Ustawienia zostały zapisane.</span> : null }</header>
                 :
-                <header>Witaj {this.props.userExist.userPersonalDetails.userNameAndSurname} w ustawieniach konta {this.state.successAddedAddress ? <span>Ustawienia zostały zapisane.</span> : null }</header>
+                <header>Witaj {this.props.userExist.userPersonalDetails.userNameAndSurname} w ustawieniach konta {this.state.successStatus ? <span>Ustawienia zostały zapisane.</span> : null }</header>
                 }
                 
                 <div className={classes.UserSettingsBox}>
-                    <h2 onClick={this.showPaymentDetailsToggle}><i className="fas fa-cogs"></i>Twoje dane {this.state.showPaymentDetails ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i> }</h2>
+                    <h2 onClick={this.showPaymentDetailsToggle}><i style={{border: 'none'}} className="fas fa-cogs"></i>Twoje dane {this.state.showPaymentDetails ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i> }</h2>
                     {this.state.showPaymentDetails ? 
                     <div>
                         <p>Uzupełnij lub edytuj swoje dane personalne poniżej, aby wystawiać swoje aukcje.</p>
@@ -197,7 +250,7 @@ class UserSettings extends Component {
                 </div>
 
                 <div className={classes.UserSettingsBox}>
-                    <h2 onClick={this.showPaymentOptionsToggle}><i className="far fa-credit-card"></i>Metody płatności {this.state.showPaymentOptions ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i>}</h2>
+                    <h2 onClick={this.showPaymentOptionsToggle}><i style={{border: 'none'}} className="far fa-credit-card"></i>Metody płatności {this.state.showPaymentOptions ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i>}</h2>
                     {this.state.showPaymentOptions ? 
                     <div>
                         <p>Zdefiniuj swoje metody płatności, aby użytkownicy byli w stanie opłacić swoje zamówienie.</p>
@@ -251,14 +304,50 @@ class UserSettings extends Component {
                         }
                     </div>
                     : null }
-                    <BackButton/>
                 </div>
-                {/* <div className={classes.UserSettingsBox}>
-                            <h2 onClick={this.showPaymentDetailsToggle}><i className="fas fa-cogs"></i>Twoje aktualne ustawienia{this.state.showPaymentDetails ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i> }</h2>
-                            {this.state.showPaymentDetails ? 
-                            <div><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus autem ducimus deleniti officia quis nihil inventore doloremque amet ex. Fugiat assumenda eos excepturi perspiciatis reiciendis quae possimus beatae ex facilis ad sint, sequi fugit enim commodi iste explicabo praesentium architecto!</p></div>
-                            : null }
-                        </div> */}
+
+                <div className={classes.UserSettingsBox}>
+                    <h2 onClick={this.showAccountSettingsToggle}><i style={{border: 'none'}} className="fas fa-user"></i>Ustawienia konta {this.state.showAccountSettings ? <i className="fas fa-arrow-up"></i> : <i className="fas fa-arrow-down"></i> }</h2>
+                    {this.state.showAccountSettings ? 
+                    <div>
+                        <p>Zmień hasło lub adres e-mail do swojego konta.</p>
+                        <h3>
+                            <span>Zmień swój adres e-mail:</span>
+                            <span className={classes.Wrapper}>
+                                <DebounceInput
+                                    ref="userEmail"
+                                    minLength={5}
+                                    debounceTimeout={200}
+                                    maxLength={20}
+                                    placeholder="Wpisz nowy e-mail"
+                                    style={{borderBottom: `1px solid #4c4c4c`}}
+                                    onChange={event => this.setState({newUserEmail: event.target.value})} />
+                                <DebounceInput
+                                    ref="userCurrentPassword"
+                                    minLength={5}
+                                    debounceTimeout={200}
+                                    maxLength={20}
+                                    placeholder="Potwierdź swoje hasło"
+                                    style={{borderBottom: `1px solid #4c4c4c`}}
+                                    onChange={event => this.setState({userCurrentPassword: event.target.value})} />
+                                <button onClick={this.changeUserEmail} style={{background: this.state.btnStatusColor}}>Zmień</button>
+                            </span>
+                        </h3>
+                        <h3>
+                            <span>Zmień swoje hasło:</span>
+                            <span className={classes.Wrapper}>
+                                <button 
+                                    style={{background: 'none', color: '#4c4c4c'}} 
+                                    onClick={this.changeUserPassword}>
+                                    {this.state.successStatusEmail ? "Link został wysłany na adres e-mail" : "Wyślij link"}
+                                </button>
+                            </span>
+                        </h3>
+                    </div>
+                    : null }
+                </div>
+
+                <BackButton/>
             </div>
         );
     }

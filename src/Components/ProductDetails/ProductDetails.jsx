@@ -84,6 +84,9 @@ class ProductDetails extends Component {
             <option value="Inne">Inne</option>
           </select>
         </div>
+        <div className={classes.SponsorOffer}>
+          <span>Sponsorowane</span>
+        </div>
       </aside>
     )
   }

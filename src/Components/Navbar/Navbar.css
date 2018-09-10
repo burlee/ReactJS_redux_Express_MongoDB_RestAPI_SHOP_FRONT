@@ -13,11 +13,17 @@
     box-sizing: border-box;
     background: rgb(250, 250, 250);
     border-bottom: 1px solid hsla(0, 0%, 30%, 0.1);
+    
 }
-
+.Navbar i{
+    font-size: 25px;
+    transition: .65s all ease-in-out;
+}
+.RotateCloseBtn i:hover{
+    transform: rotate(180deg);
+}
 
 @media only screen and (max-width: 468px) {
-    .Navbar{
-        height: auto;
-    }
+    
 }
+

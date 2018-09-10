@@ -27,21 +27,28 @@ class Search extends Component {
   render() { 
     const productsCounter = this.state.placeholder;
     return (
-        <div className={classes.Search}>
-        <DebounceInput
-            type="search"
-            value={this.state.searchTerm}
-            onKeyPress={this.pressEnter}
-            minLength={2}
-            debounceTimeout={300}
-            placeholder={productsCounter}
-            onChange={event => this.setState({ searchTerm: event.target.value })} />
-        <button 
-          onClick={() => this.props.search_product_in_db(this.state.searchTerm)}
-          >
-          <i className="fas fa-search"></i>
-        </button>
-    </div>
+        <div className={classes.Search} style={{background: this.props.bgColor}}>
+          <DebounceInput
+              value={this.state.searchTerm}
+              onKeyPress={this.pressEnter}
+              minLength={2}
+              debounceTimeout={100}
+              placeholder={productsCounter}
+              onChange={event => this.setState({ searchTerm: event.target.value })} />
+          {this.state.searchTerm.length >= 4 ? 
+            <button 
+              onClick={() => this.props.search_product_in_db(this.state.searchTerm)}
+              >
+              <i className="fas fa-angle-right" style={{fontSize: '28px', color: '#4c4c4c'}}></i>
+            </button>
+          : 
+            <button 
+              onClick={() => this.props.search_product_in_db(this.state.searchTerm)}
+              >
+              <i className="fas fa-angle-right" style={{fontSize: '28px', color: '#e2e2e2'}}></i>
+            </button>
+          }
+        </div>
     )
   }
 }

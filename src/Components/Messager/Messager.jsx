@@ -12,13 +12,14 @@ export default class Messager extends Component {
     communicat: '',
     SendMessageToUserBtn: false
   }
+
   SendMessageToUser = () => {
     if(this.props.userLogginID === this.props.userIdFromFirebase){
       this.setState({communicat: 'To twoja aukcja'})
       return;
     }
-    if(this.state.message.length < 15){
-      this.setState({communicat: 'Twoja wiadomość jest za krotka'})
+    if(this.state.message.length < 10){
+      this.setState({communicat: 'Twoja wiadomość jest za krótka'})
       return;
     }
     this.setState({SendMessageToUserBtn: true})
@@ -35,7 +36,7 @@ export default class Messager extends Component {
       .then( response => {
         if(response.status === 200){
           this.setState({communicat: 'Wiadomość została wysłana'})
-          setTimeout(() => this.props.closeBackdrop(), 2000)
+          setTimeout(() => this.props.closeBackdrop(), 3000)
         }
       })
       .catch( error => this.setState({ communicat: 'Nie udało się wysłać widaomości'}))
@@ -45,7 +46,6 @@ export default class Messager extends Component {
   }
 
   render() {
-    console.log( this.props)
     return (
       <Aux>
       <div className={classes.Backdrop} onClick={this.props.closeBackdrop}></div>
