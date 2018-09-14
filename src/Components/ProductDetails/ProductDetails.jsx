@@ -11,7 +11,8 @@ class ProductDetails extends Component {
     searchPriceMore: '',
     checkedNew: false,
     checkedUsed: false,
-    selectedCategory: ''
+    selectedCategory: '',
+    disabledCheckInput: false
   }
 
   searchByPrice = () => {
@@ -35,7 +36,10 @@ class ProductDetails extends Component {
   }
 
   selectedCategoryHandler = (event) =>{
-    this.setState({selectedCategory: event.target.value})
+    if(event.target.value === 'Oferta pracy'){
+      this.setState({selectedCategory: event.target.value, disabledCheckInput: true})
+    }else(this.setState({selectedCategory: event.target.value, disabledCheckInput: false}))
+    
   }
 
   render() {
@@ -66,11 +70,11 @@ class ProductDetails extends Component {
           <span>Wybierz stan:</span>
           <div className={classes.ConditionBoxLabel}>
             <label htmlFor="new">Nowy</label>
-            <input checked={this.state.checkedNew} onClick={this.NewOptionChecked} id="new" type="checkbox" />
+            <input checked={this.state.checkedNew} disabled={this.state.disabledCheckInput} onClick={this.NewOptionChecked} id="new" type="checkbox" />
           </div>
           <div className={classes.ConditionBoxLabel}>
             <label htmlFor="used">Używany</label>
-            <input checked={this.state.checkedUsed} onClick={this.UsedOptionChecked} id="used" type="checkbox" />
+            <input checked={this.state.checkedUsed} disabled={this.state.disabledCheckInput} onClick={this.UsedOptionChecked} id="used" type="checkbox" />
           </div>
         </div>
         <div className={classes.ConditionBox}>
@@ -81,12 +85,13 @@ class ProductDetails extends Component {
             <option value="Elektronika">Elektronika</option>
             <option value="Samochody">Samochody</option>
             <option value="Wyposażenie domu">Wyposażenie domu</option>
+            <option value="Oferta pracy">Oferty pracy</option>
             <option value="Inne">Inne</option>
           </select>
         </div>
-        <div className={classes.SponsorOffer}>
+        {/* <div className={classes.SponsorOffer}>
           <span>Sponsorowane</span>
-        </div>
+        </div> */}
       </aside>
     )
   }

@@ -25,7 +25,7 @@ class MainCore extends Component {
     warningModal: false,
     showColorPicker: false,
     panelBgColor: localStorage.getItem('panelBgColor'),
-    colors: ['#fafafa', "#e2e2e2", '#cecece', '#b5b5b5','#a1a1a1']
+    colors: ['#fafafa', "#e2e2e2"]
   }
 
   componentDidMount(){
@@ -70,19 +70,16 @@ class MainCore extends Component {
     return (
       <Aux>
         {this.state.showPanel ? null : 
-        <button 
-          className={classes.showPanelBtn} 
-          onClick={this.showPanelToggle}
-          >
+        <button className={classes.showPanelBtn} onClick={this.showPanelToggle}>
           Panel Użytkownika
           <i style={{fontSize: '30px', marginRight: '8px'}} className="fas fa-user-alt"></i>
-          </button>}
+        </button>}
         {this.state.showPanel ? 
           <nav className={classes.Panel} style={{backgroundColor: this.state.panelBgColor}}>
             
             {this.state.showColorPicker ? 
             <div className={classes.ColorPicker}>
-              <CirclePicker colors={this.state.colors} onChange={this.colorHandler} />
+              <CirclePicker width='auto' colors={this.state.colors} onChange={this.colorHandler} />
             </div> : null }
 
             <ul>

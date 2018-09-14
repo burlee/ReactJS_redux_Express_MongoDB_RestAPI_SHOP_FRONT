@@ -5,7 +5,8 @@ import Messager from '../../Messager/Messager';
 import Aux from '../../../HOC/aux_x';
 import SuccessModal from '../../../UI/SuccessModal/SuccessModal';
 import { withRouter } from 'react-router-dom'
-
+import CommentsContainer from '../CommentsContainer/CommentsContainer';
+import ProductMapLocalization from '../ProductMapLocalization/ProductMapLocalization'
 
 class ProductDisplay extends PureComponent { 
   state = {
@@ -15,7 +16,9 @@ class ProductDisplay extends PureComponent {
     ProductAllDetails: false,
     showMessager: false,
     maxWidthImage: 60,
-    rotateImg: 0
+    rotateImg: 0,
+    showComments: true,
+    showMap: false
   }
 
   ShowDetailsProduct = () => {
@@ -61,17 +64,20 @@ class ProductDisplay extends PureComponent {
 
   ShowMessager = () => {
     //Blocking send message to yourself
-    if(this.props.userExist === this.props.userIdFromFirebase) return;
+    if(this.props.userExist === this.props.userIdFromFirebase || this.props.userExist === null) return;
     this.setState({showMessager: !this.state.showMessager})
   }
 
   CloseProductInformation = () => {
-    this.setState({ProductAllDetails: false})
+    this.setState({ProductAllDetails: false, showMap: false})
     document.body.style.overflow = "visible";
   }
   
-  render() {
+  backToProductDetails = () => {
+    this.setState({showComments: true})
+  }
 
+  render() {
     const {
       condition,
       flexDirection,
@@ -82,7 +88,9 @@ class ProductDisplay extends PureComponent {
       productName,
       productPrice,
       userIdFromFirebase,
-      userLogginID
+      userLogginID,
+      productDescription,
+      productCoordinates
     } = this.props;
 
     return (
@@ -92,68 +100,108 @@ class ProductDisplay extends PureComponent {
         <div style={{height: productDisplayHeigth, width: productDisplayWidth+'%', flexDirection: flexDirection}} onMouseLeave={this.CloseDetailsProduct} className={classes.ProductDisplay}>
           
           <div className={classes.ImageContainer}>
-            <img onClick={this.ShowDetailsProduct} src={productImgUrl} alt={productName}/>
+            <img onClick={this.ShowDetailsProduct} src={productImgUrl} alt={productName} />
           </div>
 
             {/* Product information popUp */}
-            {this.state.ShowDetailsProduct ?
-                <div className={classes.ShowDetailsProduct}>
-                  <h3>{productName}</h3>
-                  <img style={{maxWidth: '150px', height: 'auto'}} src={productImgUrl} alt={productName}/>
-                  <span className={classes.Price}>{productPrice.toFixed(2)} PLN</span>
-                  <button onClick={this.addProductToShopCart}>Dodaj do koszyka</button>
-                </div>
-            : null }
+
+            {condition === "Oferta pracy" ? null :
+              <Aux>
+                {this.state.ShowDetailsProduct ?
+                    <div className={classes.ShowDetailsProduct}>
+                      <h3>{productName}</h3>
+                      <img style={{maxWidth: '150px', height: 'auto'}} src={productImgUrl} alt={productName}/>
+                      <span className={classes.Price}>{productPrice.toFixed(2)} PLN</span>
+                      <button onClick={this.addProductToShopCart}>Dodaj do koszyka</button>
+                    </div>
+                : null }
+              </Aux>
+            }
+
             {/* //-------- */}
 
             <div className={classes.ProductDetails}>
               <h3>{productName}</h3>
               <span className={classes.Price}>{productPrice.toFixed(2)} PLN</span>
-              <h5>Stan: {condition}</h5>
-              <button onClick={this.addProductToShopCart}>
-                Dodaj produkt do koszyka
-                <i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i>
-              </button>
-              <div className={classes.ProductDisplayShopIcon}>
-                <i onClick={this.addProductToShopCart} style={{fontSize: '25px', cursor: 'pointer'}} className="fas fa-cart-plus"></i>
-              </div>
-              <button style={{display: 'block'}} onClick={this.ProductAllDetails}>Zobacz aukcje</button>
+              {condition === "Oferta pracy" ? 
+                <Aux>
+                  <h5 style={{backgroundColor: 'orange'}}>{condition}</h5>
+                  <button style={{display: 'block'}} onClick={this.ProductAllDetails}>Czytaj ogłoszenie</button>
+                </Aux>
+                :
+                <Aux>
+                  <h5>Stan: {condition}</h5>
+                  <button onClick={this.addProductToShopCart}>
+                    Dodaj produkt do koszyka
+                    <i style={{fontSize: '15px'}} className="fas fa-cart-plus"></i>
+                  </button>
+                  <div className={classes.ProductDisplayShopIcon}>
+                    <i onClick={this.addProductToShopCart} style={{fontSize: '25px', cursor: 'pointer'}} className="fas fa-cart-plus"></i>
+                  </div>
+                  <button style={{display: 'block'}} onClick={this.ProductAllDetails}>Zobacz aukcje</button>
+                </Aux>
+              }
             </div>
             
             {/* All information about product (auction all details) */}
             {this.state.ProductAllDetails ? 
               <div className={classes.ProductAllDetails}>
-                
+
+                {this.state.showMap ? 
+                  <ProductMapLocalization
+                    lat={productCoordinates.lat}
+                    lng={productCoordinates.lng}
+                    coordinates={productCoordinates}
+                  />
+                :
                 <div className={classes.ProductImgContainer}>
                   <img 
                     src={productImgUrl} 
                     alt={productName}
                     style={{maxWidth: this.state.maxWidthImage + '%', transform: `rotate(${this.state.rotateImg}deg)`}}
                     />
+                  {condition === "Oferta pracy" ? null :
                   <div className={classes.ImageOptions}>
                     <button onClick={()=>this.setState({maxWidthImage: this.state.maxWidthImage + 2})}>+</button>
                     <button onClick={()=>this.setState({maxWidthImage: this.state.maxWidthImage - 2})}>-</button>
                     <i onClick={()=>this.setState({rotateImg: this.state.rotateImg -90})} style={{fontSize: '20px', cursor: 'pointer'}} className="fas fa-undo"></i>
                   </div>
+                  }
                 </div>
-
-                <div className={classes.ProductInformationContainer}>
-                  <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar_2}></div>
-                  <header>{productName}</header>
-                  <p>Rolex uses Oystersteel for its steel watch cases. Specially developed by the brand, Oystersteel belongs to the 904L steel family, superalloys most commonly used in high-technology and in the aerospace and chemical industries, where maximum resistance to corrosion is essential. Oystersteel is extremely resistant, offers an exceptional finish once polished and maintains its beauty even in the harshest environments.</p>
-                  <span>Dostępny kolor: <div className={classes.AvailableColor} style={{backgroundColor: productColor}}></div></span>
-                  <div className={classes.PriceContainer}>
-                    <button onClick={this.addProductToShopCart}>{this.state.productAdded ? "Dodano do koszyka" : "Dodaj do koszyka"}</button>
-                    <span>Cena: {productPrice} PLN</span>
+                }
+              
+                {this.state.showComments ? 
+                  <div className={classes.ProductInformationContainer}>
+                    <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar_2}></div>
+                    <header>{productName}</header>
+                    <p>{productDescription}</p>
+                    {condition === "Oferta pracy" ? null : <span>Dostępny kolor: <div className={classes.AvailableColor} style={{backgroundColor: productColor}}></div></span>}
+                    <div className={classes.PriceContainer}>
+                    {condition === "Oferta pracy" ? null : <button onClick={this.addProductToShopCart}>{this.state.productAdded ? "Dodano do koszyka" : "Dodaj do koszyka"}</button>}
+                    {condition === "Oferta pracy" ? <span>Wynagrodzenie {productPrice} PLN</span> :  <span>Cena: {productPrice} PLN</span>}
+                    </div>
+                    <div className={classes.SocialMediaContainer}>
+                      <div>
+                        <span>Udostępnij</span>
+                        <i className="fab fa-facebook-f"></i>
+                        <i className="fab fa-twitter"></i>
+                      </div>
+                      {this.state.showMap ? 
+                        <i onClick={() => this.setState({showMap: false})} className="far fa-times-circle"></i>
+                        :
+                        <i onClick={() => this.setState({showMap: true})} className="fas fa-map-marker-alt"></i>
+                      }
+                      <button onClick={() => this.setState({showComments: false})}>Komentarze sprzedającego</button>
+                    </div>
+                      <button className={classes.CloseBtn} onClick={this.CloseProductInformation}>Zamknij</button>
                   </div>
-                  <div className={classes.SocialMediaContainer}>
-                    <span>Udostępnij</span>
-                    <i className="fab fa-facebook-f"></i>
-                    <i className="fab fa-twitter"></i>
-                  </div>
-                    <button className={classes.CloseBtn} onClick={this.CloseProductInformation}>Zamknij</button>
-                </div>
-              </div> 
+                  :
+                  <CommentsContainer
+                    backToProductDetails={this.backToProductDetails}
+                    allUserCommentsUserID={userIdFromFirebase}
+                  />
+                  }
+                </div> 
             : null }
             {/* //------ */}
 
@@ -167,7 +215,6 @@ class ProductDisplay extends PureComponent {
                 productName={productName}
               /> 
             : null}
-
         </div>
       </Aux>
     )

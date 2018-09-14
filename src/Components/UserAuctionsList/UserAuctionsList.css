@@ -85,6 +85,9 @@
 .ImgContainer {
     width: auto;
     height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .ImgContainer img{
     max-width: 100px;

@@ -1,0 +1,12 @@
+.ProductMapLocalization{
+    flex: 1;
+    width: 100%;
+    animation: opacity;
+    animation-duration: 1.5s;
+}
+
+
+@keyframes opacity{
+    from{opacity: 0;}
+    to{opacity: 1;}
+}

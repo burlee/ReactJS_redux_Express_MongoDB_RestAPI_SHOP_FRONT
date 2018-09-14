@@ -1,21 +1,24 @@
 .SuccesOrderModal{
     z-index: 106;
     position: fixed;
-    padding: 20px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fafafa;
-    border-radius: 3px;
-    box-shadow: 0px 0px 15px #4c4c4c;
-    animation: opacity;
-    animation-duration: .25s;
+    top:0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background: transparent;
 }
 .SuccesOrderModal h3{
+    box-shadow: 0px 0px 15px #4c4c4c;
     font-weight: 400;
     text-align: center;
     animation: fadeInDown;
     animation-duration: 1s;
+    background-color: rgb(250, 250, 250);
+    padding: 20px;
+    border-radius: 3px;
 }
 @keyframes opacity{
     from{opacity: 0;}

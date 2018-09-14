@@ -122,10 +122,12 @@ class ProductContainer extends Component {
       return <ProductDisplay
                 key={product.id}
                 id={product.id}
+                productCoordinates={product.coordinates}
                 productName={product.productName}
                 productColor={product.productColor}
                 productPrice={product.productPrice}
                 productImgUrl={product.productImgUrl}
+                productDescription={product.productDescription}
                 condition={product.condition}
                 userIdFromFirebase={product.auctionOwnerUserIDfb}
                 userLogginID={this.props.userExist.userExist}

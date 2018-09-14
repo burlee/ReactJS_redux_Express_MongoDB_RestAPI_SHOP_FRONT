@@ -35,16 +35,18 @@
     margin-right: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     border-radius: 1px;
     border: 1px solid hsla(0, 0%, 30%, 0.1);
     animation: openmodal;
     animation-duration: 1.1s;
+    padding: 15px;
+    box-sizing: border-box;
 }
 .productDisplay img{
     max-width: 100px;
-    height: 75px;
+    max-height: 75px;
 }
 .productDisplay h4{
     margin: 5px;

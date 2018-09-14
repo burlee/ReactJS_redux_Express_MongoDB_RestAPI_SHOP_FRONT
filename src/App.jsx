@@ -6,24 +6,26 @@ import Footer from './Components/Footer/Footer';
 import CategoryShowcase from './Components/CategoryShowcase/CategoryShowcase';
 //Redux
 import { Provider } from 'react-redux';
-import store from './Redux/Store'
+import store from './Redux/Store';
+
 
 class App extends Component {
   state = {
     showCategories: true
   }
-  
+
   showCategoriesToggle = () => {
     this.setState({showCategories: !this.state.showCategories})
   }
 
   scrollToTop = () => {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth'
-  });
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
   }
+  
   // handleScrollToElement = (event) => {
   //   console.log(this.third.offsetHeight)
   //     window.scroll({
@@ -32,6 +34,8 @@ class App extends Component {
   //       behavior: 'smooth'
   //   });
   // }
+
+ 
   render() {
     return (
         <Provider store={store}> 

@@ -24,8 +24,8 @@ export default class CategoryShowcase extends Component {
                 <div className={classes.Category} style={{ backgroundImage: `url(http://static.e-mieszkanie.pl/art/6050_small.jpg)` }} >
                     <h1>Samochody</h1>
                 </div>
-                <div className={classes.Category} >
-                    <h1>Inne</h1>
+                <div className={classes.Category} style={{ backgroundImage: `url(https://s23527.pcdn.co/wp-content/uploads/2018/03/wacom-745x419.jpg.optimal.jpg)` }}>
+                    <h1>Oferty pracy</h1>
                 </div>
             </div>
         )

@@ -319,7 +319,7 @@ class UserSettings extends Component {
                                     minLength={5}
                                     debounceTimeout={200}
                                     maxLength={20}
-                                    placeholder="Wpisz nowy e-mail"
+                                    placeholder="Nowy adres e-mail"
                                     style={{borderBottom: `1px solid #4c4c4c`}}
                                     onChange={event => this.setState({newUserEmail: event.target.value})} />
                                 <DebounceInput

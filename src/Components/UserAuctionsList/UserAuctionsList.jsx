@@ -76,7 +76,7 @@ class UserAuctionsList extends Component {
 
     productNameHandler = (event) => {
         this.validationInputData(event.target.value);
-        this.setState({productNameEditData: event.target.value})
+        this.setState({productNameEditData: event.target.value.slice(0,30)})
     }
     saveEditDataToDB = () => {
         
@@ -164,7 +164,7 @@ class UserAuctionsList extends Component {
                                 <label>Cena: {displayUserAuction.productPrice}PLN</label>
                                 <label>Stan: {displayUserAuction.condition}</label>
                                 <label>Czas dodania: {displayUserAuction.time}</label>
-                                <button onClick={() => this.confirmDeleteModalFn(displayUserAuction.id, displayUserAuction.idFromRESTapi)}>Zakończ aukcję</button>
+                                <button onClick={() => this.confirmDeleteModalFn(displayUserAuction.id, displayUserAuction.idFromRESTapi)}>Usuń ogłoszenie</button>
                                 <button
                                     style={{backgroundColor: 'transparent',color: '#4c4c4c'}}
                                     onClick={()=> this.editProductData(displayUserAuction.id, displayUserAuction.idFromRESTapi, displayUserAuction.productName, displayUserAuction.productPrice, displayUserAuction.condition)}
@@ -214,15 +214,16 @@ class UserAuctionsList extends Component {
                 <Aux>
                     <div onClick={this.editProductToggle} className={classes.Backdrop}></div> 
                     <div className={classes.EditProductModal}>
-                        <h1><i class="fas fa-edit"></i>Edytuj szczegóły aukcji</h1>
-                        <label htmlFor="auctionNameEdit">Nowa nazwa aukcji: <span>*</span></label>
-                        <DebounceInput
+                        <h1><i className="fas fa-edit"></i>Edytuj szczegóły aukcji</h1>
+                        <label htmlFor="auctionNameEdit">Nowa nazwa ogłoszenia: <span>*</span></label>
+                        
+                        <input 
                             id="auctionNameEdit"
-                            minLength={5}
-                            debounceTimeout={300}
-                            onChange={ event => this.productNameHandler(event)} />
-
-                        <label htmlFor="auctionPrice">Nowa cena:</label>
+                            type="text" 
+                            value={this.state.productNameEditData} 
+                            onChange={ event => this.productNameHandler(event)}
+                        />
+                        {this.state.productConditionEditData === 'Oferta pracy' ? <label htmlFor="auctionPrice">Nowa kwota wynagrodzenia:</label> : <label htmlFor="auctionPrice">Nowa cena:</label>}
                         <DebounceInput
                             style={{borderBottom: `1px solid ${this.state.borderBottomPriceColor}`}}
                             id="auctionPrice"
@@ -230,11 +231,16 @@ class UserAuctionsList extends Component {
                             debounceTimeout={300}
                             onChange={ event => this.setState({productPriceEditData: event.target.value})} />
 
-                        <label htmlFor="auctionCondition">Zmień stan produktu: {this.state.productConditionEditData}</label>
                         
-                        <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Nowy'})}>Nowy</button>
-                        <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Używany'})}>Używany</button>
-                        
+                        {this.state.productConditionEditData === 'Oferta pracy' ? 
+                            null :
+                            <Aux>
+                                <label htmlFor="auctionCondition">Zmień stan produktu: {this.state.productConditionEditData}</label>
+                                <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Nowy'})}>Nowy</button>
+                                <button className={classes.EditButton} onClick={()=> this.setState({productConditionEditData: 'Używany'})}>Używany</button>
+                            </Aux>
+                        }
+
                         <button 
                             style={{cursor: 'pointer', backgroundColor: 'transparent', outline: 'none', border: 'none', padding: '20px', color: '#4c4c4c'}}
                             disabled={this.state.disabledChangeDataBtn} 

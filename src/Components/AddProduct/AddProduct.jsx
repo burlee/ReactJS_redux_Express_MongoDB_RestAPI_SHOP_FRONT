@@ -2,11 +2,14 @@ import React, { Component } from 'react'
 import SmallSpinner from '../../UI/SmallSpinner/SmallSpinner';
 import classes from './AddProduct.css'
 import axios from 'axios'
-import { connect } from 'react-redux'
 import moment from 'moment';
+import Aux from '../../HOC/aux_x'
 import 'moment/locale/pl';
+import { DebounceInput } from 'react-debounce-input';
 import { ChromePicker } from 'react-color';
-
+import GoogleMapReact from 'google-map-react';
+import MapMarker from '../AddProduct/MapMarker'
+import { connect } from 'react-redux';
 
 class AddProduct extends Component {
     state = {
@@ -16,23 +19,31 @@ class AddProduct extends Component {
         showPreview: false,
         productPrice: '',
         productTitle: '',
+        productDescription: '',
+        condition: 'Nowy',
         imgURL: '',
         imgURLisCorrect: false,
-        category: '',
-        borderBottomImgUrl: 'gray',
+        category: 'Brak',
+        borderBottomImgUrl: '#4c4c4c',
         message: '',
-        chosenColor: '#8B4242'
+        chosenColor: '#8B4242',
+        center: {
+            lat: 52.2297,
+            lng: 21.0122
+        },
+        zoom: 11
     }
 
     componentDidMount(){
         document.body.style.overflow = "hidden";
+        console.log( this.props )
     }
 
     AddProductToDataBase = () => {
         const state = this.state;
         moment.locale('pl');
         
-        if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== ''){
+        if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== 'Brak' && state.productDescription !== ''){
             
 
             const product = {
@@ -40,7 +51,9 @@ class AddProduct extends Component {
                 productPrice: this.state.productPrice,
                 productColor: this.state.chosenColor,
                 productImgUrl: this.state.imgURL,
-                condition: "Używany",
+                productDescription: this.state.productDescription,
+                condition: this.state.condition,
+                coordinates: this.state.center,
                 category: this.state.category,
                 auctionOwnerUserIDfb: this.props.userExist.userExist,
                 time: moment().format('LL')
@@ -55,7 +68,9 @@ class AddProduct extends Component {
                         productPrice: this.state.productPrice,
                         productColor: this.state.chosenColor,
                         productImgUrl: this.state.imgURL,
-                        condition: "Używany",
+                        productDescription: this.state.productDescription,
+                        condition: this.state.condition,
+                        coordinates: this.state.center,
                         category: this.state.category,
                         time: moment().format('LL')
                     }
@@ -71,10 +86,6 @@ class AddProduct extends Component {
                 })
                 .catch( error => alert(`Error connect with RESTapi ${error}`))
 
-            // axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, product)
-            //     .then( response => response )
-            //     .catch( error => console.log( error ))
-            // axios.post(`http://localhost:3000/offers/userAuctionsList/${this.props.userExist.userExist}`, product);
         }else(
             this.setState({message: 'Wypełnij wszystkie pola.'}),
             setTimeout(() => this.setState({message: ''}), 5000)
@@ -101,12 +112,12 @@ class AddProduct extends Component {
         let regex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
         
         if(regex.test(imgURL) === false){
-            this.setState({borderBottomImgUrl: 'red', imgURLisCorrect: false})
+            this.setState({borderBottomImgUrl: '#f44336', imgURLisCorrect: false})
         }else{
-            this.setState({borderBottomImgUrl: 'green', imgURLisCorrect: true})
+            this.setState({borderBottomImgUrl: '#4caf50', imgURLisCorrect: true})
         }
         if(imgURL === ''){
-            this.setState({borderBottomImgUrl: 'gray'})
+            this.setState({borderBottomImgUrl: '#4c4c4c'})
         }
     }
 
@@ -116,10 +127,11 @@ class AddProduct extends Component {
             case "Elektronika": {
                 if(this.state.category === 'Elektronika'){
                     this.setState({
-                        category: ''})
+                        category: 'Brak'})
                 }else{
                     this.setState({
-                        category: 'Elektronika'
+                        category: 'Elektronika',
+                        condition: 'Nowy'
                     })
                 }
                 break;
@@ -127,10 +139,11 @@ class AddProduct extends Component {
             case "Odzież": {
                 if(this.state.category === 'Odzież'){
                     this.setState({
-                        category: ''})
+                        category: 'Brak'})
                 }else{
                     this.setState({
-                        category: 'Odzież'
+                        category: 'Odzież',
+                        condition: 'Nowy'
                     })
                 }
                 break;
@@ -138,10 +151,11 @@ class AddProduct extends Component {
             case "Samochody":{
                 if(this.state.category === 'Samochody'){
                     this.setState({
-                        category: ''})
+                        category: 'Brak'})
                 }else{
                     this.setState({
-                        category: 'Samochody'
+                        category: 'Samochody',
+                        condition: 'Nowy'
                     })
                 }
                 break;
@@ -149,10 +163,24 @@ class AddProduct extends Component {
             case "Wyposażenie domu":{
                 if(this.state.category === 'Wyposażenie domu'){
                     this.setState({
-                        category: ''})
+                        category: 'Brak'})
                 }else{
                     this.setState({
-                        category: 'Wyposażenie domu'
+                        category: 'Wyposażenie domu',
+                        condition: 'Nowy'
+                    })
+                }
+                break;
+            }
+            case "Oferta pracy":{
+                if(this.state.category === 'Oferta pracy'){
+                    this.setState({
+                        category: 'Brak',
+                        condition: 'Nowy'})
+                }else{
+                    this.setState({
+                        category: 'Oferta pracy',
+                        condition: 'Oferta pracy'
                     })
                 }
                 break;
@@ -160,10 +188,11 @@ class AddProduct extends Component {
             case "Inne": {
                 if(this.state.category === 'Inne'){
                     this.setState({
-                        category: ''})
+                        category: 'Brak'})
                 }else{
                     this.setState({
-                        category: 'Inne'
+                        category: 'Inne',
+                        condition: 'Nowy'
                     })
                 }
                 break;
@@ -174,7 +203,7 @@ class AddProduct extends Component {
     }
 
     showPreview = () => {
-        if(this.state.productTitle === '' || this.state.productPrice === '' || this.state.category === '' || this.state.imgURLisCorrect === false){
+        if(this.state.productTitle === '' || this.state.productPrice === '' || this.state.category === 'Brak' || this.state.imgURLisCorrect === false){
             this.setState({showPreviewBtnContent: 'Uzupełnij wszystkie pola', showPreview: false})
             setTimeout(() => this.setState({showPreviewBtnContent: 'Zobacz podgląd aukcji'}), 2000)
         }else{
@@ -197,52 +226,102 @@ class AddProduct extends Component {
         this.setState({ chosenColor: color.hex });
     }
 
+    coordinatesHandler = (event) => {
+        const center = {
+          lat: parseFloat(event.lat),
+          lng: parseFloat(event.lng)
+        };
+
+        this.setState({center: center})
+    }
+
     render() {
         return (
             <div className={classes.AddProduct}>
-                <h1>Dodaj swój produkt:</h1>
+                <h1>Dodaj swój produkt</h1>
                 <div className={classes.productTitle}>
                     <label htmlFor="productTitle">Wprowadź tytuł:</label>
                     <input 
+                        id="productTitle"
                         value={this.state.productTitle}
                         type="text" 
                         onChange={(event) => this.productTitleHandler(event)}/>
                     <span>Ilość znakow : {this.state.productTitle.length}/30</span>
                 </div>
                 
+                <div className={classes.productDescription}>
+                    <h1>Opisz swoje ogłoszenie</h1>
+                    <DebounceInput
+                        element="textarea"
+                        minLength={15}
+                        debounceTimeout={300}
+                        onChange={event => this.setState({productDescription: event.target.value})} />
+                </div>
+
+                <div className={classes.mapContainer}>
+                    <h1>Ustal swoją lokalizacje</h1>
+                    <GoogleMapReact
+                        bootstrapURLKeys={{ key: 'AIzaSyDoXg87F7Bl_o-xG0ZY5D3ov9jL1meXQQg' }}
+                        center={this.state.center}
+                        defaultZoom={this.state.zoom}
+                        onClick={event => this.coordinatesHandler(event)}
+                    >
+
+                    <MapMarker 
+                       lat={this.state.center.lat}
+                       lng={this.state.center.lng} 
+                    />
+
+                  </GoogleMapReact>                
+                </div>
+
+                {this.state.category === "Oferta pracy" ? null :
+                    <div className={classes.productCondition}>
+                        <h1>Wybierz stan produktu</h1>
+                        <div>
+                            <button onClick={() => this.setState({condition: 'Nowy'})}>Nowy</button>
+                            <button onClick={() => this.setState({condition: 'Używany'})}>Używany</button>
+                        </div>
+                        <span>Wybrany stan: {this.state.condition}</span>
+                    </div>
+                }
+
                 <div className={classes.productCategory}>
-                    <h1>Wybierz kategorię: </h1> 
+                    <h1>Wybierz kategorię</h1> 
                     <div className={classes.CategoryBox}>
                         <button onClick={() => this.selectedCategory("Odzież")} style={{boxShadow: `0px 0px 15px ${this.state.OdzieżBoxShadowStyle}`}}>Odzież</button>
                         <button onClick={() => this.selectedCategory("Elektronika")}>Elektronika</button>
                         <button onClick={() => this.selectedCategory("Samochody")}>Samochody</button>
                         <button onClick={() => this.selectedCategory("Wyposażenie domu")}>Wyposażenie domu</button>
+                        <button onClick={() => this.selectedCategory("Oferta pracy")}>Oferta pracy</button>
                         <button onClick={() => this.selectedCategory("Inne")}>Inne</button>
                     </div>
                     <span>Wybrana kategoria: {this.state.category}</span>
                 </div>
 
+                {this.state.category === "Oferta pracy" ? null :
                 <div className={classes.productColorsTable}>
                     <h3>Wybierz kolor:</h3>
                     <ChromePicker color={this.state.chosenColor} onChangeComplete={this.colorHandler}/>
                 </div>
+                }
 
                 <div className={classes.productPriceAndImg}>
                     <div className={classes.productPrice}>
-                        <span>Podaj cenę:</span>
+                        {this.state.category === "Oferta pracy" ? <span>Podaj wynagrodzenie</span> : <span>Podaj cenę:</span>}
                         <input 
                         type="number" 
-                        placeholder="Podaj cenę..."
+                        placeholder="Wpisz kwotę..."
                         onChange={(event) => this.productPriceHandler(event)}
                         />
                     </div>
                     <div className={classes.productImg}>
-                        <span>Podaj url zdjęcia:</span>
+                        {this.state.category === "Oferta pracy" ? <span>Logo firmy(URL)</span> : <span>Podaj zdjęcie(url):</span>}
                         <input 
                         onChange={(event) => this.imgUrlHandler(event)} 
                         type="text" 
                         placeholder="Podaj url zdjęcia..."
-                        style={{borderBottom: `3px solid ${this.state.borderBottomImgUrl}`}}
+                        style={{borderBottom: `1px solid ${this.state.borderBottomImgUrl}`}}
                         />
                     </div>
                 </div>
@@ -261,9 +340,13 @@ class AddProduct extends Component {
                     <h1>Tytuł aukcji: {this.state.productTitle}</h1>
                     <h1>Kategoria aukcji: {this.state.category}</h1>
                     <h1>Cena: {this.state.productPrice}PLN</h1>
+                    <h1>Stan: {this.state.condition}</h1>
                     <img style={{maxWidth: '150px'}} src={this.state.imgURL} alt={this.state.productTitle}/>
-                    <h1>Wybrany color:</h1>
-                    <div style={{backgroundColor: this.state.chosenColor}}></div>
+                    {this.state.category === "Oferta pracy" ? null :
+                        <Aux>
+                            <h1>Wybrany color:</h1>
+                            <div style={{backgroundColor: this.state.chosenColor}}></div>
+                        </Aux>}
                 </div>
                 : null}
             </div>

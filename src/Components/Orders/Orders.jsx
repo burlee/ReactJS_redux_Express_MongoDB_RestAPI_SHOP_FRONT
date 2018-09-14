@@ -6,6 +6,7 @@ import Aux from '../../HOC/aux_x'
 import BackButton from '../../UI/BackButton/BackButton'
 import QRCode from 'qrcode.react'
 import {DebounceInput} from 'react-debounce-input';
+import CommentModule from './CommentModule/CommentModule';
 
 class Orders extends Component {
     state = {
@@ -32,7 +33,9 @@ class Orders extends Component {
         orderID: '',
         BTCcourse: 0,
         LTCcourse: 0,
-        orderPrice: 0
+        orderPrice: 0,
+        auctionOwnerId: '',
+        showCommentModule: false
     }
 
     componentDidMount(){
@@ -100,10 +103,11 @@ class Orders extends Component {
     searchOrderToggle = () => {
         this.setState({showSearch: !this.state.showSearch, searchTerm: ''})
     }
-
+    closeCommentModule = () => {
+        this.setState({showCommentModule: false})
+    }
 
     showPaymentMethod = (userIdFromFirebase, orderPrice) => {
-        console.log(orderPrice)
         this.setState({showSearch: false, searchTerm: '', orderPrice})
         
         axios.get(`https://shop-237ef.firebaseio.com/${userIdFromFirebase}/PaymentOptions.json`)
@@ -198,13 +202,13 @@ class Orders extends Component {
                 return order.productName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) !== -1;
             })
             .map( (order, i) => {
-                console.log( order )
                 return (<div key={i} className={classes.UserOrder}>
                     <h4>Data zamówienia: {order.orderTime}</h4>
                     <span>{order.productName}</span>
                     <img src={order.productImgUrl} alt={order.productName}></img>
                     <span>{order.productPrice}PLN</span>
                     <span style={{cursor: 'pointer'}} onClick={() => this.showPaymentMethod(order.userIdFromFirebase, order.productPrice)}>Sprawdź dostępne metody płatności</span>
+                    <button onClick={()=> this.setState({auctionOwnerId: order.userIdFromFirebase, showCommentModule: !this.state.showCommentModule})}>Wystaw komentarz</button>
                 </div>)
             })
         }
@@ -222,7 +226,7 @@ class Orders extends Component {
                     <span>{order.productPrice}PLN</span>
                     <span>Masz zamówienie od {order.userNameAndSurname}</span>
                     <span>O adresie email {order.email}</span>
-                    <span>Zmień status wysyłki:</span>
+                    <span>Wyślij powiadomienie o wysłaniu przesyłki</span>
                     <button onClick={()=> this.checkValidityStatus(order.orderOwnerID, order.orderID)}>Wyślij powiadomienie</button>
                 </div>
                 )
@@ -341,6 +345,16 @@ class Orders extends Component {
                         {statusInformationItem}
                     </div> 
                 </Aux>
+                : null}
+
+                {this.state.showCommentModule ? 
+                    <Aux>
+                        <div className={classes.Backdrop} onClick={() => this.setState({showCommentModule: !this.state.showCommentModule})}></div>
+                        <CommentModule
+                            auctionOwnerId={this.state.auctionOwnerId}
+                            closeCommentModule={this.closeCommentModule}
+                            /> 
+                    </Aux>
                 : null}
             </div>
         )
