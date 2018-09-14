@@ -48,6 +48,7 @@ class ShopCartOrderSummary extends Component {
 
   confirmOrder = () => {
     this.state.order.forEach( order => {
+
       const orderDetails = {
         orderOwnerID: this.props.userExist.userExist,
         id: order.id,
@@ -59,7 +60,8 @@ class ShopCartOrderSummary extends Component {
         email: this.props.userExist.userEmail,
         userNameAndSurname: this.props.userExist.userPersonalDetails.userNameAndSurname,
         orderTime: moment().format('LL')
-      }
+      };
+
       axios.post(`https://shop-237ef.firebaseio.com/${order.userIdFromFirebase}/orderDetails.json`, orderDetails)
         .then( response => {
           if(response.status === 200){
@@ -101,12 +103,12 @@ class ShopCartOrderSummary extends Component {
 
 
   render() {
-    console.log( this.props )
+
     const transitionOption = {
       transitionName: "fade",
       transitionEnterTimeout: 500,
       transitionLeaveTimeout: 400
-    }
+    };
 
     let showOrderProduct = null;
     let showOrderProductDetails = null;
@@ -114,23 +116,24 @@ class ShopCartOrderSummary extends Component {
     if(this.state.order.length === 0){
       showOrderProduct = <h1 style={{fontSize: '25px',fontWeight: '400', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center'}}>Twój koszyk jest pusty <i className="fas fa-shopping-cart"></i></h1>
     }else{
-      showOrderProduct = this.state.order.map( product => {
+      showOrderProduct = this.state.order.map( ({orderID, productName, productPrice, productImgUrl}) => {
             return (
-            <div key={product.orderID} className={classes.productDisplay}>
-              <span>{product.productName}</span>
-              <span style={{width: '100px'}}>{product.productPrice.toFixed(2)} PLN</span>
-              <img src={product.productImgUrl} alt={product.productName}/>
-              <button onClick={() => this.deleteProduct(product.orderID, product.productPrice)}>X</button>
+            <div key={orderID} className={classes.productDisplay}>
+              <span>{productName}</span>
+              <span style={{width: '100px'}}>{productPrice.toFixed(2)} PLN</span>
+              <img src={productImgUrl} alt={productName}/>
+              <button onClick={() => this.deleteProduct(orderID, productPrice)}>X</button>
             </div>
           )
       })
     }
-    showOrderProductDetails = this.state.order.map( (product) => {
+
+    showOrderProductDetails = this.state.order.map( ({orderID, productName, productPrice, productImgUrl}) => {
       return (
-        <div key={product.orderID} className={classes.productDisplay}>
-          <span>{product.productName}</span>
-          <img src={product.productImgUrl} alt={product.productName}/>
-          <span style={{width: '100px'}}>{product.productPrice.toFixed(2)} PLN</span>
+        <div key={orderID} className={classes.productDisplay}>
+          <span>{productName}</span>
+          <img src={productImgUrl} alt={productName}/>
+          <span style={{width: '100px'}}>{productPrice.toFixed(2)} PLN</span>
         </div>
       )
     })

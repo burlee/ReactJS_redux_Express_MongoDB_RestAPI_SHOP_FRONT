@@ -36,7 +36,6 @@ class AddProduct extends Component {
 
     componentDidMount(){
         document.body.style.overflow = "hidden";
-        console.log( this.props )
     }
 
     AddProductToDataBase = () => {

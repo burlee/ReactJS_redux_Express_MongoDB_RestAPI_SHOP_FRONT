@@ -155,24 +155,24 @@ class UserAuctionsList extends Component {
             .filter(auction => {
                 return auction.productName.toLowerCase().indexOf(this.state.searchAuction.toLowerCase()) !== -1;
             })
-            .map( displayUserAuction => {
+            .map( ({id, condition, productName, productPrice, time, idFromRESTapi, productImgUrl}) => {
                 return (
-                    <div key={displayUserAuction.id} className={classes.DisplayUserAuction}>
-                        <h3>{displayUserAuction.productName}</h3>
+                    <div key={id} className={classes.DisplayUserAuction}>
+                        <h3>{productName}</h3>
                         <div className={classes.AuctionBox}>
                             <div className={classes.AuctionDetails}>
-                                <label>Cena: {displayUserAuction.productPrice}PLN</label>
-                                <label>Stan: {displayUserAuction.condition}</label>
-                                <label>Czas dodania: {displayUserAuction.time}</label>
-                                <button onClick={() => this.confirmDeleteModalFn(displayUserAuction.id, displayUserAuction.idFromRESTapi)}>Usuń ogłoszenie</button>
+                                <label>Cena: {productPrice}PLN</label>
+                                <label>Stan: {condition}</label>
+                                <label>Czas dodania: {time}</label>
+                                <button onClick={() => this.confirmDeleteModalFn(id, idFromRESTapi)}>Usuń ogłoszenie</button>
                                 <button
                                     style={{backgroundColor: 'transparent',color: '#4c4c4c'}}
-                                    onClick={()=> this.editProductData(displayUserAuction.id, displayUserAuction.idFromRESTapi, displayUserAuction.productName, displayUserAuction.productPrice, displayUserAuction.condition)}
+                                    onClick={()=> this.editProductData(id, idFromRESTapi, productName, productPrice, condition)}
                                     >Edytuj
                                 </button>
                             </div>
                             <div className={classes.ImgContainer}>
-                                <img src={displayUserAuction.productImgUrl} alt={displayUserAuction.productName}/>
+                                <img src={productImgUrl} alt={productName}/>
                             </div>
                         </div>
                     </div>

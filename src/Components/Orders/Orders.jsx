@@ -201,14 +201,14 @@ class Orders extends Component {
             .filter(order => {
                 return order.productName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) !== -1;
             })
-            .map( (order, i) => {
+            .map( ({orderTime, productName, productImgUrl,productPrice, userIdFromFirebase}, i) => {
                 return (<div key={i} className={classes.UserOrder}>
-                    <h4>Data zamówienia: {order.orderTime}</h4>
-                    <span>{order.productName}</span>
-                    <img src={order.productImgUrl} alt={order.productName}></img>
-                    <span>{order.productPrice}PLN</span>
-                    <span style={{cursor: 'pointer'}} onClick={() => this.showPaymentMethod(order.userIdFromFirebase, order.productPrice)}>Sprawdź dostępne metody płatności</span>
-                    <button onClick={()=> this.setState({auctionOwnerId: order.userIdFromFirebase, showCommentModule: !this.state.showCommentModule})}>Wystaw komentarz</button>
+                    <h4>Data zamówienia: {orderTime}</h4>
+                    <span>{productName}</span>
+                    <img src={productImgUrl} alt={productName}></img>
+                    <span>{productPrice}PLN</span>
+                    <span style={{cursor: 'pointer'}} onClick={() => this.showPaymentMethod(userIdFromFirebase, productPrice)}>Sprawdź dostępne metody płatności</span>
+                    <button onClick={()=> this.setState({auctionOwnerId: userIdFromFirebase, showCommentModule: !this.state.showCommentModule})}>Wystaw komentarz</button>
                 </div>)
             })
         }
@@ -218,16 +218,16 @@ class Orders extends Component {
             .filter(order => {
                 return order.productName.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) !== -1;
             })
-            .map( (order, i)=> {
+            .map( ({productName, email, productImgUrl ,productPrice, orderID, orderOwnerID, orderTime , userNameAndSurname}, i)=> {
                 return (<div key={i} className={classes.UserOrder}>
-                    <h4>Data zamówienia: {order.orderTime}</h4>
-                    <span>{order.productName}</span>
-                    <img src={order.productImgUrl}></img>
-                    <span>{order.productPrice}PLN</span>
-                    <span>Masz zamówienie od {order.userNameAndSurname}</span>
-                    <span>O adresie email {order.email}</span>
+                    <h4>Data zamówienia: {orderTime}</h4>
+                    <span>{productName}</span>
+                    <img src={productImgUrl}></img>
+                    <span>{productPrice}PLN</span>
+                    <span>Masz zamówienie od {userNameAndSurname}</span>
+                    <span>O adresie email {email}</span>
                     <span>Wyślij powiadomienie o wysłaniu przesyłki</span>
-                    <button onClick={()=> this.checkValidityStatus(order.orderOwnerID, order.orderID)}>Wyślij powiadomienie</button>
+                    <button onClick={()=> this.checkValidityStatus(orderOwnerID, orderID)}>Wyślij powiadomienie</button>
                 </div>
                 )
             })

@@ -129,7 +129,6 @@ class Messages extends PureComponent {
     }
 
     render() {
-        console.log( this.state)
         let userMessageID = this.state.userMessageID.map( (userID, index) => {
             return (
                 <div key={index} className={classes.messageUser}>
