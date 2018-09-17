@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Aux from '../../../HOC/aux_x';
 import classes from './ShopCartOrderSummary.css';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
 import SuccessOrderModal from '../../../UI/SuccessOrderModal/SuccessOrderModal';
 import moment from 'moment';
+import { NavLink } from 'react-router-dom';
 
+import { shopcart_product_counter } from '../../../Redux/actions/Actions'
+import { connect } from 'react-redux';
 
 class ShopCartOrderSummary extends Component {
   state = {
@@ -44,6 +45,8 @@ class ShopCartOrderSummary extends Component {
 
     localStorage.setItem('Order', JSON.stringify(filteredOrder) );
     this.setState({ order: filteredOrder, priceSummary: newPrice});
+
+    this.props.shopcart_product_counter(this.state.order.length-1);
   }
 
   confirmOrder = () => {
@@ -93,8 +96,9 @@ class ShopCartOrderSummary extends Component {
   }
 
   clearOrder = () =>{
-    localStorage.getItem('Order', localStorage.setItem('Order', JSON.stringify([])))
-    this.setState({ order: [], priceSummary: 0})
+    localStorage.getItem('Order', localStorage.setItem('Order', JSON.stringify([])));
+    this.setState({ order: [], priceSummary: 0});
+    this.props.shopcart_product_counter(0);
   }
 
   orderModalToggle = () => {
@@ -189,4 +193,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps)(ShopCartOrderSummary)
+export default connect(mapStateToProps, { shopcart_product_counter })(ShopCartOrderSummary)

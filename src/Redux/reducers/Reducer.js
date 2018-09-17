@@ -9,7 +9,8 @@ import  {
     FETCH_LAST_15_PRODUCTS_FROM_DB,
     MESSAGE_COUNTER,
     USER_PAYMENT_SETTINGS,
-    USER_PERSONAL_DETAILS
+    USER_PERSONAL_DETAILS,
+    SHOPCART_PRODUCT_COUNTER
 } 
 from '../actions/types';
 
@@ -21,6 +22,7 @@ const initialState = {
     userExist: null,
     userEmail: '',
     messageCount: 0,
+    shopcartProductCounter: 0,
     userPaymentSettings: null,
     userPersonalDetails: null
 }
@@ -28,6 +30,11 @@ const initialState = {
 
 export default function(state = initialState, action){
     switch(action.type){
+        case SHOPCART_PRODUCT_COUNTER:
+            return{
+                ...state,
+                shopcartProductCounter: action.payload
+            }
         case FETCH_PRODUCTS_FROM_SERVER:
             return {
                 ...state,

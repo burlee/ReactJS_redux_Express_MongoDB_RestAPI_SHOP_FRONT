@@ -18,7 +18,7 @@ class LoginModule extends Component {
         event.preventDefault();
         if(this.state.email.length < 3 || this.state.password.length < 3) return;
         FirebaseConfig.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then((response) => {
+            .then(() => {
                 this.setState({ LoginStatusFontColor: '#4caf50' })
                 setTimeout(() => this.props.history.push('/') , 3000)
                 }
@@ -45,7 +45,6 @@ class LoginModule extends Component {
                 <div className={classes.Backdrop} onClick={this.closeLoginModule}>
                 </div>
                 <div className={classes.LoginModule} style={{backgroundColor: this.state.panelBgColor}}>
-                    {/* <h3>{this.state.message}</h3> */}
                     <form onSubmit={this.logginUser}>
                         <label htmlFor="email">Podaj adres e-mail:</label>
                         <DebounceInput

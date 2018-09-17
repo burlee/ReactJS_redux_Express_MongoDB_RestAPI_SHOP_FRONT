@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
-import Aux from '../../HOC/aux_x'
+import classes from './MainCore.css';
 import Navbar from '../Navbar/Navbar';
 import ProductContainer from '../ProductContainer/ProductContainer';
 import ProductDetails from '../ProductDetails/ProductDetails';
-import classes from './MainCore.css';
 import WarningModal from '../../UI/WarningModal/WarningModal'
-import { Switch, Route, NavLink } from 'react-router-dom';
-import RegisterModul from '../RegisterModul/RegisterModul';
 import LoginModule from '../LoginModule/LoginModule';
+import RegisterModul from '../RegisterModul/RegisterModul';
 import AddProduct from '../AddProduct/AddProduct';
-import FirebaseConfig from '../../FirebaseConfig';
-import { withRouter } from 'react-router-dom';
 import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
-import Messages from '../Messager/Messages/Messages';
-import { connect } from 'react-redux';
 import UserSettings from '../UserSettings/UserSettings';
-import { CirclePicker } from 'react-color';
+import Messages from '../Messager/Messages/Messages';
 import Orders from '../Orders/Orders';
+import RouteInformation from '../RouteInformation/RouteInformation'
+import Aux from '../../HOC/aux_x';
+import { Switch, Route, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import FirebaseConfig from '../../FirebaseConfig';
+import { CirclePicker } from 'react-color';
+import { connect } from 'react-redux';
 
 
 class MainCore extends Component {
@@ -90,8 +91,8 @@ class MainCore extends Component {
 
                 { this.props.userSettings.userPaymentSettings === null ||
                   this.props.userSettings.userPersonalDetails === null ? 
-                    <li onClick={this.warningModal} style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}}>Dodaj aukcję</li> : 
-                    <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj aukcję</NavLink></li>
+                    <li onClick={this.warningModal} style={{cursor: 'pointer', color: '#4c4c4c', fontWeight: 'bold'}}>Dodaj ogłoszenie</li> : 
+                    <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj ogłoszenie</NavLink></li>
                 }
                 <li><NavLink onClick={this.scrollHidden} to="/orders">Zamówienia</NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/auction-list">Lista aukcji</NavLink></li>
@@ -110,13 +111,25 @@ class MainCore extends Component {
         : null }
         
         <Switch>
-          <Route path='/create-account' exact component={RegisterModul} /> 
-          <Route path='/add-product' component={AddProduct} />
-          <Route path='/auction-list' component={UserAuctionsList} />
-          <Route path='/loggin' component={LoginModule} />
-          <Route path='/orders' component={Orders} />
-          <Route path='/messages' component={Messages} />
-          <Route path='/settings' component={UserSettings} />
+          {this.props.userExist.userExist !== null ?
+          <Aux>
+            <Route path='/add-product' component={AddProduct} />
+            <Route path='/auction-list' component={UserAuctionsList} />
+            <Route path='/orders' component={Orders} />
+            <Route path='/messages' component={Messages} />
+            <Route path='/settings' component={UserSettings} />
+          </Aux>
+          :
+          <Aux>
+            <Route path='/add-product' component={RouteInformation} />
+            <Route path='/auction-list' component={RouteInformation} />
+            <Route path='/orders' component={RouteInformation} />
+            <Route path='/messages' component={RouteInformation} />
+            <Route path='/settings' component={RouteInformation} />
+            <Route path='/create-account' exact component={RegisterModul} /> 
+            <Route path='/loggin' component={LoginModule} />
+          </Aux>
+          }
         </Switch>
         
         <Navbar bgColor={this.state.panelBgColor}/>

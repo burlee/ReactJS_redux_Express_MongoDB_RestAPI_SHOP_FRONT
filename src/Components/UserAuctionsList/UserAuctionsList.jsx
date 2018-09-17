@@ -12,7 +12,6 @@ class UserAuctionsList extends Component {
     state = {
         UserAuctionsList: [],
         borderBottomPriceColor: 'rgba(76, 76, 76, 0.1)',
-        disabledChangeDataBtn: true,
         showEditProductModal: false,
         auctionNotFound: false,
         spinnerIsLoading: true,
@@ -75,18 +74,18 @@ class UserAuctionsList extends Component {
     }
 
     productNameHandler = (event) => {
-        this.validationInputData(event.target.value);
         this.setState({productNameEditData: event.target.value.slice(0,30)})
     }
+
     saveEditDataToDB = () => {
-        
-        if(this.state.productNameEditData !== '' && this.state.productPriceEditData !== '' && this.state.productConditionEditData !== ''){
+        if(this.state.productNameEditData.length > 4 && this.state.productPriceEditData !== '' && this.state.productConditionEditData !== ''){
             
             const updateProductData = {
                 productName: this.state.productNameEditData.slice(0,30),
                 productPrice: this.state.productPriceEditData,
                 condition: this.state.productConditionEditData
-            }
+            };
+            
             axios.patch(`http://localhost:3000/offers/${this.state.idFromRestAPI}`, updateProductData)
                 .then( () => {
                     this.setState({editStatus: 'Zmiany zostały zapisane'});
@@ -115,14 +114,13 @@ class UserAuctionsList extends Component {
     }
 
     editProductToggle = () => {
-        this.setState({
-            disabledChangeDataBtn: true,
-            showEditProductModal: !this.state.showEditProductModal
-        })
+        this.setState({showEditProductModal: !this.state.showEditProductModal})
     }
+
     closeDeleteAuctionModal = () => {
         this.setState({confirmDeleteModal: false})
     }
+
     validationInputData = (productNameEditData) => {
         if(productNameEditData.length > 4 ){
             this.setState({disabledChangeDataBtn: false})
@@ -207,7 +205,7 @@ class UserAuctionsList extends Component {
                     {...transitionOption}>
                     {displayUserAuctionsList}
                 </ReactCSSTransitionGroup>
-                {this.state.auctionNotFound === true ? <h3>Niestety nie posiadasz żadnych aukcji.</h3> : null}
+                {this.state.auctionNotFound === true ? <h4>Niestety nie posiadasz żadnych aukcji.</h4> : null}
                 {this.state.spinnerIsLoading === true ? <SmallSpinner/> : null}
                 
                 {this.state.showEditProductModal ?
@@ -243,7 +241,6 @@ class UserAuctionsList extends Component {
 
                         <button 
                             style={{cursor: 'pointer', backgroundColor: 'transparent', outline: 'none', border: 'none', padding: '20px', color: '#4c4c4c'}}
-                            disabled={this.state.disabledChangeDataBtn} 
                             onClick={this.saveEditDataToDB}>
                             Zapisz zmiany
                         </button>

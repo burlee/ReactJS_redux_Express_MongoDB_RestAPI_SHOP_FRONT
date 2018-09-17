@@ -9,7 +9,8 @@ import {
     FETCH_LAST_15_PRODUCTS_FROM_DB,
     MESSAGE_COUNTER,
     USER_PAYMENT_SETTINGS,
-    USER_PERSONAL_DETAILS
+    USER_PERSONAL_DETAILS,
+    SHOPCART_PRODUCT_COUNTER
 }
     from './types';
 import axios from 'axios';
@@ -17,7 +18,7 @@ import FirebaseConfig from '../../FirebaseConfig';
 
 
 
-export const fetch_all_products = (startPagination, endPagination) => dispatch => {
+export const fetch_all_products = (startPagination, endPagination, XD) => dispatch => {
     dispatch(set_products_loading());
 
     axios.get('http://localhost:3000/offers')
@@ -27,6 +28,13 @@ export const fetch_all_products = (startPagination, endPagination) => dispatch =
                 payload: response.data.products.slice(startPagination, endPagination)
             })
         })
+};
+
+export const shopcart_product_counter = (orderLength) => dispatch => {
+    dispatch({
+        type: SHOPCART_PRODUCT_COUNTER,
+        payload: orderLength
+    });
 }
 
 export const fetch_last_15_products_from_db = () => dispatch => {
@@ -62,6 +70,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             coordinates: product.coordinates,
                             productDescription: product.productDescription,
                             category: product.category,
+                            requirements: product.requirements,
                             condition: product.condition,
                             auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                         })
@@ -80,6 +89,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                                 coordinates: product.coordinates,
                                 productDescription: product.productDescription,
                                 category: product.category,
+                                requirements: product.requirements,
                                 condition: product.condition,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
@@ -100,6 +110,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                                 coordinates: product.coordinates,
                                 productDescription: product.productDescription,
                                 category: product.category,
+                                requirements: product.requirements,
                                 condition: product.condition,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
@@ -129,6 +140,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                             coordinates: product.coordinates,
                             productDescription: product.productDescription,
                             category: product.category,
+                            requirements: product.requirements,
                             condition: product.condition,
                             auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                         })
@@ -147,6 +159,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                                 coordinates: product.coordinates,
                                 productDescription: product.productDescription,
                                 category: product.category,
+                                requirements: product.requirements,
                                 condition: product.condition,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
@@ -167,6 +180,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
                                 coordinates: product.coordinates,
                                 productDescription: product.productDescription,
                                 category: product.category,
+                                requirements: product.requirements,
                                 condition: product.condition,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
@@ -201,6 +215,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                         coordinates: product.coordinates,
                         productDescription: product.productDescription,
                         condition: product.condition,
+                        requirements: product.requirements,
                         auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                     })
                 }
@@ -218,6 +233,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                             coordinates: product.coordinates,
                             productDescription: product.productDescription,
                             condition: product.condition,
+                            requirements: product.requirements,
                             auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                         })
                     }
@@ -237,6 +253,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                             productDescription: product.productDescription,
                             productImgUrl: product.productImgUrl,
                             condition: product.condition,
+                            requirements: product.requirements,
                             auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                         })
                     }
@@ -265,6 +282,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                             productDescription: product.productDescription,
                             productImgUrl: product.productImgUrl,
                             condition: product.condition,
+                            requirements: product.requirements,
                             auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                         })
                     }
@@ -282,6 +300,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                                 productDescription: product.productDescription,
                                 productImgUrl: product.productImgUrl,
                                 condition: product.condition,
+                                requirements: product.requirements,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
                         }
@@ -301,6 +320,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
                                 productDescription: product.productDescription,
                                 productImgUrl: product.productImgUrl,
                                 condition: product.condition,
+                                requirements: product.requirements,
                                 auctionOwnerUserIDfb: product.auctionOwnerUserIDfb
                             })
                         }

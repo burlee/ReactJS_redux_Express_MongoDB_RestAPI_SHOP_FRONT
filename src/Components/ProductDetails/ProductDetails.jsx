@@ -37,7 +37,7 @@ class ProductDetails extends Component {
 
   selectedCategoryHandler = (event) =>{
     if(event.target.value === 'Oferta pracy'){
-      this.setState({selectedCategory: event.target.value, disabledCheckInput: true})
+      this.setState({selectedCategory: event.target.value, disabledCheckInput: true, checkedNew: false, checkedUsed: false})
     }else(this.setState({selectedCategory: event.target.value, disabledCheckInput: false}))
     
   }

@@ -3,10 +3,12 @@ import classes from './ProductDisplay.css'
 import uuid from 'uuid'
 import Messager from '../../Messager/Messager';
 import Aux from '../../../HOC/aux_x';
-import SuccessModal from '../../../UI/SuccessModal/SuccessModal';
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import CommentsContainer from '../CommentsContainer/CommentsContainer';
-import ProductMapLocalization from '../ProductMapLocalization/ProductMapLocalization'
+import ProductMapLocalization from '../ProductMapLocalization/ProductMapLocalization';
+
+import { connect } from 'react-redux';
+import { shopcart_product_counter } from '../../../Redux/actions/Actions'
 
 class ProductDisplay extends PureComponent { 
   state = {
@@ -15,7 +17,7 @@ class ProductDisplay extends PureComponent {
     productAdded: false,
     ProductAllDetails: false,
     showMessager: false,
-    maxWidthImage: 60,
+    maxWidthImage: 50,
     rotateImg: 0,
     showComments: true,
     showMap: false
@@ -30,16 +32,27 @@ class ProductDisplay extends PureComponent {
   }
 
   ProductAllDetails = () => {
+
     this.setState({ProductAllDetails: true});
     document.body.style.overflow = "hidden";
+
+    const URI= this.props.productName.replace(/\s/g,'-');
+    this.props.history.push(`/${URI}`)
   }
+  componentDidMount(){
+    let purchasingArray = JSON.parse(localStorage.getItem('Order'));
+    //Redux products counter
+    this.props.shopcart_product_counter(purchasingArray.length);
+  };
 
   addProductToShopCart = () => {
+
+    
     let purchasingArray = JSON.parse(localStorage.getItem('Order'));
     
     //User can't add own product to shop cart
     if(this.props.userExist === this.props.userIdFromFirebase) return;
-  
+    
     purchasingArray.push({
       orderID: uuid(),
       id: this.props.id,
@@ -48,9 +61,11 @@ class ProductDisplay extends PureComponent {
       productImgUrl: this.props.productImgUrl,
       userIdFromFirebase: this.props.userIdFromFirebase
     });
-      
+    
     localStorage.setItem( 'Order' , JSON.stringify(purchasingArray));
-
+    
+    //Redux products counter
+    this.props.shopcart_product_counter(purchasingArray.length);
     
     for(let i =0; i<101; i++){
       this.setState({StatusBarWidth: i})
@@ -71,6 +86,7 @@ class ProductDisplay extends PureComponent {
   CloseProductInformation = () => {
     this.setState({ProductAllDetails: false, showMap: false})
     document.body.style.overflow = "visible";
+    this.props.history.push('/')
   }
   
   backToProductDetails = () => {
@@ -90,20 +106,28 @@ class ProductDisplay extends PureComponent {
       userIdFromFirebase,
       userLogginID,
       productDescription,
-      productCoordinates
+      productCoordinates,
+      requirements
     } = this.props;
+
+    let requirementsDisplay = null;
+
+    if(requirements.length !== 0){
+       requirementsDisplay = requirements.map( (requirement, i) => {
+         return <li key={i}>{requirement}</li>
+       })
+    }
 
     return (
       <Aux>
         <div style={{width: this.state.StatusBarWidth + '%'}} className={classes.StatusBar}></div>
-        {this.state.productAdded ? <SuccessModal/> : null }
         <div style={{height: productDisplayHeigth, width: productDisplayWidth+'%', flexDirection: flexDirection}} onMouseLeave={this.CloseDetailsProduct} className={classes.ProductDisplay}>
           
           <div className={classes.ImageContainer}>
-            <img onClick={this.ShowDetailsProduct} src={productImgUrl} alt={productName} />
+            <img onClick={this.ShowDetailsProduct} style={{maxHeight: '100px'}} src={productImgUrl} alt={productName} />
           </div>
 
-            {/* Product information popUp */}
+            {/* Offer information popUp */}
 
             {condition === "Oferta pracy" ? null :
               <Aux>
@@ -143,7 +167,7 @@ class ProductDisplay extends PureComponent {
               }
             </div>
             
-            {/* All information about product (auction all details) */}
+            {/* All information about offer  */}
             {this.state.ProductAllDetails ? 
               <div className={classes.ProductAllDetails}>
 
@@ -160,7 +184,13 @@ class ProductDisplay extends PureComponent {
                     alt={productName}
                     style={{maxWidth: this.state.maxWidthImage + '%', transform: `rotate(${this.state.rotateImg}deg)`}}
                     />
-                  {condition === "Oferta pracy" ? null :
+                  
+                  {condition === "Oferta pracy" ? 
+                  <div className={classes.requirementsBox}>
+                    <h3>Wymagania</h3>
+                    {requirementsDisplay}
+                  </div> 
+                    :
                   <div className={classes.ImageOptions}>
                     <button onClick={()=>this.setState({maxWidthImage: this.state.maxWidthImage + 2})}>+</button>
                     <button onClick={()=>this.setState({maxWidthImage: this.state.maxWidthImage - 2})}>-</button>
@@ -191,7 +221,7 @@ class ProductDisplay extends PureComponent {
                         :
                         <i onClick={() => this.setState({showMap: true})} className="fas fa-map-marker-alt"></i>
                       }
-                      <button onClick={() => this.setState({showComments: false})}>Komentarze sprzedającego</button>
+                      <button onClick={() => this.setState({showComments: false})}>Zobacz opinie</button>
                     </div>
                       <button className={classes.CloseBtn} onClick={this.CloseProductInformation}>Zamknij</button>
                   </div>
@@ -222,4 +252,5 @@ class ProductDisplay extends PureComponent {
 } 
 
 
-export default withRouter(ProductDisplay);
+export default connect(null, { shopcart_product_counter })(withRouter(ProductDisplay));
+

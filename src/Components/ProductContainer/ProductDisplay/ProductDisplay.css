@@ -91,7 +91,6 @@
 }
 .ProductDisplay img{
     max-width: 125px;
-    max-height: 100px;
     cursor: pointer;
 }
 .SuccessAddProductToShopCart{
@@ -106,7 +105,7 @@
 
 .StatusBar{
     height: 5px;
-    background-color: #ccc;
+    background: #ccc;
     transition-duration: .5s;
     width: 100%;
     position: fixed;
@@ -131,14 +130,6 @@
     padding: 15px;
 }
 
-.ImageContainer{
-    width: 130px;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .ProductAllDetails{
     padding: 15px;
     box-sizing: border-box;
@@ -153,14 +144,14 @@
     animation: zoomIn;
     animation-duration: .5s;
 }
-.ProductImgContainer{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
+.ImageContainer{
+    width: 130px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .ImageOptions{
     display: flex;
@@ -171,8 +162,16 @@
     bottom: 20px;
 }
 
+.ImageOptions button{
+    font-size: 30px;
+}
+
 .ProductImgContainer{
-    justify-content: center;
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
     border-right: 1px solid hsla(0, 0%, 30%, 0.1);
 }
 
@@ -180,10 +179,14 @@
     height: auto;
 }
 
-.ImageOptions button{
-    font-size: 30px;
+.requirementsBox{
+    padding: 15px;
 }
 
+.requirementsBox li{
+    font-size: 14px;
+    margin-top: 5px;
+}
 
 .ProductInformationContainer{
     flex: 1;

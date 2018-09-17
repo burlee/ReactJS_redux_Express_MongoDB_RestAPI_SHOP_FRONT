@@ -38,7 +38,17 @@
 .UserAuctionsList h3{
     font-weight: 300;
     text-align: center;
-    padding: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 15px;
+    border-bottom: 1px solid #ededed;
+    box-sizing: border-box;
+}
+
+.UserAuctionsList h4{
+    font-weight: 300;
+    text-align: center;
+    width: 100%;
 }
 
 .AuctionBox{
@@ -46,6 +56,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-bottom: 20px;
 }
 .AuctionDetails{
     display: flex;
@@ -71,14 +82,13 @@
 
 .DisplayUserAuction{
     max-width: 80%;
-    height: 200px;
+    height: auto;
     border: 1px solid hsla(0, 0%, 30%, 0.1);
     margin: 10px auto;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding: 15px;
     transition: .1s all ease-in-out;
 }
 

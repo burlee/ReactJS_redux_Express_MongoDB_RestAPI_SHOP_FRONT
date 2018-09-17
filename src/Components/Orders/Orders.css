@@ -219,6 +219,15 @@
     color: #4caf50;
 }
 
+.UserOrder h4{
+    font-weight: 400;
+}
+
+.UserOrder span{
+    margin-bottom: 5px;
+    text-align: center;
+}
+
 .Backdrop{
     cursor: pointer;
     position: fixed;

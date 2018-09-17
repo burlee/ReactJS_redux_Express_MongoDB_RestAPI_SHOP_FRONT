@@ -31,6 +31,8 @@ class AddProduct extends Component {
             lat: 52.2297,
             lng: 21.0122
         },
+        requirements: [],
+        newRequirement: '',
         zoom: 11
     }
 
@@ -53,14 +55,15 @@ class AddProduct extends Component {
                 productDescription: this.state.productDescription,
                 condition: this.state.condition,
                 coordinates: this.state.center,
+                requirements: this.state.requirements,
                 category: this.state.category,
                 auctionOwnerUserIDfb: this.props.userExist.userExist,
                 time: moment().format('LL')
-            }
+            };
+
             axios.post('http://localhost:3000/offers', product)
                 .then( response => {
                     this.setState({spinnerIsLoading: true, disabledAddToDbBtn: true})
-                    
                     const productToFirebase = {
                         idFromRestAPI: response.data.idFromRestAPI,
                         productName: this.firstCharToUppercase(this.state.productTitle),
@@ -70,15 +73,21 @@ class AddProduct extends Component {
                         productDescription: this.state.productDescription,
                         condition: this.state.condition,
                         coordinates: this.state.center,
+                        requirements: this.state.requirements,
                         category: this.state.category,
                         time: moment().format('LL')
                     }
                     if(response.status === 201){
                         axios.post(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/AuctionUserProducts.json`, productToFirebase)
-                            .then(() => this.setState({spinnerIsLoading: false, disabledAddToDbBtn: false}))
+                            .then( () => this.setState({spinnerIsLoading: false}))
                             .then( response => {
-                                this.setState({message: 'Twoj produkt został dodany'})
-                                setTimeout(() => this.setState({message: ''}), 2500)
+                                this.setState({message: 'Twoje ogłoszenie zostało dodane'})
+                                setTimeout(() => this.setState({message: ''}), 2500);
+                                setTimeout(() => {
+                                    document.body.style.overflow = 'visible';
+                                    this.props.history.push('/');
+                                }, 4500);
+                                 
                             })
                             .catch( error => alert(`Error connect with Firebase ${error}`))
                     }
@@ -130,7 +139,8 @@ class AddProduct extends Component {
                 }else{
                     this.setState({
                         category: 'Elektronika',
-                        condition: 'Nowy'
+                        condition: 'Nowy',
+                        requirements: []
                     })
                 }
                 break;
@@ -142,7 +152,8 @@ class AddProduct extends Component {
                 }else{
                     this.setState({
                         category: 'Odzież',
-                        condition: 'Nowy'
+                        condition: 'Nowy',
+                        requirements: []
                     })
                 }
                 break;
@@ -154,7 +165,8 @@ class AddProduct extends Component {
                 }else{
                     this.setState({
                         category: 'Samochody',
-                        condition: 'Nowy'
+                        condition: 'Nowy',
+                        requirements: []
                     })
                 }
                 break;
@@ -166,7 +178,8 @@ class AddProduct extends Component {
                 }else{
                     this.setState({
                         category: 'Wyposażenie domu',
-                        condition: 'Nowy'
+                        condition: 'Nowy',
+                        requirements: []
                     })
                 }
                 break;
@@ -175,7 +188,9 @@ class AddProduct extends Component {
                 if(this.state.category === 'Oferta pracy'){
                     this.setState({
                         category: 'Brak',
-                        condition: 'Nowy'})
+                        condition: 'Nowy',
+                        requirements: []
+                    })
                 }else{
                     this.setState({
                         category: 'Oferta pracy',
@@ -191,7 +206,8 @@ class AddProduct extends Component {
                 }else{
                     this.setState({
                         category: 'Inne',
-                        condition: 'Nowy'
+                        condition: 'Nowy',
+                        requirements: []
                     })
                 }
                 break;
@@ -234,10 +250,42 @@ class AddProduct extends Component {
         this.setState({center: center})
     }
 
+    addRequirement = () => {
+
+        if(this.state.newRequirement.length < 10) return;
+
+        const newRequirement = this.state.newRequirement;
+        const requirements = [...this.state.requirements];
+
+        requirements.push(newRequirement);
+        this.setState({requirements, newRequirement: ''});
+
+        this.refs.requirement.state.value = '';
+    }
+
+    deleteRequirement = (index) => {
+
+        const requirements = [...this.state.requirements];
+
+        const fillteredRequirements = requirements.filter( ( _, i) => {
+            return i !== index;
+        });
+
+        this.setState({requirements: fillteredRequirements})
+    }
+
     render() {
+        let requirementDisplay = <span>List jest pusta</span>;
+
+        if(this.state.requirements.length !== 0){
+            requirementDisplay = this.state.requirements.map( (requirement, i) => {
+                return <li key={i}>{requirement}<button onClick={() => this.deleteRequirement(i)}>Usuń</button></li>
+            })
+        }
+
         return (
             <div className={classes.AddProduct}>
-                <h1>Dodaj swój produkt</h1>
+                <h1>Dodaj swoje ogłoszenie</h1>
                 <div className={classes.productTitle}>
                     <label htmlFor="productTitle">Wprowadź tytuł:</label>
                     <input 
@@ -298,6 +346,19 @@ class AddProduct extends Component {
                     <span>Wybrana kategoria: {this.state.category}</span>
                 </div>
 
+                {this.state.category === 'Oferta pracy' ?
+                <div className={classes.offerRequirements}>
+                    <h1>Wymagania od pracownika:</h1>
+                    <DebounceInput
+                        ref='requirement'
+                        minLength={10}
+                        debounceTimeout={300}
+                        onChange={event => this.setState({newRequirement: event.target.value})} />
+                    <button onClick={this.addRequirement}>Dodaj</button>
+                    {requirementDisplay}
+                </div> : null
+                }
+
                 {this.state.category === "Oferta pracy" ? null :
                 <div className={classes.productColorsTable}>
                     <h3>Wybierz kolor:</h3>
@@ -307,23 +368,26 @@ class AddProduct extends Component {
 
                 <div className={classes.productPriceAndImg}>
                     <div className={classes.productPrice}>
-                        {this.state.category === "Oferta pracy" ? <span>Podaj wynagrodzenie</span> : <span>Podaj cenę:</span>}
+                        {this.state.category === "Oferta pracy" ? <label htmlFor="salary">Podaj wynagrodzenie</label> : <label htmlFor="salary">Podaj cenę:</label>}
                         <input 
-                        type="number" 
-                        placeholder="Wpisz kwotę..."
-                        onChange={(event) => this.productPriceHandler(event)}
+                            id="salary"
+                            type="number" 
+                            placeholder="Wpisz kwotę..."
+                            onChange={(event) => this.productPriceHandler(event)}
                         />
                     </div>
                     <div className={classes.productImg}>
-                        {this.state.category === "Oferta pracy" ? <span>Logo firmy(URL)</span> : <span>Podaj zdjęcie(url):</span>}
+                        {this.state.category === "Oferta pracy" ? <label htmlFor="imgUrl">Logo firmy(URL)</label> : <label htmlFor="imgUrl">Podaj zdjęcie(url):</label>}
                         <input 
-                        onChange={(event) => this.imgUrlHandler(event)} 
-                        type="text" 
-                        placeholder="Podaj url zdjęcia..."
-                        style={{borderBottom: `1px solid ${this.state.borderBottomImgUrl}`}}
+                            id="imgUrl"
+                            onChange={(event) => this.imgUrlHandler(event)} 
+                            type="text" 
+                            placeholder="Podaj url zdjęcia..."
+                            style={{borderBottom: `1px solid ${this.state.borderBottomImgUrl}`}}
                         />
                     </div>
                 </div>
+
                 <div className={classes.AddProductToDataBaseBox}>
                     <div className={classes.AddProductButton}>
                         <button disabled={this.state.disabledAddToDbBtn} onClick={this.AddProductToDataBase}>Dodaj produkt</button>
@@ -333,13 +397,14 @@ class AddProduct extends Component {
                         <h2>{this.state.message}</h2>
                     </div>
                 </div>
+
                 <button className={classes.productPrevBtn} onClick={this.showPreview}>{this.state.showPreviewBtnContent}</button>
                 {this.state.showPreview ? 
                 <div className={classes.PreviewProduct}>
-                    <h1>Tytuł aukcji: {this.state.productTitle}</h1>
-                    <h1>Kategoria aukcji: {this.state.category}</h1>
-                    <h1>Cena: {this.state.productPrice}PLN</h1>
-                    <h1>Stan: {this.state.condition}</h1>
+                    <h1>Tytuł ogłoszenia: {this.state.productTitle}</h1>
+                    <h1>Kategoria ogłoszenia: {this.state.category}</h1>
+                    {this.state.category === "Oferta pracy" ? <h1>Wynagrodzenie: {this.state.productPrice}PLN</h1> : <h1>Cena: {this.state.productPrice}PLN</h1>}
+                    {this.state.category === "Oferta pracy" ? null : <h1>Stan: {this.state.condition}</h1>}
                     <img style={{maxWidth: '150px'}} src={this.state.imgURL} alt={this.state.productTitle}/>
                     {this.state.category === "Oferta pracy" ? null :
                         <Aux>

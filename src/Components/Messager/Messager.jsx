@@ -14,8 +14,6 @@ export default class Messager extends Component {
   }
 
   SendMessageToUser = () => {
-    console.log( this.props.userLogginID)
-    console.log(this.props.userIdFromFirebase)
     if(this.props.userLogginID === this.props.userIdFromFirebase){
       this.setState({communicat: 'To twoja aukcja'})
       return;
@@ -31,8 +29,7 @@ export default class Messager extends Component {
       message: this.state.message,
       productName: this.props.productName,
       responseTime: moment().format('LTS')
-    }
-    console.log( message)
+    };
   
     axios.post(`https://shop-237ef.firebaseio.com/${this.props.userIdFromFirebase}/messages/${this.props.userLogginID+message.productName}.json`, message)
       .then( response => {
