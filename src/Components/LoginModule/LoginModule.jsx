@@ -38,8 +38,8 @@ class LoginModule extends Component {
     closeLoginModule = () =>{
         this.props.history.push('/');
     }
+
     render() {
-        
         return (
             <Aux>
                 <div className={classes.Backdrop} onClick={this.closeLoginModule}>
@@ -70,4 +70,4 @@ class LoginModule extends Component {
     }
 }
 
-export default withRouter(LoginModule)
+export default withRouter(LoginModule);

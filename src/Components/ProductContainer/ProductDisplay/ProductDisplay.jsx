@@ -6,6 +6,9 @@ import Aux from '../../../HOC/aux_x';
 import { withRouter } from 'react-router-dom';
 import CommentsContainer from '../CommentsContainer/CommentsContainer';
 import ProductMapLocalization from '../ProductMapLocalization/ProductMapLocalization';
+import InformationModal from '../../../UI/InformationModal/InformationModal';
+import PaymentsMethodTable from '../PaymentsMethodTable/PaymentsMethodTable';
+import DetailsOfferPopup from '../DetailsOfferPopup/DetailsOfferPopup';
 
 import { connect } from 'react-redux';
 import { shopcart_product_counter } from '../../../Redux/actions/Actions'
@@ -13,6 +16,7 @@ import { shopcart_product_counter } from '../../../Redux/actions/Actions'
 class ProductDisplay extends PureComponent { 
   state = {
     ShowDetailsProduct: false,
+    showInformationModal: false,
     StatusBarWidth: 0,
     productAdded: false,
     ProductAllDetails: false,
@@ -20,7 +24,8 @@ class ProductDisplay extends PureComponent {
     maxWidthImage: 50,
     rotateImg: 0,
     showComments: true,
-    showMap: false
+    showMap: false,
+    showPaymentsMethod: false
   }
 
   ShowDetailsProduct = () => {
@@ -39,6 +44,7 @@ class ProductDisplay extends PureComponent {
     const URI= this.props.productName.replace(/\s/g,'-');
     this.props.history.push(`/${URI}`)
   }
+  
   componentDidMount(){
     let purchasingArray = JSON.parse(localStorage.getItem('Order'));
     //Redux products counter
@@ -79,7 +85,13 @@ class ProductDisplay extends PureComponent {
 
   ShowMessager = () => {
     //Blocking send message to yourself
-    if(this.props.userExist === this.props.userIdFromFirebase || this.props.userExist === null) return;
+    if(this.props.userExist === this.props.userIdFromFirebase){
+      return;
+    }
+    if(this.props.userExist === null){
+      this.setState({showInformationModal: true})
+      return;
+    };
     this.setState({showMessager: !this.state.showMessager})
   }
 
@@ -107,11 +119,11 @@ class ProductDisplay extends PureComponent {
       userLogginID,
       productDescription,
       productCoordinates,
-      requirements
+      requirements,
+      availablePayments
     } = this.props;
 
     let requirementsDisplay = null;
-
     if(requirements.length !== 0){
        requirementsDisplay = requirements.map( (requirement, i) => {
          return <li key={i}>{requirement}</li>
@@ -129,17 +141,15 @@ class ProductDisplay extends PureComponent {
 
             {/* Offer information popUp */}
 
-            {condition === "Oferta pracy" ? null :
-              <Aux>
-                {this.state.ShowDetailsProduct ?
-                    <div className={classes.ShowDetailsProduct}>
-                      <h3>{productName}</h3>
-                      <img style={{maxWidth: '150px', height: 'auto'}} src={productImgUrl} alt={productName}/>
-                      <span className={classes.Price}>{productPrice.toFixed(2)} PLN</span>
-                      <button onClick={this.addProductToShopCart}>Dodaj do koszyka</button>
-                    </div>
-                : null }
-              </Aux>
+            {condition === "Oferta pracy" ? 
+                  null :
+                  <DetailsOfferPopup
+                    showDetailsProduct={this.state.ShowDetailsProduct}
+                    productName={productName}
+                    productImgUrl={productImgUrl}
+                    productPrice={productPrice}
+                    addProductToShopCart={this.addProductToShopCart}
+                  />
             }
 
             {/* //-------- */}
@@ -209,13 +219,16 @@ class ProductDisplay extends PureComponent {
                     <div className={classes.PriceContainer}>
                     {condition === "Oferta pracy" ? null : <button onClick={this.addProductToShopCart}>{this.state.productAdded ? "Dodano do koszyka" : "Dodaj do koszyka"}</button>}
                     {condition === "Oferta pracy" ? <span>Wynagrodzenie {productPrice} PLN</span> :  <span>Cena: {productPrice} PLN</span>}
+                    {this.state.showPaymentsMethod ? <PaymentsMethodTable availablePayments={availablePayments}/> : null}
                     </div>
+
                     <div className={classes.SocialMediaContainer}>
                       <div>
                         <span>Udostępnij</span>
                         <i className="fab fa-facebook-f"></i>
                         <i className="fab fa-twitter"></i>
                       </div>
+                      {condition === "Oferta pracy" ? null : <i className="fas fa-credit-card"  onClick={()=>this.setState({showPaymentsMethod: !this.state.showPaymentsMethod})}></i>}
                       {this.state.showMap ? 
                         <i onClick={() => this.setState({showMap: false})} className="far fa-times-circle"></i>
                         :
@@ -245,6 +258,8 @@ class ProductDisplay extends PureComponent {
                 productName={productName}
               /> 
             : null}
+
+            {this.state.showInformationModal ? <InformationModal closeInformationModal={()=>this.setState({showInformationModal: false})}/> : null}
         </div>
       </Aux>
     )

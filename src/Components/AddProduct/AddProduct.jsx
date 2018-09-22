@@ -5,6 +5,7 @@ import axios from 'axios'
 import moment from 'moment';
 import Aux from '../../HOC/aux_x'
 import 'moment/locale/pl';
+import BackButton from '../../UI/BackButton/BackButton'
 import { DebounceInput } from 'react-debounce-input';
 import { ChromePicker } from 'react-color';
 import GoogleMapReact from 'google-map-react';
@@ -31,8 +32,11 @@ class AddProduct extends Component {
             lat: 52.2297,
             lng: 21.0122
         },
-        requirements: [],
         newRequirement: '',
+        requirements: [],
+        bankPayment: false,
+        btcPayment: false,
+        ltcPayment: false,
         zoom: 11
     }
 
@@ -40,11 +44,20 @@ class AddProduct extends Component {
         document.body.style.overflow = "hidden";
     }
 
-    AddProductToDataBase = () => {
-        const state = this.state;
-        moment.locale('pl');
+    addProductToDataBase = () => {
         
-        if(state.productPrice !== '' && state.productTitle !== '' && state.imgURLisCorrect === true && state.category !== 'Brak' && state.productDescription !== ''){
+        moment.locale('pl');
+
+        const { bankPayment, ltcPayment, btcPayment } = this.state;
+        const { productPrice, productTitle, imgURLisCorrect, category, productDescription} = this.state;
+        
+        if(bankPayment === false && ltcPayment === false && btcPayment === false){
+            this.setState({message: "Dodaj metodę płatności."});
+            setTimeout(()=> this.setState({message: ''}), 3000)
+            return;
+        }
+
+        if(productPrice !== '' && productTitle !== '' && imgURLisCorrect === true && category !== 'Brak' && productDescription !== ''){
             
 
             const product = {
@@ -56,6 +69,11 @@ class AddProduct extends Component {
                 condition: this.state.condition,
                 coordinates: this.state.center,
                 requirements: this.state.requirements,
+                availablePayments: [
+                    this.state.bankPayment === true ? "Dostępna" : "Niedostępna",
+                    this.state.btcPayment === true ? "Dostępna" : "Niedostępna",
+                    this.state.ltcPayment === true ? "Dostępna" : "Niedostępna"
+                ],
                 category: this.state.category,
                 auctionOwnerUserIDfb: this.props.userExist.userExist,
                 time: moment().format('LL')
@@ -74,6 +92,11 @@ class AddProduct extends Component {
                         condition: this.state.condition,
                         coordinates: this.state.center,
                         requirements: this.state.requirements,
+                        availablePayments: [
+                            this.state.bankPayment === true ? "Dostępna" : "Niedostępna",
+                            this.state.btcPayment === true ? "Dostępna" : "Niedostępna",
+                            this.state.ltcPayment === true ? "Dostępna" : "Niedostępna"
+                        ],
                         category: this.state.category,
                         time: moment().format('LL')
                     }
@@ -96,10 +119,11 @@ class AddProduct extends Component {
 
         }else(
             this.setState({message: 'Wypełnij wszystkie pola.'}),
-            setTimeout(() => this.setState({message: ''}), 5000)
+            setTimeout(() => this.setState({message: ''}), 3000)
         )
 
     }
+    
     imgUrlHandler = (event) => {
         this.closePreview();
         this.setState({imgURL: event.target.value})            
@@ -140,7 +164,8 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Elektronika',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }
                 break;
@@ -153,7 +178,8 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Odzież',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }
                 break;
@@ -166,7 +192,8 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Samochody',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }
                 break;
@@ -179,7 +206,8 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Wyposażenie domu',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }
                 break;
@@ -189,12 +217,14 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Brak',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }else{
                     this.setState({
                         category: 'Oferta pracy',
-                        condition: 'Oferta pracy'
+                        condition: 'Oferta pracy',
+                        bankPayment: true
                     })
                 }
                 break;
@@ -207,7 +237,8 @@ class AddProduct extends Component {
                     this.setState({
                         category: 'Inne',
                         condition: 'Nowy',
-                        requirements: []
+                        requirements: [],
+                        bankPayment: false
                     })
                 }
                 break;
@@ -275,13 +306,14 @@ class AddProduct extends Component {
     }
 
     render() {
+
         let requirementDisplay = <span>List jest pusta</span>;
 
         if(this.state.requirements.length !== 0){
             requirementDisplay = this.state.requirements.map( (requirement, i) => {
                 return <li key={i}>{requirement}<button onClick={() => this.deleteRequirement(i)}>Usuń</button></li>
             })
-        }
+        };
 
         return (
             <div className={classes.AddProduct}>
@@ -313,12 +345,10 @@ class AddProduct extends Component {
                         defaultZoom={this.state.zoom}
                         onClick={event => this.coordinatesHandler(event)}
                     >
-
                     <MapMarker 
                        lat={this.state.center.lat}
                        lng={this.state.center.lng} 
                     />
-
                   </GoogleMapReact>                
                 </div>
 
@@ -345,6 +375,24 @@ class AddProduct extends Component {
                     </div>
                     <span>Wybrana kategoria: {this.state.category}</span>
                 </div>
+                
+                {this.state.category === "Oferta pracy" || this.state.category === "Brak" ? null :
+                <div className={classes.availablePaymentsBox}>
+                    <h1>Metody płatności</h1>
+                    <div>
+                        <label htmlFor="bank">Płatność na konto bankowe</label>
+                        <input id="bank" type="checkbox" onChange={() => this.setState({bankPayment: !this.state.bankPayment})}/>
+                    </div>
+                    <div>
+                        <label htmlFor="btc">Płatność bitcoin</label>
+                        <input id="btc" type="checkbox" onChange={() => this.setState({btcPayment: !this.state.btcPayment})}/>
+                    </div>
+                    <div>
+                        <label htmlFor="ltc">Płatność litecoin</label>
+                        <input id="ltc" type="checkbox" onChange={() => this.setState({ltcPayment: !this.state.ltcPayment})}/>
+                    </div>   
+                </div>
+                }
 
                 {this.state.category === 'Oferta pracy' ?
                 <div className={classes.offerRequirements}>
@@ -354,7 +402,7 @@ class AddProduct extends Component {
                         minLength={10}
                         debounceTimeout={300}
                         onChange={event => this.setState({newRequirement: event.target.value})} />
-                    <button onClick={this.addRequirement}>Dodaj</button>
+                    <button onClick={this.addRequirement} style={{background: 'none', color: '#4c4c4c'}}>Dodaj</button>
                     {requirementDisplay}
                 </div> : null
                 }
@@ -390,7 +438,7 @@ class AddProduct extends Component {
 
                 <div className={classes.AddProductToDataBaseBox}>
                     <div className={classes.AddProductButton}>
-                        <button disabled={this.state.disabledAddToDbBtn} onClick={this.AddProductToDataBase}>Dodaj produkt</button>
+                        <button disabled={this.state.disabledAddToDbBtn} onClick={this.addProductToDataBase}>Dodaj produkt</button>
                     </div>
                     <div className={classes.Message}>
                         {this.state.spinnerIsLoading ?  <SmallSpinner/> : null}
@@ -399,6 +447,7 @@ class AddProduct extends Component {
                 </div>
 
                 <button className={classes.productPrevBtn} onClick={this.showPreview}>{this.state.showPreviewBtnContent}</button>
+                <BackButton/>
                 {this.state.showPreview ? 
                 <div className={classes.PreviewProduct}>
                     <h1>Tytuł ogłoszenia: {this.state.productTitle}</h1>

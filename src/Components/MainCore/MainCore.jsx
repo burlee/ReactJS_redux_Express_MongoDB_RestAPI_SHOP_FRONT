@@ -11,7 +11,6 @@ import UserAuctionsList from '../UserAuctionsList/UserAuctionsList';
 import UserSettings from '../UserSettings/UserSettings';
 import Messages from '../Messager/Messages/Messages';
 import Orders from '../Orders/Orders';
-import RouteInformation from '../RouteInformation/RouteInformation'
 import Aux from '../../HOC/aux_x';
 import { Switch, Route, NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -95,7 +94,7 @@ class MainCore extends Component {
                     <li><NavLink onClick={this.scrollHidden} to="/add-product">Dodaj ogłoszenie</NavLink></li>
                 }
                 <li><NavLink onClick={this.scrollHidden} to="/orders">Zamówienia</NavLink></li>
-                <li><NavLink onClick={this.scrollHidden} to="/auction-list">Lista aukcji</NavLink></li>
+                <li><NavLink onClick={this.scrollHidden} to="/auction-list">Twoje ogłoszenia</NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/messages">Wiadomości <span className={classes.MessageCount}>{this.props.messageCount.messageCount}</span></NavLink></li>
                 <li><NavLink onClick={this.scrollHidden} to="/settings">Ustawienia</NavLink></li>
               </Aux>
@@ -121,11 +120,6 @@ class MainCore extends Component {
           </Aux>
           :
           <Aux>
-            <Route path='/add-product' component={RouteInformation} />
-            <Route path='/auction-list' component={RouteInformation} />
-            <Route path='/orders' component={RouteInformation} />
-            <Route path='/messages' component={RouteInformation} />
-            <Route path='/settings' component={RouteInformation} />
             <Route path='/create-account' exact component={RegisterModul} /> 
             <Route path='/loggin' component={LoginModule} />
           </Aux>

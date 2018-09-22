@@ -42,10 +42,15 @@ class RegisterModul extends Component {
         this.passwordValidate(this.state.userDetails.password);
     }
 
-    getUserDetails = (event) => {
-        
+    sendRegisterForm = (event) => {
         event.preventDefault();
-        const authData = { ...this.state.userDetails }
+        
+        const authData = { ...this.state.userDetails };
+
+        //Password regex validation, email is validate by firebase.
+        let passwordValidate = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+        if( passwordValidate.test(authData.password) === false) return;
+
         axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyDVjDPro5DtgBtfT1wOxo-yWqIU4TaN0I4', authData)
             .then(response => {
                 if(response.status === 200){
@@ -54,14 +59,15 @@ class RegisterModul extends Component {
                 setTimeout(() => this.setState({message: ''}),2500);
             })
             .catch(() => {
-                this.setState({message: 'Konto już istnieje.'});
+                this.setState({message: 'Uzupełnij poprawnie formularz.'});
                 setTimeout(() => this.setState({message: ''}),2500)
             })
     }
 
+    //current input value validation with change border color
     passwordValidate = (password) =>{
+        
         let strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
 
         if( strongRegex.test(password) === false){
             this.setState({borderColorPassword: 'red', disabled: true, passwordIsCorrectly: false})
@@ -73,6 +79,7 @@ class RegisterModul extends Component {
         }
     }
 
+    //current input value validation with change border color
     emailValidate = (email) => {
 
         let emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])/;
@@ -110,26 +117,8 @@ class RegisterModul extends Component {
         return (
             <Aux>
                 <div className={classes.RegisterModule}>
-                    <div className={classes.InformationBox}>
-                        <div>
-                            <h1>1</h1>
-                            <p>Załóż swoje konto.</p>
-                        </div>
-                        <div>
-                            <h1>2</h1>
-                            <p>Zaloguj się na utworzone konto.</p>
-                        </div>
-                        <div>
-                            <h1>3</h1>
-                            <p>Po zalogowaniu uzupełnij swój profil.</p>
-                        </div>
-                        <div>
-                            <h1>4</h1>
-                            <p>Wystawiaj aukcje i korzystaj z serwisu.</p>
-                        </div>
-                    </div>
                     <div className={classes.RegisterForm}>
-                        <form onSubmit={this.getUserDetails}>
+                        <form onSubmit={this.sendRegisterForm}>
                             <label htmlFor="email">Podaj adres e-mail:</label>
                             <input style={{borderBottom: `1px solid ${this.state.borderColorEmail}`}} onChange={this.emailValue} type="email" id="email" autoComplete="off" />
                                 <label htmlFor="password">

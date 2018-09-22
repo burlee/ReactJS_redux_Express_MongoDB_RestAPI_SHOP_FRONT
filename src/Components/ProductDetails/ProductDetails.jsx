@@ -45,6 +45,7 @@ class ProductDetails extends Component {
   render() {
     return (
       <aside className={classes.ProductDetails}>
+
         <h5>Personalizuj swoje ustawienia</h5>
         <div className={classes.FillteredBox}>
           <label htmlFor="lessThanInput">Mniej niż:</label>
@@ -56,6 +57,7 @@ class ProductDetails extends Component {
             onChange={event => this.setState({ searchPrice: event.target.value })} />
           <button onClick={this.searchByPrice}>Szukaj</button>
         </div>
+        
         <div className={classes.FillteredBox}>
           <label htmlFor="moreThanInput">Więcej niż niż:</label>
           <DebounceInput
@@ -66,6 +68,7 @@ class ProductDetails extends Component {
             onChange={event => this.setState({ searchPriceMore: event.target.value })} />
           <button onClick={this.searchByPriceMore}>Szukaj</button>
         </div>
+
         <div className={classes.ConditionBox}>
           <span>Wybierz stan:</span>
           <div className={classes.ConditionBoxLabel}>
@@ -77,6 +80,7 @@ class ProductDetails extends Component {
             <input checked={this.state.checkedUsed} disabled={this.state.disabledCheckInput} onClick={this.UsedOptionChecked} id="used" type="checkbox" />
           </div>
         </div>
+
         <div className={classes.ConditionBox}>
           <label htmlFor="category">Wybierz kategorię:</label>
           <select id="category" onChange={this.selectedCategoryHandler} required>

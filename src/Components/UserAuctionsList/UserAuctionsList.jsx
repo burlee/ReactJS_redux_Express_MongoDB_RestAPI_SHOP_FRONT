@@ -191,9 +191,9 @@ class UserAuctionsList extends Component {
                 
                 {this.state.spinnerIsLoadingDelete ? <SmallSpinner/> : null}
                 <header>
-                    Lista twoich aukcji:
+                    Twoje ogłoszenia:
                     <DebounceInput
-                            placeholder="Wyszukaj swojej aukcji..."
+                            placeholder="Wyszukaj ogłoszenia..."
                             id="auctionName"
                             minLength={1}
                             debounceTimeout={500}
@@ -212,7 +212,7 @@ class UserAuctionsList extends Component {
                 <Aux>
                     <div onClick={this.editProductToggle} className={classes.Backdrop}></div> 
                     <div className={classes.EditProductModal}>
-                        <h1><i className="fas fa-edit"></i>Edytuj szczegóły aukcji</h1>
+                        <h1>Edytuj swoje ogłoszenie</h1>
                         <label htmlFor="auctionNameEdit">Nowa nazwa ogłoszenia: <span>*</span></label>
                         
                         <input 

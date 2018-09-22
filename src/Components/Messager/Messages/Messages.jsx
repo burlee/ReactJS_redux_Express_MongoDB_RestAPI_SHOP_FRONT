@@ -76,7 +76,10 @@ class Messages extends PureComponent {
 
     sendResponse = () => {
 
-        this.setState({spinnerIsLoading: true})
+        if(this.state.responseMessage === '') return;
+        
+        this.setState({spinnerIsLoading: true});
+
         const message = {
             userSendMessageId: this.props.userExist.userExist,
             message: this.state.responseMessage,
@@ -132,7 +135,7 @@ class Messages extends PureComponent {
         let userMessageID = this.state.userMessageID.map( (userID, index) => {
             return (
                 <div key={index} className={classes.messageUser}>
-                    <h5>Wiadomości do aukcji {userID.userMessageID.slice(28,58)}</h5>
+                    <h5>Wiadomości do ogłoszenia {userID.userMessageID.slice(28,58)}</h5>
                     <div>
                         <button className={classes.showMsgBtn} onClick={() => this.showAllMesages(userID.userMessageID)}>Pokaż wiadomości</button>
                         <button className={classes.deleteMsgBtn} onClick={() => this.deleteMessage(userID.userMessageID)}>Usuń</button>
@@ -152,7 +155,7 @@ class Messages extends PureComponent {
             }
             return (
                 <div key={index} className={classes.MessagesBox}>
-                    <h3>Pytanie do aukcji {message.productName}</h3>
+                    <h3>Pytanie do ogłoszenia {message.productName}</h3>
                     <div>
                         <span className={classes.spanTime}>{message.responseTime}</span>
                         <p style={{textAlign: 'justify', fontSize: '14px', maxWidth: '75%'}}>{message.message}</p>
@@ -184,7 +187,7 @@ class Messages extends PureComponent {
                         <DebounceInput
                             id="lessThanInput"
                             value={this.state.searchPrice}
-                            minLength={1}
+                            minLength={5}
                             placeholder="Wpisz odpowiedź..."
                             debounceTimeout={300}
                             onChange={ event => this.setState({responseMessage: event.target.value})} />

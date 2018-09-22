@@ -29,6 +29,7 @@ class LastAddedProduct extends Component {
 
         const arrayLength = this.props.last15products.last15products.length - this.state.productPrevious;
         const arrayReverse = arrayLength - 3;
+        
         let lastAddedProduct = this.props.last15products.last15products.slice(arrayReverse, arrayLength)
             .map( ({id, productName, productImgUrl, productPrice}) => {
 

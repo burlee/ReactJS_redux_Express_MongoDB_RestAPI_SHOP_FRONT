@@ -15,7 +15,6 @@ export default class Navbar extends Component {
     render() {
         return (
             <nav className={classes.Navbar} style={{ backgroundColor: this.props.bgColor }}>
-                {/* <MainLogo/> */}
                 <ShopCart />
                     <div style={{cursor: 'pointer'}} onClick={this.showSearchToggle}>
                         {this.state.showSearch ? 

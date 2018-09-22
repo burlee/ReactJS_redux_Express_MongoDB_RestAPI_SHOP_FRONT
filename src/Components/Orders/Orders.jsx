@@ -100,9 +100,11 @@ class Orders extends Component {
     showOwnOrdersToggle = () => {
         this.setState({showOwnOrders: !this.state.showOwnOrders})
     }
+    
     searchOrderToggle = () => {
         this.setState({showSearch: !this.state.showSearch, searchTerm: ''})
     }
+
     closeCommentModule = () => {
         this.setState({showCommentModule: false})
     }

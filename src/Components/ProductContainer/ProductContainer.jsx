@@ -131,6 +131,7 @@ class ProductContainer extends Component {
                 productColor={product.productColor}
                 productPrice={product.productPrice}
                 requirements={product.requirements}
+                availablePayments={product.availablePayments}
                 productImgUrl={product.productImgUrl}
                 productDescription={product.productDescription}
                 condition={product.condition}

@@ -227,6 +227,12 @@
     width: 100%;
     height: 200px;
     outline: none;
+    background: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
 }
 
 .productCondition{
@@ -312,7 +318,78 @@
     padding: 10px;
     background: none;
     cursor: pointer;
+    background: #4c4c4c;
+    border-radius: 3px;
+    color: #FFF;
 }
+
+.offerRequirements input{
+    height: 40px;
+    border: 1px solid rgb(128, 128, 128, .25); 
+    border-radius: 3px;
+    font-size: 20px;
+    outline: none;
+    padding-left: 10px;
+    font-weight: 400;
+    transition: 0.3s all ease-in-out;
+}
+
+.offerRequirements input:focus{
+    border: 1px solid rgb(76, 76, 76, .5);
+}
+
+.availablePaymentsBox{
+    width: 100%;
+    padding: 15px;
+    background: #e2e2e2;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+.availablePaymentsBox h1{
+    font-size: 25px;
+    font-weight: 300;
+    color: #4c4c4c;
+    text-align: inherit;
+}
+
+.availablePaymentsBox div{
+    width: 230px;
+    padding: 3px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+.availablePaymentsBox label{
+    font-size: 14px;
+    font-weight: bold;
+    color: #4c4c4c;
+}
+
+.availablePaymentsBox input[type="checkbox"]::before{
+    cursor: pointer;
+    content: "";
+    display: inline-block;
+    vertical-align: text-top;
+    width: 16px;
+    height: 16px;
+    background: #fafafa;
+    border: 1px solid rgb(76, 76, 76, .25);
+    border-radius: 1px;
+}
+
+.availablePaymentsBox input[type="checkbox"]:checked::after{
+    cursor: pointer;
+    content: "\2714";
+    font-size: 16px;
+    position: relative;
+    color: #4c4c4c;
+    top: -20px;
+    left: 3px;
+}
+
 
 .Message{
     flex: 1;

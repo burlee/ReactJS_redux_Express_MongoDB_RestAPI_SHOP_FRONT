@@ -13,7 +13,7 @@ export default class Messager extends Component {
     SendMessageToUserBtn: false
   }
 
-  SendMessageToUser = () => {
+  sendMessageToUser = () => {
     if(this.props.userLogginID === this.props.userIdFromFirebase){
       this.setState({communicat: 'To twoja aukcja'})
       return;
@@ -59,7 +59,7 @@ export default class Messager extends Component {
               name="messageValue" 
               id="message" 
           />
-          <button disabled={this.state.SendMessageToUserBtn} onClick={this.SendMessageToUser}>Wyślij</button>
+          <button disabled={this.state.SendMessageToUserBtn} onClick={this.sendMessageToUser}>Wyślij</button>
           <h4>{this.state.communicat}</h4>
         </div>
       </Aux>
