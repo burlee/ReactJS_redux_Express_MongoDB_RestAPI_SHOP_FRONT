@@ -86,7 +86,7 @@ class UserAuctionsList extends Component {
                 condition: this.state.productConditionEditData
             };
             
-            axios.patch(`http://localhost:3000/offers/${this.state.idFromRestAPI}`, updateProductData)
+            axios.patch(`offers/${this.state.idFromRestAPI}`, updateProductData)
                 .then( () => {
                     this.setState({editStatus: 'Zmiany zostały zapisane'});
                     setTimeout(() => this.setState({showEditProductModal: false, editStatus: ''}), 4000)  

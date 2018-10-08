@@ -127,7 +127,7 @@
 @media only screen and (max-width: 768px) {
   .ProductDetails {
     width: 75%;
-    height: 70vh;
+    height: auto;
   }
   .ConditionBoxLabel{
     width: 35%;

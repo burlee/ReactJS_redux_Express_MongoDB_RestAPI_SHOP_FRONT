@@ -32,8 +32,7 @@ class MainCore extends Component {
     //this.props.history.push('/');
     document.body.style.overflow = "visible";
   }
-  
-  
+
   showPanelToggle = () => {
     this.setState({showPanel: !this.state.showPanel})
   }

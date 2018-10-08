@@ -55,7 +55,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
 
     //If selectedCategory variable is not empty execute below code
     if(selectedCategory !== ''){
-        axios.get(`http://localhost:3000/offers/`)
+        axios.get(`http://localhost:3000/offers`)
             .then(response => {
                 console.log( response )
                 let filteredByPrice = [];
@@ -128,7 +128,7 @@ export const search_by_price = (priceValue, checkedNew, checkedUsed, selectedCat
             })
     }
     if(selectedCategory === ''){
-        axios.get(`http://localhost:3000/offers/`)
+        axios.get(`http://localhost:3000/offers`)
             .then(response => {
                 let filteredByPrice = [];
                 
@@ -207,7 +207,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
     dispatch(set_products_loading());
 
     if(selectedCategory !== ''){
-        axios.get(`http://localhost:3000/offers/`)
+        axios.get(`http://localhost:3000/offers`)
         .then(response => {
             let filteredByPrice = [];
             response.data.products.forEach(product => {
@@ -277,7 +277,7 @@ export const search_by_price_more = (priceValue, checkedNew, checkedUsed, select
     }
     if(selectedCategory === ''){
 
-        axios.get(`http://localhost:3000/offers/`)
+        axios.get(`http://localhost:3000/offers`)
             .then(response => {
                 let filteredByPrice = [];
                 response.data.products.forEach(product => {

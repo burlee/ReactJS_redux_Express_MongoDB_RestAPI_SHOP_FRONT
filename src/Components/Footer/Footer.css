@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .socialMedia ul li{
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 .Newsletter h2{
     font-weight: 400;
@@ -83,7 +83,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-around;
     color: #4c4c4c;
 }
 .Links ul li{

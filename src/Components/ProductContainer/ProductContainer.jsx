@@ -23,11 +23,7 @@ class ProductContainer extends Component {
   }
 
   componentDidMount(){
-    const sewKim = {
-      name: 'seweryn',
-      surname: 'kimla'
-    }
-    this.props.fetch_all_products(this.state.startProductPagination, this.state.endProductPagination, sewKim.name );
+    this.props.fetch_all_products(this.state.startProductPagination, this.state.endProductPagination);
     this.props.user_exist();
     
     if(this.state.shopCartIsEmpty === null ){

@@ -24,7 +24,7 @@
     height: auto;
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-evenly;
+    justify-content: space-around;
     
 }
 

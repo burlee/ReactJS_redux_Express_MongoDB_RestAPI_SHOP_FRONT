@@ -42,7 +42,7 @@ class Orders extends Component {
         axios.get(`https://shop-237ef.firebaseio.com/${this.props.userExist.userExist}/orderDetails.json`)
             .then( response => {
                 const usersOrdersUpdate = [];
-                console.log(response.data)
+                
                 for(let key in response.data){
                     usersOrdersUpdate.push({
                         id: response.data[key].id ,

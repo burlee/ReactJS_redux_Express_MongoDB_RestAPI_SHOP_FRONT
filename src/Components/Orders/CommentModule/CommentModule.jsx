@@ -24,7 +24,7 @@ export default class CommentModule extends Component {
 
         axios.post('http://localhost:3000/comments/', comment)
             .then( response => {
-                console.log( response )
+
                 if(response.status === 201){
                     this.setState({communicat: 'Opinia została dodana'})
                     setTimeout(() => this.setState({communicat: ''}), 3000);

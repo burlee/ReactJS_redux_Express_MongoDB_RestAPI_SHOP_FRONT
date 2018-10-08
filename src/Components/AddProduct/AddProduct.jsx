@@ -10,7 +10,10 @@ import { DebounceInput } from 'react-debounce-input';
 import { ChromePicker } from 'react-color';
 import GoogleMapReact from 'google-map-react';
 import MapMarker from '../AddProduct/MapMarker'
+
 import { connect } from 'react-redux';
+import { fetch_all_products } from '../../Redux/actions/Actions'
+
 
 class AddProduct extends Component {
     state = {
@@ -109,6 +112,7 @@ class AddProduct extends Component {
                                 setTimeout(() => {
                                     document.body.style.overflow = 'visible';
                                     this.props.history.push('/');
+                                    this.props.fetch_all_products();
                                 }, 4500);
                                  
                             })
@@ -352,17 +356,6 @@ class AddProduct extends Component {
                   </GoogleMapReact>                
                 </div>
 
-                {this.state.category === "Oferta pracy" ? null :
-                    <div className={classes.productCondition}>
-                        <h1>Wybierz stan produktu</h1>
-                        <div>
-                            <button onClick={() => this.setState({condition: 'Nowy'})}>Nowy</button>
-                            <button onClick={() => this.setState({condition: 'Używany'})}>Używany</button>
-                        </div>
-                        <span>Wybrany stan: {this.state.condition}</span>
-                    </div>
-                }
-
                 <div className={classes.productCategory}>
                     <h1>Wybierz kategorię</h1> 
                     <div className={classes.CategoryBox}>
@@ -392,6 +385,17 @@ class AddProduct extends Component {
                         <input id="ltc" type="checkbox" onChange={() => this.setState({ltcPayment: !this.state.ltcPayment})}/>
                     </div>   
                 </div>
+                }
+
+                {this.state.category === "Oferta pracy" ? null :
+                    <div className={classes.productCondition}>
+                        <h1>Wybierz stan produktu</h1>
+                        <div>
+                            <button onClick={() => this.setState({condition: 'Nowy'})}>Nowy</button>
+                            <button onClick={() => this.setState({condition: 'Używany'})}>Używany</button>
+                        </div>
+                        <span>Wybrany stan: {this.state.condition}</span>
+                    </div>
                 }
 
                 {this.state.category === 'Oferta pracy' ?
@@ -471,4 +475,4 @@ const mapStateToProps = state => ({
     userExist: state.auctionList
 });
 
-export default connect(mapStateToProps)(AddProduct);
+export default connect(mapStateToProps, {fetch_all_products})(AddProduct);

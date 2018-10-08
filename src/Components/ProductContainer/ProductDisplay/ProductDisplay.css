@@ -284,6 +284,29 @@
         font-size: 16px;
         text-align: center;
     }
+    .ProductAllDetails{
+        display: block;
+        overflow: auto;
+    }
+    .ProductImgContainer{
+        border-right: none;
+    }
+    .ImageOptions{
+        display: none;
+    }
+    .PriceContainer{
+        flex-direction: column;
+    }
+    .PriceContainer span{
+        margin-top: 5px;
+    }
+    .ProductInformationContainer p{
+        padding:10px;
+    }
+    .ProductInformationContainer .SocialMediaContainer{
+        flex-wrap: wrap;
+        justify-content: center;
+    }
     .ProductDetails button{
         display: none;
     }
